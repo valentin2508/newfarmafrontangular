@@ -1,0 +1,11 @@
+.total{
+text-align: left;
+}
+.page{
+    text-align: right;
+    display: flex;
+    margin: 0.05rem;
+}
+.page tr{
+    text-align:center;
+}

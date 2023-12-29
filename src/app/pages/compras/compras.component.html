@@ -1,0 +1,68 @@
+
+<div class="row">
+    <label class="col">Cod. Barra
+        <input class="form-control" type="text"/>
+    </label>
+    <label class="col">Nombre
+        <input class="form-control" type="text"/>
+    </label>
+    <label class="col" >Composicion 
+        <input class="form-control" type="text" />
+    </label>
+    <button type="button" class="btn btn-primary"  (click)="vertodos()">Actualizar</button>
+</div>
+
+<table class="table table-striped table-sm responsive">
+    <thead class="table-dark">
+      <tr>
+        <th class="id">
+          <button class="btn btn-success btn-sm">
+            <span title="id del producto">ID</span>
+          </button>
+        </th>
+        <th class="name">NOMBRE</th>
+        <th class="conposision">COMPOSISION</th>
+        <th class="ubic">VCTO.</th>
+        <th class="ubic">UBIC.</th>
+        <th class="ubic">PRES.</th>
+        <th class="ubic">U.M</th>
+        <th class="ubic">LAB.</th>
+        <th class="stock">STOCK</th>
+        <th class="center">OPCIONES</th>
+      </tr>
+    </thead>
+    <tbody class="tbody">
+          <tr *ngFor="let producto of prod">
+            <td>{{producto.idproducto}}</td>
+            <td>{{producto.nombre}}</td>
+            <td >{{producto.composicion}}</td>
+            <td>{{producto.vencimiento}}</td>
+            <td>{{producto.ubicacion}}</td>
+            <td>{{producto.presentacion.nombrepresentacion}}</td>
+            <td>{{producto.unidadMedida.nombreunidad}}</td>
+            <td>{{producto.laboratorio.nombrelaboratorio}}</td>
+            <td class="stock">{{producto.stock}}</td>
+            <td class="center">
+                <button class="btn btn-success btn-sm" (click)="editar()">
+                    <i class="nav-icon fas fa-edit"></i>
+                </button>
+                <button class="btn btn-danger btn-sm" (click)="eliminar()">
+                    <i class="nav-icon fas fa-trash"></i>
+                </button>
+            </td>
+          </tr>
+    </tbody>
+    <tfoot class="paginate">
+        <tr>
+            <td colspan="9" >
+                <div>
+                    <app-paginate
+                    [total]=total
+                    [npage]=pages
+                    />            
+                </div>
+                
+            </td>
+        </tr>        
+    </tfoot>
+  </table>
