@@ -24,12 +24,15 @@ export class ComprasComponent implements OnInit {
   constructor(private productoService: ProductoService){
   }
   ngOnInit(): void {
-  this.vertodos();  
+  this.vertodos(1);  
   this.pages = this.generatePageRange();
   }
-  vertodos():void{
+  onindexClic(index:number){
+    this.vertodos(index);
+  }
+  vertodos(index:number):void{
  
-  this.productoService.getProductos().subscribe(
+  this.productoService.getProductos(index).subscribe(
     response=>{
       this.prod=response.list;
       this.total=response.total;

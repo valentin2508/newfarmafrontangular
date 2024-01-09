@@ -9,21 +9,20 @@ import { ProductList } from '../models/product';
 })
 
 export class ProductoService {
-  public static _index: number = 1;
   
-  public static get index(): number {
-    return ProductoService._index;
-  }
-  public static set index(value: number){
-    this._index=value;
-  }
  
-  //private urlEndpoint: string="https://newfarmabak.azurewebsites.net/api/producto?page=1&xpage=10";
+  //private url: string="https://newfarmabak.azurewebsites.net/api/producto?page=1&xpage=10";
+  private url: string="http://localhost:8000/api/producto?page=1&xpage=10";
 
   private urlEndpoint: string="http://localhost:8000/api/producto?page=";
   constructor(private http: HttpClient) { }
-  getProductos(){
-    console.log("--------"+ProductoService.index);
-    return this.http.get<ProductList>(this.urlEndpoint+ProductoService.index+"&xpage=10");
+  getProductos(index:number){
+    return this.http.get<ProductList>(this.urlEndpoint+index+"&xpage=10");
+  }
+  getProductosBySearch(search:string){
+    return this.http.get<ProductList>(this.url+"&search="+search);
+  }
+  getProductosByCodBarra(codBarra:string){
+    return this.http.get<ProductList>(this.url+"&codbarra="+codBarra);
   }
 }

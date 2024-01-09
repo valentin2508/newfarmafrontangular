@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, Output } from '@angular/core';
-import { ComprasComponent } from '../../pages/compras/compras.component';
+import { Component, Input, Output,EventEmitter } from '@angular/core';
+
 
 
 @Component({
@@ -13,11 +13,9 @@ import { ComprasComponent } from '../../pages/compras/compras.component';
 export class PaginateComponent  {
   @Input() total=0;
   @Input() npage:any[]=[];
-
+  @Output() SendIndex : EventEmitter<number> = new EventEmitter<number>();
   public getNumero(index:number) {
-
-    alert("obtiene indice"+index);
-
+    this.SendIndex.emit(index);
   }
  
 }

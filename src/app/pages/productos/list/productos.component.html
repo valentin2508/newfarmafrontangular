@@ -1,13 +1,10 @@
 
 <div class="row">
     <label class="col">Cod. Barra
-        <input class="form-control" type="text"/>
+        <input class="form-control" type="text" [(ngModel)]="codBarra" (keydown)="buscar()"/>
     </label>
     <label class="col">Nombre
-        <input class="form-control" type="text"/>
-    </label>
-    <label class="col" >Composicion 
-        <input class="form-control" type="text" />
+        <input class="form-control" type="text" [(ngModel)]="search" (keydown)="buscar()"/>
     </label>
     <button type="button" class="btn btn-primary"  (click)="vertodos(1)">Actualizar</button>
 </div>
