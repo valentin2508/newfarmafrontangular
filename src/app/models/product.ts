@@ -31,3 +31,6 @@
         page: number;
         list: Product[];
       }
+      export interface Productos{
+        prod:Product;
+      }

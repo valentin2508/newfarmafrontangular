@@ -1,18 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output,EventEmitter } from '@angular/core';
 import { PaginateComponent } from '../../../shared/paginate/paginate.component';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ProductoService } from '../../../services/producto.service';
 import { FormsModule } from '@angular/forms';
+import { EditComponent } from '../edit/edit.component';
+import { SwithService } from '../../../services/swith.service';
+import { ProductList } from '../../../models/product';
+
+
 @Component({
     selector: 'app-productos',
     standalone: true,
     templateUrl: './productos.component.html',
     styleUrl: './productos.component.css',
-    imports: [HttpClientModule,CommonModule,PaginateComponent,FormsModule],
+    imports: [HttpClientModule,CommonModule,PaginateComponent,FormsModule,EditComponent],
     providers:[ProductoService]
 })
 export class ProductosComponent implements OnInit{
+  constructor(private productoService: ProductoService,private modal:SwithService,private http: HttpClient){
+  }
+  modificado: ProductList[] = [];
+  @Output() borrado:EventEmitter<number>=new EventEmitter();
   prod: any[] = [];
   total:number=0;
   xpage:number = 0;
@@ -21,17 +30,19 @@ export class ProductosComponent implements OnInit{
   index:number = 0;
   search:string = "";
   codBarra:string = "";
-  constructor(private productoService: ProductoService){
-  }
+  modalEditar:boolean = false;
+  
   ngOnInit(): void {
   this.vertodos(1);  
   this.pages = this.generatePageRange();
+  this.modal.$modal.subscribe((valor)=>{
+    this.modalEditar=valor;
+  })
   }
   onindexClic(index:number){
     this.vertodos(index);
   }
   vertodos(index:number):void{
- 
   this.productoService.getProductos(index).subscribe(
     response=>{
       this.prod=response.list;
@@ -40,11 +51,16 @@ export class ProductosComponent implements OnInit{
     }
     );
   }
-  editar(){
-    //abrir modal de editar producto
+  modificarProducto(data:ProductList[]):void{
+    //llamado al modal
+    this.modalEditar=true;
+    this.modificado=data;
   }
-  eliminar(){
-    //abrir modal de eliminar producto
+  eliminarProducto(index:number){
+ 
+    this.productoService.deleteProducto(index).subscribe(o=>{
+      this.borrado.emit(index);
+    });
   }
   generatePageRange() {
     let pages_ = [];

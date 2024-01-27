@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProductList } from '../models/product';
+import { producto } from '../models/producto';
 
 
 @Injectable({
@@ -9,6 +10,7 @@ import { ProductList } from '../models/product';
 })
 
 export class ProductoService {
+  
   
  
   //private url: string="https://newfarmabak.azurewebsites.net/api/producto?page=1&xpage=10";
@@ -24,5 +26,18 @@ export class ProductoService {
   }
   getProductosByCodBarra(codBarra:string){
     return this.http.get<ProductList>(this.url+"&codbarra="+codBarra);
+  }
+  deleteProducto(index:number){
+    let del_url="http://localhost:8000/api/producto/"+index;
+    return this.http.delete<ProductList>(del_url);
+  }
+  changeProducto(index:number){
+
+  }
+  saveProducto(data:producto){
+    let save_url="http://localhost:8000/api";
+    return this.http.post<producto>(save_url, data,{
+      observe:'response'
+    });
   }
 }

@@ -29,6 +29,9 @@
       </tr>
     </thead>
     <tbody class="tbody">
+        <div *ngIf="modalEditar===true">
+            <app-edit class="modal-modal" [prodEntrante]=modificado></app-edit>
+        </div>
           <tr *ngFor="let producto of prod">
             <td>{{producto.idproducto}}</td>
             <td>{{producto.nombre}}</td>
@@ -40,14 +43,15 @@
             <td>{{producto.laboratorio.nombrelaboratorio}}</td>
             <td class="stock">{{producto.stock}}</td>
             <td class="center">
-                <button class="btn btn-success btn-sm" (click)="editar()">
-                    <i class="nav-icon fas fa-edit"></i>
+                <button class="btn btn-success btn-sm">
+                    <i class="nav-icon fas fa-edit" (click)="modificarProducto(this.producto)" ></i>
                 </button>
-                <button class="btn btn-danger btn-sm" (click)="eliminar()">
+                <button class="btn btn-danger btn-sm" (click)="eliminarProducto(producto.idproducto)">
                     <i class="nav-icon fas fa-trash"></i>
                 </button>
             </td>
           </tr>
+          
     </tbody>
     <tfoot class="paginate">
         <tr>
