@@ -1,0 +1,126 @@
+
+
+<div class="modal-content mt-5">
+    <div class="modal-header">
+      <h5 class="modal-title">{{operacion}} Producto</h5>
+      <button type="button" class="btn btn-success btn-sm">
+        <a href="./productos" class="nav-link">Cerrar</a>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="form" (ngSubmit)="create()" id="form">
+        <div class="fila">
+          <div class="filaNombre">
+            <label for="name" class="form-label">Nombre</label>
+            <input
+              id="name"
+              class="form-control w-100"
+              formControlName="nombre"
+              type="text"
+              placeholder="ingrese nombre"
+            />
+            <span *ngIf="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched"   class="alert alert-danger mt-0.5" >
+              El campo nombre es <strong>obligatorio</strong>...
+            </span>
+          </div>
+          
+          <div>
+            <label for="ubic" class="form-label">Ubicacion</label>
+            <input
+              id="ubic"
+              class="form-control"
+              formControlName="ubicacion"
+              type="text"
+              placeholder="Huanuco"
+            />
+            <span *ngIf="form.get('ubicacion')?.hasError('required') && form.get('ubicacion')?.touched"  class="alert alert-danger mt-0.5" >
+              Es <strong>obligatorio</strong>...
+            </span>
+          </div>
+          <div>
+            <label for="venci" class="form-label">Vencimiento</label>
+            <input class="form-control" id="datepicker" formControlName="vencimiento" type="date"  />
+          </div>
+          <!--<mat-form-field>
+            <input class="form-control" matInput [matDatepicker]="picker">
+           <mat-datepicker-toggle  [for]="picker" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>-->
+        </div> 
+        <div class="fila">
+          <div class="fila1">
+            <label for="codigoproducto" class="form-label">Codigo</label>
+            <input
+              id="codigoproducto"
+              class="form-control"
+              formControlName="codigoproducto"
+              type="text"
+              readonly onmousedown="return false"
+            />
+            <span *ngIf="form.get('codigoproducto')?.hasError('required') && form.get('codigoproducto')?.touched"  class="alert alert-danger mt-0.5" >
+              Es <strong>obligatorio</strong>...
+            </span>
+          </div>
+          <div class="fila1">
+            <label for="codbarra" class="form-label">Codigo de Barra</label>
+            <input id="codbarra" type="text" class="form-control" formControlName="codbarra" />
+            
+          </div>
+          <div class="fila1">
+            <label for="regsan" class="form-label">Registro Sanitario</label>
+            <input id="regsan" type="text" class="form-control" />
+            
+          </div>
+        </div>
+        <div class="fila">
+          <div class="fila1">
+            <label for="unidadMedida" class="form-label">Unida de Medida</label>
+            <select id="unidadMedida" class="form-select" formControlName="unidadMedida">
+             
+              <option *ngFor="let uni of unidadmedida" [ngValue]="uni">
+                {{uni.nombreunidad}}
+              </option>
+            </select>
+          </div>
+          <div class="fila1">
+            <label for="presentacion" class="form-label">Presentacion</label>
+            <select id="presentacion" class="form-select" formControlName="presentacion">
+              <option [ngValue]="prese" *ngFor="let prese of presentacion" >
+               {{prese.nombrepresentacion}}
+              </option>
+            </select>
+            
+          </div>
+          <div class="fila1">
+            <label for="laboratorio" class="form-label">Laboratorio</label>
+            <select id="laboratorio" class="form-select" formControlName="laboratorio">
+              <option [ngValue]="labo" *ngFor="let labo of laboratorio" >
+                {{labo.nombrelaboratorio}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="fila">
+          <div class="fila1">
+            <label for="compo" class="form-label">Composicion</label>
+            <input
+              id="compo"
+              class="form-control h-100 mw-100"
+              formControlName="composicion"
+              type="text"
+            />
+          </div>
+        </div>
+      </form>
+      <div class="text-end pt-5 pb-5 pr-4">
+        <button type="button" class="btn btn-light">
+          <a href="./productos" class="nav-link">Cancelar</a>
+        </button>
+        <button [disabled]="form.invalid" type="submit" class="btn btn-primary ms-2" (click)="create()">
+          <a href="./productos" class="nav-link">{{operacionBoton}} Producto</a>
+        </button>
+      </div>
+    </div>
+
+    <div class="modal-footer"></div>
+  </div>

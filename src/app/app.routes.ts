@@ -1,26 +1,34 @@
 import { Routes } from '@angular/router';
 import { NopageFoundComponent } from './nopage-found/nopage-found.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { ProductosComponent } from './pages/productos/list/productos.component';
+import { ProductosListComponent } from './pages/productos/list/productosList.component';
+
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { HomeComponent } from './pages/home/home.component';
-import { ComprasComponent } from './pages/compras/compras.component';
+
+import { productFormComponent } from './pages/productos/edit/productForm.component';
 
 export const routes: Routes = [
     {path: "",component: LoginComponent},
-    {path: "login", component: LoginComponent},
-    {path: "register", component: RegisterComponent},
-    {path: "dashboard",
-    children: 
-        [
-            {path: '', component: DashboardComponent},
-            {path: 'usuarios', component: UsuariosComponent},
-        ]
-    },
-    {path: 'productos', component: ProductosComponent},
+    //{path: "login", component: LoginComponent},
+    //{path: "register", component: RegisterComponent},
+    //{path: "dashboard",
+       // children: 
+       // [
+       //     {path: '', component: DashboardComponent},
+      //      {path: 'usuarios', component: UsuariosComponent},
+     //   ]
+    //},
     {path:"home", component: HomeComponent},
-    {path:"compras", component: ComprasComponent},
+    { path: "add", component: productFormComponent,data: { renderMode: 'ssr' } },
+    {
+        path:"edit/:id",
+        component:productFormComponent,
+        data: { renderMode: 'ssr' }
+    },
+  { path: "productos", component: ProductosListComponent,data: { renderMode: 'ssr' } },
     {path: "**",component:NopageFoundComponent},
+    
 ];

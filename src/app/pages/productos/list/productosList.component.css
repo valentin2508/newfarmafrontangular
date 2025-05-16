@@ -1,5 +1,5 @@
 .row{
-    margin-top: 5px;
+    margin: 5px;
 }
 .id{
     text-align: left;
@@ -39,7 +39,7 @@
     position: absolute;
     display: block;
     flex-direction: column;
-  
+    
     color: var(--bs-modal-color);
     pointer-events: auto;
     background-color: var(--bs-modal-bg);

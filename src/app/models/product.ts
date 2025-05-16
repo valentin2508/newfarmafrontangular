@@ -2,7 +2,7 @@
         idproducto: number;
         codigoproducto: string;
         nombre: string;
-        vencimiento: string;
+        vencimiento: Date;
         estado: string;
         composicion: string;
         ubicacion: string;

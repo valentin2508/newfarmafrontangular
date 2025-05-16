@@ -1,43 +1,52 @@
-import { Component, OnInit, Output,EventEmitter } from '@angular/core';
-import { PaginateComponent } from '../../../shared/paginate/paginate.component';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { ProductoService } from '../../../services/producto.service';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { PaginateComponent } from '../../../shared/paginate/paginate.component';
+import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { EditComponent } from '../edit/edit.component';
-import { SwithService } from '../../../services/swith.service';
-import { ProductList } from '../../../models/product';
+import { RouterModule } from '@angular/router';
+import { DialogModule } from 'primeng/dialog';
+import { producto } from '../../../models/producto';
+import { DatosService } from '../../../services/datos.service';
+import { ProductoService } from '../../../services/producto.service';
+import { FiltroPipe } from "../../../shared/pipes/filtro.pipe";
 
 
 @Component({
     selector: 'app-productos',
     standalone: true,
-    templateUrl: './productos.component.html',
-    styleUrl: './productos.component.css',
-    imports: [HttpClientModule,CommonModule,PaginateComponent,FormsModule,EditComponent],
-    providers:[ProductoService]
+    templateUrl: './productosList.component.html',
+    styleUrl: './productosList.component.css',
+    imports: [CommonModule, PaginateComponent, FormsModule, DialogModule, RouterModule, FiltroPipe],
+    
+   
 })
-export class ProductosComponent implements OnInit{
-  constructor(private productoService: ProductoService,private modal:SwithService,private http: HttpClient){
+export class ProductosListComponent implements OnInit{
+  
+  visible:boolean;
+  constructor(private productoService: ProductoService,private Datosservice:DatosService,private http: HttpClient){
+    this.visible = true;
   }
-  modificado: ProductList[] = [];
+
+  
+  modificado: producto[] = [];
+ 
   @Output() borrado:EventEmitter<number>=new EventEmitter();
+  
   prod: any[] = [];
   total:number=0;
   xpage:number = 0;
+ 
   current:number = 0;
   pages : any[] = [];
   index:number = 0;
   search:string = "";
   codBarra:string = "";
   modalEditar:boolean = false;
-  
+ 
   ngOnInit(): void {
   this.vertodos(1);  
   this.pages = this.generatePageRange();
-  this.modal.$modal.subscribe((valor)=>{
-    this.modalEditar=valor;
-  })
+  
   }
   onindexClic(index:number){
     this.vertodos(index);
@@ -51,10 +60,15 @@ export class ProductosComponent implements OnInit{
     }
     );
   }
-  modificarProducto(data:ProductList[]):void{
-    //llamado al modal
-    this.modalEditar=true;
-    this.modificado=data;
+ 
+ 
+  modificarProducto(productIndex:number){
+   console.log("LIST-----"+productIndex);
+    this.Datosservice.disparadorProducto.emit({
+      data:productIndex
+    });
+
+    
   }
   eliminarProducto(index:number){
  
@@ -62,9 +76,11 @@ export class ProductosComponent implements OnInit{
       this.borrado.emit(index);
     });
   }
+ 
+  
   generatePageRange() {
     let pages_ = [];
-    const visiblePages = 20; // Número de páginas visibles en la paginación
+    const visiblePages = 33; // Número de páginas visibles en la paginación
 
     const totalPages = Math.ceil(this.total / this.xpage);
     const middlePage = Math.ceil(visiblePages / 2);
@@ -109,6 +125,7 @@ export class ProductosComponent implements OnInit{
 
     
   }
+  
  
 }
  

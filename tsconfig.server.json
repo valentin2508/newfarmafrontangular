@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/server",
+    "target": "ES2022",
+    "module": "ESNext",
+    "types": ["node"]
+  },
+  "files": [
+    "src/main.server.ts",
+    "src/server.ts"
+  ],
+  "include": [
+    "src/**/*.ts"
+  ],
+   "exclude": ["src/**/*.spec.ts"]
+}
