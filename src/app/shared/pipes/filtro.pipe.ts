@@ -1,13 +1,13 @@
 import { Pipe,PipeTransform } from "@angular/core";
-
-import { ProductList } from "../../models/product";
+import { Product } from "../../models/product";
 
 @Pipe({
     name:'filtro'
 })
 export class FiltroPipe implements PipeTransform{
-    transform(ProductList: ProductList[],page:number=0):ProductList[] {
-        console.log(ProductList[1].list[2].nombre);
-        return ProductList.slice(page,page+5);
+    transform(Product: Product[],page:number=0):Product[] {
+        console.log(Product);
+        
+        return Product.slice(page,page+10);
     }
 }

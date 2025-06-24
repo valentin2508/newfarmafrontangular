@@ -1,4 +1,4 @@
-    interface Product {
+   export interface Product {
         idproducto: number;
         codigoproducto: string;
         nombre: string;
@@ -23,6 +23,7 @@
           idunidadmedida: number;
           nombreunidad: string;
         };
+        cantidadLlevar: number;
       }
       
      export interface ProductList {

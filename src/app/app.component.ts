@@ -8,7 +8,7 @@ import { PagesComponent } from './pages/pages.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet,PagesComponent],
+  imports: [CommonModule, PagesComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

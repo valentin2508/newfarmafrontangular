@@ -29,6 +29,12 @@
     padding: 5px 30px 0px 30px;
     
 }
+.filaa{
+    display: flex;
+    padding: 5px 30px 0px 30px;
+    justify-content: space-between;
+    
+}
 .fila1{
     display: block;
     padding: 3px;

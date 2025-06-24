@@ -2,7 +2,8 @@
 
 <div class="modal-content mt-5">
     <div class="modal-header">
-      <h5 class="modal-title">{{operacion}} Producto</h5>
+
+      <h3 class="modal-title text-center fw-bold bg-primary text-white p-2 rounded d-inline-block mx-auto">{{operacion}} Producto</h3>
       <button type="button" class="btn btn-success btn-sm">
         <a href="./productos" class="nav-link">Cerrar</a>
       </button>
@@ -41,11 +42,7 @@
             <label for="venci" class="form-label">Vencimiento</label>
             <input class="form-control" id="datepicker" formControlName="vencimiento" type="date"  />
           </div>
-          <!--<mat-form-field>
-            <input class="form-control" matInput [matDatepicker]="picker">
-           <mat-datepicker-toggle  [for]="picker" matSuffix></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>-->
+          
         </div> 
         <div class="fila">
           <div class="fila1">
@@ -103,14 +100,32 @@
         <div class="fila">
           <div class="fila1">
             <label for="compo" class="form-label">Composicion</label>
-            <input
-              id="compo"
-              class="form-control h-100 mw-100"
-              formControlName="composicion"
-              type="text"
-            />
+            <input id="compo" class="form-control h-80 mw-100" formControlName="composicion" type="text"/>
           </div>
         </div>
+        
+         <div class="filaa">
+          <div class="pventa">
+           <label for="precioventa" class="form-label">Precio Venta</label>
+            <input id="precioventa" class="form-control w-100" formControlName="precioventa" type="text"placeholder="ingrese nombre" />
+          </div>
+          <div class="pblister">
+           <label for="precioblister" class="form-label">Precio Blister</label>
+            <input id="precioblister" class="form-control w-100" formControlName="precioblister" type="text"placeholder="ingrese nombre" />
+          </div>
+
+          <div class="pcaja">
+           <label for="preciocaja" class="form-label">Precio Caja</label>
+            <input id="preciocaja" class="form-control w-100" formControlName="preciocaja" type="text"placeholder="ingrese nombre" />
+          </div>
+          <div class="stock">
+           <label for="stock" class="form-label">Stock</label>
+            <input id="stock" class="form-control w-100" formControlName="stock" type="text"placeholder="ingrese nombre" />
+          </div>
+
+        </div>
+        
+
       </form>
       <div class="text-end pt-5 pb-5 pr-4">
         <button type="button" class="btn btn-light">

@@ -22,6 +22,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -43,7 +44,11 @@ export class productFormComponent  implements OnInit
    // total:number=0;
     //xpage:number = 0;
    
-    constructor(private  aRoute:ActivatedRoute,private http: HttpClient){
+    constructor(
+      private  aRoute:ActivatedRoute,
+      private http: HttpClient,
+      private toastr:ToastrService
+    ){
     this.IdProductoEdit=Number(aRoute.snapshot.paramMap.get('id'));
   }
   randomMath():number 
@@ -99,6 +104,7 @@ export class productFormComponent  implements OnInit
     precioblister:[0],
     preciocaja:[0],  
     codbarra:[''],  
+    
   });
  
   private productService=inject(ProductoService);
@@ -110,6 +116,7 @@ export class productFormComponent  implements OnInit
   //GUARDA un producto
   create()
   {
+   
     let code:string='';
     let status:number=0
     let message:string='';
@@ -121,11 +128,24 @@ export class productFormComponent  implements OnInit
       status=result.body.status;
       message=result.body.message;
       if(status==200 &&message=='SAVED SUCESSFULLY'){
-        alert('Producto creado satisfactoriamente.')
-        
+       // alert('Producto creado satisfactoriamente.')
+        this.toastr.success("Producto creado satisfactoriamente","Saved", 
+          {
+            timeOut: 10000,
+            extendedTimeOut: 1000,
+            tapToDismiss: false,
+            closeButton:true
+          })
       }else{
-        alert("statusSSSS:"+status+"\n message:"+message);
-        
+       //alert("statusSSSS:"+status+"\n message:"+message);
+        this.toastr.success("Producto Actualizado satisfactoriamente","Update",
+          {
+            timeOut: 10000,
+            extendedTimeOut: 1000,
+            tapToDismiss: false,
+            closeButton:true
+          }
+        )
       }
     },error=>console.log(error));
    
@@ -169,15 +189,17 @@ export class productFormComponent  implements OnInit
       idproducto:this.IdProductoEdit,
       nombre: response.list[0].nombre,
       ubicacion: response.list[0].ubicacion,
-     // vencimiento: response.list[0].vencimiento,
       vencimiento:moment(response.list[0].vencimiento, 'DD-MM-YYYY').format('YYYY-MM-DD'),
       codigoproducto: response.list[0].codigoproducto,
       codbarra: response.list[0].codbarra,
       laboratorio:  this.laboratorio.find(um => um.nombrelaboratorio === response.list[0].laboratorio.nombrelaboratorio),
       unidadMedida: this.unidadmedida.find(um => um.nombreunidad === response.list[0].unidadMedida.nombreunidad),
       presentacion: this.presentacion.find(um => um.nombrepresentacion === response.list[0].presentacion.nombrepresentacion),
-      composicion: response.list[0].composicion
-      
+      composicion: response.list[0].composicion,
+      precioventa:response.list[0].precioventa,
+      precioblister:response.list[0].precioblister,
+      preciocaja:response.list[0].preciocaja,
+      stock:response.list[0].stock
     });
   }
 

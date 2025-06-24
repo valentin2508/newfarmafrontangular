@@ -31,12 +31,16 @@
         <th class="ubic">PRES.</th>
         <th class="ubic">U.M</th>
         <th class="ubic">LAB.</th>
+        <th class="ubic">P.V.</th>
+        <th class="ubic">P.B.</th>
+        <th class="ubic">P.C.</th>
+
         <th class="stock">STOCK</th>
         <th class="center">OPCIONES</th>
       </tr>
     </thead>
     <tbody class="tbody">
-          <tr *ngFor="let producto of prod">
+          <tr *ngFor="let producto of prod | filtro:index">
             <td>{{producto.idproducto}}</td>
             <td>{{producto.nombre}}</td>
             <td >{{producto.composicion}}</td>
@@ -45,6 +49,13 @@
             <td>{{producto.presentacion.nombrepresentacion}}</td>
             <td>{{producto.unidadMedida.nombreunidad}}</td>
             <td>{{producto.laboratorio.nombrelaboratorio}}</td>
+
+            <td>{{producto.precioventa}}</td>
+            <td>{{producto.precioblister}}</td>
+            <td>{{producto.preciocaja}}</td>
+
+
+
             <td class="stock">{{producto.stock}}</td>
             <td class="center">
                 <button class="btn btn-success btn-sm" routerLink="/edit/{{producto.idproducto}}">
@@ -64,12 +75,17 @@
         <tr>
             <td colspan="9" >
                 <div>
-                    <app-paginate (SendIndex)="onindexClic($event)"
+                  
+                   <app-paginate (SendIndex)="onindexClic($event)"
                     [total]=total
                     [npage]=pages
-                    />            
+                    />           
                 </div>
-                
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                  <button class = "btn btn-primary" (click)="previoPage()"> << Prev</button>
+               
+                  <button class = "btn btn-primary" (click)="nextPage()">Next >></button>
+                </div>
             </td>
         </tr>        
     </tfoot>

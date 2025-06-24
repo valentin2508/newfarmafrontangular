@@ -11,8 +11,7 @@ import { PaginateComponent } from '../shared/paginate/paginate.component';
     standalone: true,
     templateUrl: './pages.component.html',
     styleUrl: './pages.component.css',
-    imports: [HeaderComponent,SidebarComponent,
-        BreadcrumbsComponent,PaginateComponent,FooterComponent,RouterOutlet,HttpClientModule]
+    imports: [HeaderComponent,SidebarComponent,FooterComponent,RouterOutlet]
 })
 export class PagesComponent {
   

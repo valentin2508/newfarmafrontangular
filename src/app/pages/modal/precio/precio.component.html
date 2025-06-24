@@ -1,0 +1,91 @@
+<div class="detProducto">
+        <!-- Encabezado Detalle Producto -->
+        <h1 >Detalle Producto</h1>
+
+        <!-- Contenedor principal del formulario/detalles del producto -->
+        <div class="formulario">
+            <!-- Sección de información del producto (izquierda) -->
+            <div class="formleft">
+                <div >
+                    <label  for="nombreProducto">Producto :</label>
+                    <input
+                        type="text"
+                        id="nombreProducto"
+                        value="Producto 1"
+                    >
+                </div>
+                <div class="">
+                    <div>
+                        <label  for="stockProducto">Stock :</label>
+                        <input
+                            type="text"
+                            id="stockProducto"
+                            value="34"
+                            
+                            
+                        >
+                    </div>
+                    <!-- Nota: Tu código HTML original tenía un div vacío aquí. Se ha eliminado por claridad. -->
+                </div>
+            </div>
+
+            <!-- Sección de entrada de cantidad y precios (derecha) -->
+            <div class="formrigth">
+                
+                    <div class="cantidad">
+                        <label for="cantidad">Ingrese Cantidad</label>
+                        <input type="number" id="cantidad"
+                            value="1"
+                            required
+                            class="w-50"
+                        >
+                    </div>
+
+                <!-- Campos de precios individuales -->
+                <div class="Precios">
+                    <div>
+                        <div>
+                            <input type="radio" id="puRadio" name="precioTipo" value="pu" checked>
+                            <label for="puRadio" class="ml-2 text-gray-700 text-sm">P.U.</label>
+                            <input type="text" id="precioUnitario" value="2" readonly>
+                        </div>
+
+                         
+
+                    </div>
+                    <div>
+                        <input type="radio" id="pbRadio" name="precioTipo" value="pb">
+                        <label for="pbRadio" class="ml-2 text-gray-700 text-sm">P.B.</label>
+                        <input type="text" id="precioBlister" value="19" readonly>
+                    </div>
+                    <div>
+                        <input type="radio" id="pcRadio" name="precioTipo" value="pc" >
+                        <label for="pcRadio" class="ml-2 text-gray-700 text-sm">P.C.</label>
+                        <input type="text" id="precioCaja" value="56" readonly >
+                    </div>
+                </div>
+
+                <!-- Total Venta -->
+                <div class="cantidad">
+                    <label class="" for="totalVenta">Total Venta</label>
+                    <input
+                        type="text"
+                        id="totalVenta"
+                        value="2"
+                      
+                        readonly
+                    >
+                </div>
+            </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="button">
+            <button class="btn btn-primary text-white font-bold py-3 px-8 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+                AGREGAR
+            </button>
+            <button (click)="dialogRef.close()" class="btn btn-danger text-white font-bold py-3 px-8 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+                CANCELAR
+            </button>
+        </div>
+    </div>

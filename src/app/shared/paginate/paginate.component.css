@@ -2,9 +2,10 @@
 text-align: left;
 }
 .page{
-    text-align: right;
+    text-align: center;
     display: flex;
     margin: 0.05rem;
+    justify-content: center;
 }
 .page tr{
     text-align:center;
