@@ -37,8 +37,10 @@ h1{
     border: 0px;
     text-align: center;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: larger;
+    font-size: small;
     background: fixed;
+    width: 378px;
+    display: block;
 }
 .pformrigth
 {

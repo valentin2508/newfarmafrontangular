@@ -43,13 +43,41 @@ constructor(
       precioVenta: [this.precioVenta],
       precioBlister: [this.precioBlister],
       precioCaja: [this.precioCaja],
+      totalVenta: [this.totalVenta* this.cantidadLlevar],
       PU: ['PU'],
       PB: ['PB'],
       PC: ['PC']
     });
     
-  }
+    this.formPrecios.get('selectedPriceType')?.valueChanges.subscribe(() => {
+      this.calcularTotal();
+    });
+    this.calcularTotal();
 
+  }
+calcularTotal(): void {
+    const selectedType = this.formPrecios.get('selectedPriceType')?.value;
+    console.log('Selected Price Type:', selectedType);
+    let precioBase: number;
+    switch (selectedType) {
+      case 'pu':
+        precioBase = this.data.precioUnitario; // Usar this.data con la capitalización correcta
+        console.log('Precio pu:', precioBase);
+        break;
+      case 'pb':
+        precioBase = this.data.precioBlister; // Usar this.data con la capitalización correcta
+        console.log('Precio pb:', precioBase);
+        break;
+      case 'pc':
+        precioBase = this.data.precioCaja;   // Usar this.data con la capitalización correcta
+        console.log('Precio pc:', precioBase);
+        break;
+      default:
+        precioBase = 0;
+    }
+    this.totalVenta = this.cantidad * precioBase;
+    console.log('Total Venta:', this.totalVenta);
+  }
     private llenarModal(): void 
     {
     this.nombre = this.data.producto ;
@@ -59,7 +87,6 @@ constructor(
     this.precioBlister=this.data.precioBlister;
     this.precioCaja=this.data.precioCaja;
     this.cantidadLlevar=this.data.cantidadLlevar;
-     console.log("Datos recibidos en llenarModal:", this.nombre);
     }
 
   seleccionarPrecio() {

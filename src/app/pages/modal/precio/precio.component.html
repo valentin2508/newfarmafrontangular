@@ -38,6 +38,7 @@
                             value={{cantidadLlevar}}
                             required
                             class="w-50"
+                            max="{{stock}}"
                         >
                     </div>
 
@@ -45,18 +46,18 @@
                 <form [formGroup]="formPrecios" class="Precios">
                     <div>
                         <div>
-                            <input type="radio" id="puRadio" name="precioTipo" value="pu" checked>
+                            <input type="radio" id="puRadio"  value="pu" checked name="selectedPriceType" formControlName="selectedPriceType">
                             <label for="puRadio" class="ml-2 text-gray-700 text-sm">P.U.</label>
                             <input type="text" id="precioUnitario" value={{precioVenta}} readonly>
                         </div>
                     </div>
                     <div>
-                        <input type="radio" id="pbRadio" name="precioTipo" value="pb">
+                        <input type="radio" id="pbRadio"  value="pb"  name="selectedPriceType" formControlName="selectedPriceType">
                         <label for="pbRadio" class="ml-2 text-gray-700 text-sm">P.B.</label>
                         <input type="text" id="precioBlister" value={{precioBlister}} readonly>
                     </div>
                     <div>
-                        <input type="radio" id="pcRadio" name="precioTipo" value="pc" >
+                        <input type="radio" id="pcRadio"  value="pc"  name="selectedPriceType" formControlName="selectedPriceType">
                         <label for="pcRadio" class="ml-2 text-gray-700 text-sm">P.C.</label>
                         <input type="text" id="precioCaja" value={{precioCaja}} readonly >
                     </div>
@@ -68,9 +69,7 @@
                     <input
                         type="text"
                         id="totalVenta"
-                        value="2"
-                      
-                        readonly
+                        value={{totalVenta}}
                     >
                 </div>
             </div>
