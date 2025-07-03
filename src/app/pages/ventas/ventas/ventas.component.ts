@@ -99,7 +99,7 @@ agregarProducto(producto: Product): void {
 */
   this.dialog.open(PrecioComponent, {
   disableClose: true,
-  width: '727.4px',
+  maxWidth: '727.4px',
   data: { 
     producto: producto.nombre,
     Stock: producto.stock, 

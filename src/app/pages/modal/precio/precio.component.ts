@@ -1,100 +1,112 @@
-
-import { Component, Inject, inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatDialogRef } from '@angular/material/dialog';
-import { FormGroup, FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatButtonModule } from '@angular/material/button';
+import { CantidadComponent } from '../cantidad/cantidad.component';
 
 @Component({
   selector: 'app-precio',
-  imports: [CommonModule, FormsModule,ReactiveFormsModule],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRadioModule,
+    MatButtonModule
+  ],
+  providers: [FormBuilder],
   templateUrl: './precio.component.html',
-  styleUrl: './precio.component.css'
+  styleUrls: ['./precio.component.css']
 })
+export class PrecioComponent implements OnInit {
+  totalVenta = 0;
+  cantidad = 1;
+  nombre = '';
+  stock = 0;
+  cantidadLlevar = 0;
+  precioVenta = 0;
+  precioBlister = 0;
+  precioCaja = 0;
 
-export class PrecioComponent implements OnInit{
+  formPrecios!: FormGroup;
 
- // constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
-  totalVenta: number = 0;
-  cantidad: number = 1;
-  nombre: string = '';
-  stock: number = 0;
-  cantidadLlevar: number = 0;
-  precioVenta: number = 0;
-  precioBlister: number = 0;
-  precioCaja: number = 0;
+  constructor(
+  public dialogRef: MatDialogRef<PrecioComponent>,
+  @Inject(MAT_DIALOG_DATA) public data: any,
+  private fb: FormBuilder,
+  private dialog: MatDialog
+) {}
 
-  
-  formPrecios: FormGroup | any; // Declara el FormGroup
-constructor(
-    public dialogRef: MatDialogRef<PrecioComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, 
-    private fb: FormBuilder 
-  ) {
-    
-  }
   ngOnInit(): void {
-  
     this.llenarModal();
+
     this.formPrecios = this.fb.group({
       nombre: [this.nombre],
       stock: [this.stock],
+      cantidadLlevar: [this.cantidadLlevar],
       precioVenta: [this.precioVenta],
       precioBlister: [this.precioBlister],
       precioCaja: [this.precioCaja],
-      totalVenta: [this.totalVenta* this.cantidadLlevar],
-      PU: ['PU'],
-      PB: ['PB'],
-      PC: ['PC']
+      selectedPriceType: ['PU'],
+      precioUnitarioDisplay: [this.precioVenta],
+      precioBlisterDisplay: [this.precioBlister],
+      precioCajaDisplay: [this.precioCaja]
     });
-    
+
     this.formPrecios.get('selectedPriceType')?.valueChanges.subscribe(() => {
       this.calcularTotal();
     });
+
     this.calcularTotal();
-
   }
-calcularTotal(): void {
+
+  private llenarModal(): void {
+    this.nombre = this.data.producto;
+    this.stock = this.data.Stock;
+    this.precioVenta = this.data.precioVenta;
+    this.precioBlister = this.data.precioBlister;
+    this.precioCaja = this.data.precioCaja;
+    this.cantidadLlevar = this.data.cantidadLlevar;
+  }
+
+  calcularTotal(): void {
     const selectedType = this.formPrecios.get('selectedPriceType')?.value;
-    console.log('Selected Price Type:', selectedType);
-    let precioBase: number;
+    const cantidad = this.formPrecios.get('cantidadLlevar')?.value || 1;
+    console.log('selectedType:', selectedType);
+    let precioBase = 0;
     switch (selectedType) {
-      case 'pu':
-        precioBase = this.data.precioUnitario; // Usar this.data con la capitalización correcta
-        console.log('Precio pu:', precioBase);
+      case 'PU':
+        precioBase = this.data.precioVenta;
         break;
-      case 'pb':
-        precioBase = this.data.precioBlister; // Usar this.data con la capitalización correcta
-        console.log('Precio pb:', precioBase);
+      case 'PB':
+        this.dialog.open(CantidadComponent,{
+          disableClose: true,
+          data:{
+            etiqueta: 'Blister',
+          }
+        });
+        
+        precioBase = this.data.precioBlister;
         break;
-      case 'pc':
-        precioBase = this.data.precioCaja;   // Usar this.data con la capitalización correcta
-        console.log('Precio pc:', precioBase);
+      case 'PC':
+        precioBase = this.data.precioCaja;
         break;
-      default:
-        precioBase = 0;
-    }
-    this.totalVenta = this.cantidad * precioBase;
-    console.log('Total Venta:', this.totalVenta);
-  }
-    private llenarModal(): void 
-    {
-    this.nombre = this.data.producto ;
-    this.stock=this.data.Stock;
-
-    this.precioVenta=this.data.precioVenta;
-    this.precioBlister=this.data.precioBlister;
-    this.precioCaja=this.data.precioCaja;
-    this.cantidadLlevar=this.data.cantidadLlevar;
     }
 
-  seleccionarPrecio() {
-  
-}
-agregarProducto(){}
-  closeModal(){
-   this.dialogRef.close();
+    this.totalVenta = cantidad * precioBase;
   }
- 
+
+  closeModal() {
+    this.dialogRef.close();
+  }
+
+  agregarProducto() {
+    // Aquí puedes emitir los datos seleccionados si los necesitas
+    this.dialogRef.close(this.formPrecios.value);
+  }
 }
