@@ -64,7 +64,7 @@ h1{
     width: 10px 3pt;
     display: flex;
     justify-content: space-evenly;
-    padding: 5px;
+   /* padding: 5px;*/
 }
 .Precios input {
   width: 50px;

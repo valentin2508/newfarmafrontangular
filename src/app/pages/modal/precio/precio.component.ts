@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -17,7 +17,8 @@ import { CantidadComponent } from '../cantidad/cantidad.component';
     MatFormFieldModule,
     MatInputModule,
     MatRadioModule,
-    MatButtonModule
+    MatButtonModule,
+    FormsModule
   ],
   providers: [FormBuilder],
   templateUrl: './precio.component.html',
@@ -32,6 +33,7 @@ export class PrecioComponent implements OnInit {
   precioVenta = 0;
   precioBlister = 0;
   precioCaja = 0;
+  productoSeleccionado: any = null;
 
   formPrecios!: FormGroup;
 
@@ -61,7 +63,6 @@ export class PrecioComponent implements OnInit {
     this.formPrecios.get('selectedPriceType')?.valueChanges.subscribe(() => {
       this.calcularTotal();
     });
-
     this.calcularTotal();
   }
 
@@ -76,29 +77,66 @@ export class PrecioComponent implements OnInit {
 
   calcularTotal(): void {
     const selectedType = this.formPrecios.get('selectedPriceType')?.value;
-    const cantidad = this.formPrecios.get('cantidadLlevar')?.value || 1;
+    var cantidad = this.formPrecios.get('cantidadLlevar')?.value || 1;
     console.log('selectedType:', selectedType);
+    console.log('cantidadLLevar:', cantidad);
     let precioBase = 0;
     switch (selectedType) {
       case 'PU':
         precioBase = this.data.precioVenta;
         break;
       case 'PB':
-        this.dialog.open(CantidadComponent,{
+        
+        precioBase = this.data.precioBlister;
+        //this.totalVenta=(precioBase/this.productoSeleccionado.cantidad)*this.cantidadLlevar;
+        this.totalVenta = this.cantidadLlevar * precioBase;
+       if (this.productoSeleccionado !== null) 
+        {
+          console.log('El producto ya fue seleccionado. No se vuelve a abrir el diálogo.');
+          return;
+        }
+      const dialogRef1= this.dialog.open(CantidadComponent,{
           disableClose: true,
           data:{
             etiqueta: 'Blister',
+            cantidad: 10
           }
         });
-        
-        precioBase = this.data.precioBlister;
+        dialogRef1.afterClosed().subscribe(resultado=>
+          {
+            if (resultado !== undefined) {
+            this.productoSeleccionado = resultado;
+            this.totalVenta=(precioBase/resultado.cantidad)*this.cantidadLlevar;
+            console.log('Cantidad PB seleccionada esperada:', resultado," Total Venta seria:", this.totalVenta);
+          }
+          
+        })       
         break;
       case 'PC':
         precioBase = this.data.precioCaja;
+        this.totalVenta = this.cantidadLlevar * precioBase;
+        if (this.productoSeleccionado !== null) 
+        {
+          console.log('El producto ya fue seleccionado. No se vuelve a abrir el diálogo.');
+          return;
+        }
+       const dialogRef= this.dialog.open(CantidadComponent,{
+          disableClose: true,
+          data:{
+            etiqueta: 'Caja',
+            cantidad: 100
+          }
+        });
+        dialogRef.afterClosed().subscribe(resultado=>{
+          if (resultado !== undefined) {
+            this.productoSeleccionado = resultado;
+           console.log('Cantidad PC seleccionada esperada:', resultado);
+          }
+        })
         break;
     }
 
-    this.totalVenta = cantidad * precioBase;
+    this.totalVenta = this.cantidadLlevar * precioBase;
   }
 
   closeModal() {
