@@ -34,6 +34,7 @@ export class PrecioComponent implements OnInit {
   precioBlister = 0;
   precioCaja = 0;
   productoSeleccionado: any = null;
+  productoSeleccionadopc: any = null;
 
   formPrecios!: FormGroup;
 
@@ -86,13 +87,12 @@ export class PrecioComponent implements OnInit {
         precioBase = this.data.precioVenta;
         break;
       case 'PB':
-        
         precioBase = this.data.precioBlister;
-        //this.totalVenta=(precioBase/this.productoSeleccionado.cantidad)*this.cantidadLlevar;
-        this.totalVenta = this.cantidadLlevar * precioBase;
+        //this.totalVenta = this.cantidadLlevar * precioBase;
        if (this.productoSeleccionado !== null) 
         {
-          console.log('El producto ya fue seleccionado. No se vuelve a abrir el diálogo.');
+          this.totalVenta=(precioBase/this.productoSeleccionado.cantidad)*this.cantidadLlevar;
+          console.log('El producto PB ya fue seleccionado. No se vuelve a abrir el diálogo.');
           return;
         }
       const dialogRef1= this.dialog.open(CantidadComponent,{
@@ -109,14 +109,14 @@ export class PrecioComponent implements OnInit {
             this.totalVenta=(precioBase/resultado.cantidad)*this.cantidadLlevar;
             console.log('Cantidad PB seleccionada esperada:', resultado," Total Venta seria:", this.totalVenta);
           }
-          
         })       
         break;
       case 'PC':
         precioBase = this.data.precioCaja;
-        this.totalVenta = this.cantidadLlevar * precioBase;
-        if (this.productoSeleccionado !== null) 
+       // this.totalVenta = this.cantidadLlevar * precioBase;
+        if (this.productoSeleccionadopc !== null) 
         {
+          this.totalVenta=(precioBase/this.productoSeleccionadopc.cantidad)*this.cantidadLlevar;
           console.log('El producto ya fue seleccionado. No se vuelve a abrir el diálogo.');
           return;
         }
@@ -129,7 +129,8 @@ export class PrecioComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(resultado=>{
           if (resultado !== undefined) {
-            this.productoSeleccionado = resultado;
+            this.productoSeleccionadopc = resultado;
+            this.totalVenta=(precioBase/this.productoSeleccionadopc.cantidad)*this.cantidadLlevar;
            console.log('Cantidad PC seleccionada esperada:', resultado);
           }
         })
