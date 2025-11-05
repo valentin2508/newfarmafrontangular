@@ -18,7 +18,7 @@ export class ProductoService {
   constructor(private http: HttpClient) { }
 
   list(){
-    return this.http.get(this.url);
+    return this.http.get(`/api/producto?page=1&xpage=10`);
   }
   //devuelve un solo producto por codigo de barra
   get(codBarra: number){

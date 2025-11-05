@@ -1,0 +1,67 @@
+h1{
+    text-align: center;
+}
+.cliente{
+    display: block;
+    height: 120px;
+    border: 1px solid #382929;
+    border-radius: 10px;
+    text-decoration: none;
+    padding-left: 8px;
+   
+}
+input-group{
+    display: inline-block;
+    align-items: center;
+    justify-content: space-around;
+   margin-top: 10px;
+      
+}
+.cliente label{
+    padding-top: 8px;
+}
+.subtotal{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    text-align: center;
+    
+}
+
+.modalventas{
+    font-family: "Inter", sans-serif;
+
+    background-color: white;
+    display: block;
+    justify-content: center;
+   /* Alinea al inicio verticalmente */
+    padding-top: 18px;
+    padding: 20px; 
+    height: 670px;
+    width: 640px;
+}
+.formulario{
+    border: 1px solid #0505f8;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center ;
+    padding: 10px;
+   
+}
+
+.button{
+    display: flex;
+    text-align: center;
+    justify-content: space-evenly;
+    padding-top: 30px;
+    
+}
+.qr-placeholder {
+  background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
+              linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
+              linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
+              linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}

@@ -10,6 +10,7 @@ import { HomeComponent } from './pages/home/home.component';
 
 import { productFormComponent } from './pages/productos/edit/productForm.component';
 import { VentaComponent } from './pages/ventas/ventas/ventas.component';
+import { ModalVentasComponent } from './pages/modal/modal-ventas/modal-ventas.component';
 
 export const routes: Routes = [
     {path: "",component: LoginComponent},
@@ -23,6 +24,7 @@ export const routes: Routes = [
      //   ]
     //},
     {path:"home", component: HomeComponent},
+   
     {path:"ventas", component: VentaComponent},
     { path: "add", component: productFormComponent,data: { renderMode: 'ssr' } },
     {

@@ -13,7 +13,7 @@ h1{
     justify-content: center;
    /* Alinea al inicio verticalmente */
     
-    padding: 20px; /* Añade un poco de padding */
+    padding: 20px; 
     height: 350px;
     border-radius: 10px;
 }

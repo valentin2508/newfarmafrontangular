@@ -16,8 +16,8 @@ constructor(
   agregar(){
     this.dialogRef.close({
       cantidad: this.data.cantidad
+      
   })
-  console.log("Cantidad seleccionada:", this.data.cantidad);
 }
   
 }

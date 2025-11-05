@@ -39,7 +39,7 @@ label {
 
 input, select {
     padding: 6px;
-   
+    
 }
 
 button {
@@ -70,3 +70,11 @@ button:hover {
     justify-content: flex-end;
     gap: 10px;
 }
+.sale-detail input{
+    width: 56px;
+    text-align: center;
+    border: 1px solid #971616;
+    border-radius: 4px;
+    background-color: #e6e5ef;
+    margin-left: 23px;
+}   

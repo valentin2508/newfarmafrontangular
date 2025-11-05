@@ -93,8 +93,8 @@
                     <td>{{item.unidadMedida.nombreunidad}}</td>
                     <td>{{item.laboratorio.nombrelaboratorio}}</td>
                     <td>{{item.precioventa}}</td>
-                    <td>{{item.cantidadLlevar}}</td>
-                    <td style="text-align: center;">{{item.cantidadLlevar*item.precioventa | currency:'PEN':'S/ ':'1.2-2' }}</td>
+                    <td ><input type="number" value={{item.cantidadLlevar}} max="{{item.stock}}"></td>
+                    <td style="text-align: center;">{{item.subTotal| currency:'PEN':'S/ ':'1.2-2' }}</td>
                     <td><button (click)="eliminarProducto(i)" class="btn-eliminar">Eliminar</button></td>
                 </tr>
             </tbody>
@@ -102,7 +102,7 @@
                 <tr>
                     <td colspan="9" style="text-align: right;"><strong>Total:</strong></td>
                     <td style="text-align: center;">{{totalVenta | currency:'PEN':'S/ ':'1.2-2' }}</td>
-                    <td></td>
+                    <td><button (click)="agregarProductosAVenta()" class="btn-primary">Procesar</button></td>
                 </tr>
             </tfoot>
         </table>

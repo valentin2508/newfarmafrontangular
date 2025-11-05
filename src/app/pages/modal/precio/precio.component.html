@@ -39,16 +39,19 @@
                             (ngModelChange)="calcularTotal()"                         
                             class="w-50"
                             max="{{stock}}"
+                            min="1"
+                            
                         >
                     </div>
 
                 <!-- Campos de precios individuales -->
                 <form [formGroup]="formPrecios" class="Precios">
                     <div>
-                        <div>
+                        <div >
+                            
                             <input type="radio" id="puRadio" value="PU" name="selectedPriceType" formControlName="selectedPriceType" >
                             <label for="puRadio">P.U. </label>
-                            <input type="text" id="precioUnitario" formControlName="precioUnitarioDisplay">
+                            <input type="text" id="precioUnitario" formControlName="precioUnitarioDisplay" >
                         </div>
                     </div>
                     <div>
@@ -82,7 +85,7 @@
 
         <!-- Botones de acción -->
         <div class="button">
-            <button class="btn btn-primary text-white font-bold py-3 px-8 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+            <button (click)="agregar()"  class="btn btn-primary text-white font-bold py-3 px-8 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105">
                 AGREGAR
             </button>
             <button (click)="dialogRef.close()" class="btn btn-danger text-white font-bold py-3 px-8 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105">

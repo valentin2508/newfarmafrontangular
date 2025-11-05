@@ -24,6 +24,8 @@
           nombreunidad: string;
         };
         cantidadLlevar: number;
+        subTotal: number;
+        tipoPrecioSeleccionado: 'PU' | 'PB' | 'PC';
       }
       
      export interface ProductList {

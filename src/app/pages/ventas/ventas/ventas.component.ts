@@ -1,17 +1,22 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, LOCALE_ID, OnInit } from '@angular/core';
 import { ProductoService } from '../../../services/producto.service';
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Product } from '../../../models/product';
 import { Dialog } from '@angular/cdk/dialog';
 import { PrecioComponent } from '../../modal/precio/precio.component';
-import { MatDialog } from '@angular/material/dialog';
-import { producto } from '../../../models/producto';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { VentasService } from '../../../services/ventas.service';
+import { Venta } from '../../../models/venta.model';
+import { ModalVentasComponent } from '../../modal/modal-ventas/modal-ventas.component';
 @Component({
   selector: 'app-ventas',
+  standalone: true,
   imports: [CommonModule,FormsModule],
   templateUrl: './ventas.component.html',
-  styleUrl: './ventas.component.css'
+  styleUrl: './ventas.component.css',
+  providers:[{ provide: LOCALE_ID, useValue: "en-US" },VentasService]
 })
 export class VentaComponent implements OnInit {
   //private dialog=inject(Dialog);
@@ -30,10 +35,14 @@ export class VentaComponent implements OnInit {
   codBarra:string = "";
   terminoBusqueda: string = '';
   totalVenta: number = 0;
-  subtotal:number=0;
+ // subtotal:number=0;
   prodDetalle: Product[] = [];
   elegirPrecio:number=0.0;
-
+  // Variables para el proceso de venta
+  procesoEnCurso = false;
+  mensaje: string | null = null;
+  error = false;
+private ventasService=inject(VentasService);
   ngOnInit(): void {
     // Datos de ejemplo - en una aplicación real esto vendría de un servicio
     this.vertodos(1); 
@@ -51,9 +60,9 @@ export class VentaComponent implements OnInit {
   }
 
   buscarProducto(): void {
-    // Implementar lógica de búsqueda real aquí
+ 
     console.log('Buscando:', this.terminoBusqueda);
-    // Normalmente harías una llamada a un servicio aquí
+   
   }
   
   buscar():void {
@@ -66,7 +75,7 @@ export class VentaComponent implements OnInit {
         }
       );
     }
-    if(this.codBarra.length>0){
+    else if(this.codBarra.length>0){
       this.productoService.getProductosByCodBarra(this.codBarra).subscribe(
         response=>{
           this.prod=response.list;
@@ -92,73 +101,95 @@ agregarProducto(producto: Product): void {
       alert('No hay suficiente stock');
       return;
     }
-   /* this.dialog.open(PrecioComponent, {
-    disableClose: true,
-    width: '727.4px'
-  });
-*/
-  this.dialog.open(PrecioComponent, {
+  
+  const datosRecibidos =this.dialog.open(PrecioComponent,{
   disableClose: true,
   maxWidth: '727.4px',
-  data: { 
-    producto: producto.nombre,
-    Stock: producto.stock, 
-    precioVenta: producto.precioventa,
-    precioBlister: producto.precioblister,
-    precioCaja: producto.preciocaja,
-    cantidadLlevar: producto.cantidadLlevar,
-  }
+  data:producto
 });
-    /*if(producto.cantidadLlevar>=10)
-    {
-      this.elegirPrecio=producto.precioblister;
-    }*/
-    this.subtotal = producto.precioventa * producto.cantidadLlevar;
-   
-    this.prodDetalle.push({
-        idproducto: producto.idproducto,
-        codigoproducto: producto.codigoproducto,
-        nombre: producto.nombre,
-        vencimiento: producto.vencimiento,
-        estado: producto.estado,
-        composicion: producto.composicion,
-        ubicacion: producto.ubicacion,
-        stock: producto.stock,
-        precioventa: producto.precioventa,
-        precioblister: producto.precioblister,
-        preciocaja: producto.precioblister,
-        codbarra: producto.codbarra,
-        laboratorio:producto.laboratorio,
-        presentacion:producto.presentacion,
-        unidadMedida:producto.unidadMedida,
-        cantidadLlevar:producto.cantidadLlevar
-    });
-    
 
-    this.calcularTotal();
+datosRecibidos.afterClosed().subscribe(resultado => {
+      if (resultado !== undefined && resultado !== null) { // Check for undefined and null results
+        
+        const existingProductIndex = this.prodDetalle.findIndex(
+          item => item.idproducto === resultado.idproducto && item.tipoPrecioSeleccionado === resultado.tipoPrecioSeleccionado
+        );
+        if (existingProductIndex > -1) {
+          const existingItem = this.prodDetalle[existingProductIndex];
+          existingItem.cantidadLlevar += resultado.cantidadLlevar;
+          existingItem.subTotal += resultado.subTotal; 
+        } else {
+          console.log("Datos recibidos desde el diálogo final-----:", resultado);
+          this.prodDetalle.push(resultado);
+        }
+        this.calcularTotalGeneral();
+      } else {
+        console.log("Modal cerrado sin datos o cancelado.");
+      }
+    });
   }
   eliminarProducto(index: number): void {
-    this.prodDetalle.splice(index, 1);
-    this.calcularTotal();
+    if (index >= 0 && index < this.prodDetalle.length) {
+      this.prodDetalle.splice(index, 1);
+      this.calcularTotalGeneral(); // Recalculate total after removal
+    }
   }
-
-  calcularTotal(): void {
-    this.totalVenta=this.totalVenta+this.subtotal;
-   // this.totalVenta = this.prodDetalle.reduce((sum, item) => sum + this.subtotal, 0);
+calcularTotalGeneral(): void {
+    this.totalVenta = this.prodDetalle.reduce((sum, item) => sum + item.subTotal, 0);
   }
+  
+  
 
-  finalizarVenta(): void {
-    if (this.prodDetalle.length === 0) {
+   finalizarVenta(): void {
+   if (this.prodDetalle.length === 0) {
       alert('No hay productos en la venta');
       return;
     }
-
-    // Aquí iría la lógica para guardar la venta
-    console.log('Venta finalizada:', this.prodDetalle);
-    alert(`Venta finalizada. Total: ${this.totalVenta }`);
     
-    // Limpiar la venta después de finalizar
-    this.cancelarVenta();
+    console.log('Venta finalizada:', this.prodDetalle);
+    alert(`Venta finalizada. Total: ${this.totalVenta}`); // Consider using MatDialog for alerts
+
+    this.cancelarVenta(); // Clear the sale after finalizing
+  }
+
+  agregarProductosAVenta() {
+    this.procesoEnCurso = true;
+    this.mensaje = 'Creando la venta...';
+    this.error = false;
+
+    try {
+      
+      let venta= new Venta();
+        venta.serie = "V001-1";
+        venta.correlativo = "0001";
+        venta.fechaVenta = new Date();
+        venta.igv = this.totalVenta*0.18; // Ejemplo de IGV
+        venta.subTotal = this.totalVenta-venta.igv;
+        venta.constoVenta = this.totalVenta;
+        venta.idCliente = 1; // ID del cliente, puede ser dinámico
+        venta.idEmpleado = 1; // ID del empleado, puede ser dinámico
+        venta.idComprobante = 1; // ID del comprobante, puede ser dinámico
+        const exito = this.ventasService.saveVenta(venta);
+        const modalVenta =this.dialog.open(ModalVentasComponent, {
+        maxWidth: '800px',
+        data: venta
+        });
+     /* for (const producto of this.prodDetalle) {
+        
+        // 3. Por cada producto, se llama al servicio de ventas
+        const exito = this.ventasService.saveProductos(producto);
+        if (!exito) {
+          throw new Error(`No se pudo agregar el producto ${producto.nombre}.`);
+        }
+      }*/
+
+      this.mensaje = `✅ Todos los productos han sido agregados a la Venta ${1} exitosamente.`;
+    } catch (err: any) {
+      this.error = true;
+      this.mensaje = `❌ Error: ${err.message}`;
+    } finally {
+      this.procesoEnCurso = false;
+    }
   }
 
   cancelarVenta(): void {
