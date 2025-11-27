@@ -1,14 +1,18 @@
-export class Venta {
-    idventa: number = 0;
-    serie: string = '';
-    correlativo: string = '';
-    fechaVenta:Date = new Date();
-    igv: number = 0.0;
-    subTotal: number = 0.0;
-    constoVenta: number = 0.0;
-    idCliente: number = 0;
-    idEmpleado: number = 0;
-    idComprobante: number = 0;
+import { cliente } from "./cliente";
+import { Empleado } from "./empleado";
+import { TipoComprobante } from "./tipocomprobante";
+
+export interface Venta {
+    idventa?: number;
+    serie?: string;
+    correlativo?: string;
+    fechaventa?:Date;
+    igv?: number;
+    subtotal?: number;
+    costoventa?: number;
+    cliente?: cliente;
+    empleado?: Empleado;
+    tipoComprobante?:TipoComprobante;
 }
 export interface ventaList {
     total: number;

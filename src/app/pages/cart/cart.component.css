@@ -1,0 +1,8 @@
+.card {
+  margin-bottom: 1rem;
+}
+
+.img-fluid {
+  max-height: 100px;
+  object-fit: contain;
+}

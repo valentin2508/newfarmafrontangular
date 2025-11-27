@@ -57,15 +57,15 @@
 
 
             <td class="stock">{{producto.stock}}</td>
-            <td class="center">
-                <button class="btn btn-success btn-sm" routerLink="/edit/{{producto.idproducto}}">
-                 <i class="nav-icon fas fa-edit"></i>
-                                   
-                </button>              
-                <button class="btn btn-danger btn-sm" (click)="eliminarProducto(producto.idproducto)">
-                    <i class="nav-icon fas fa-trash"></i>
-                </button>
-            </td>
+             <td class="center">
+                 <button class="btn btn-success btn-sm" routerLink="/edit/{{producto.idproducto}}">
+                  <i class="nav-icon fas fa-edit"></i>
+                 </button>
+                 
+                 <button class="btn btn-danger btn-sm" (click)="eliminarProducto(producto.idproducto)">
+                     <i class="nav-icon fas fa-trash"></i>
+                 </button>
+             </td>
           </tr>
         
   

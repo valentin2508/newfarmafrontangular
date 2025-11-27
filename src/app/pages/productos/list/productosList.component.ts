@@ -10,6 +10,8 @@ import { DatosService } from '../../../services/datos.service';
 import { ProductoService } from '../../../services/producto.service';
 import { FiltroPipe } from "../../../shared/pipes/filtro.pipe";
 import { MatDialog } from '@angular/material/dialog';
+import { CartService } from '../../../services/cart.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -25,7 +27,9 @@ export class ProductosListComponent implements OnInit{
   
   constructor(
     private productoService: ProductoService,
-    private Datosservice:DatosService
+    private Datosservice:DatosService,
+    private cartService: CartService,
+    private toastr: ToastrService
   )
   {
     
@@ -69,11 +73,16 @@ export class ProductosListComponent implements OnInit{
     });
   }
   eliminarProducto(index:number){
-    
+
 
     this.productoService.deleteProducto(index).subscribe(o=>{
       this.borrado.emit(index);
     });
+  }
+
+  addToCart(product: any): void {
+    this.cartService.addToCart(product);
+    this.toastr.success(`${product.nombre} agregado al carrito`);
   }
  
   

@@ -158,30 +158,13 @@ calcularTotalGeneral(): void {
     this.error = false;
 
     try {
-      
-      let venta= new Venta();
-        venta.serie = "V001-1";
-        venta.correlativo = "0001";
-        venta.fechaVenta = new Date();
-        venta.igv = this.totalVenta*0.18; // Ejemplo de IGV
-        venta.subTotal = this.totalVenta-venta.igv;
-        venta.constoVenta = this.totalVenta;
-        venta.idCliente = 1; // ID del cliente, puede ser dinámico
-        venta.idEmpleado = 1; // ID del empleado, puede ser dinámico
-        venta.idComprobante = 1; // ID del comprobante, puede ser dinámico
-        const exito = this.ventasService.saveVenta(venta);
+ 
+       
         const modalVenta =this.dialog.open(ModalVentasComponent, {
         maxWidth: '800px',
-        data: venta
+        data: this.prodDetalle
         });
-     /* for (const producto of this.prodDetalle) {
-        
-        // 3. Por cada producto, se llama al servicio de ventas
-        const exito = this.ventasService.saveProductos(producto);
-        if (!exito) {
-          throw new Error(`No se pudo agregar el producto ${producto.nombre}.`);
-        }
-      }*/
+   
 
       this.mensaje = `✅ Todos los productos han sido agregados a la Venta ${1} exitosamente.`;
     } catch (err: any) {

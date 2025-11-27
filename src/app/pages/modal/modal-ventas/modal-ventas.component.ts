@@ -9,6 +9,12 @@ import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { Venta } from '../../../models/venta.model';
 import { VentasService } from '../../../services/ventas.service';
+import { ClienteService } from '../../../services/cliente.service';
+import { detalleventaservice } from '../../../services/detalleventa.service';
+import { detalleventa } from '../../../models/detalleventa';
+import { RespuestaVenta } from '../../../models/RespuestaVenta';
+import { parse } from 'path';
+
 @Component({
   selector: 'app-modal-ventas',
   imports: [
@@ -21,39 +27,49 @@ import { VentasService } from '../../../services/ventas.service';
 })
 
 export class ModalVentasComponent {
+// idpersona:number=0;
+idcliente:number=0;
  dni: string = '';
  persona:persona[]=[];
-ventas: Venta[] = [];
+ ventas: Venta[] = [];
  personaTemporal:any[]=[];
  subtotal:number=0;
  totalVenta:number=0;
  igv:number=0
- cambio:number=0;  
+ cambio:number=0;
  totalVentatemp:number=0;
  metodoPago: string = 'efectivo';
  habilitarBotones: boolean = false;
  loading = false;
-  error = '';
-  constructor(
-    public dialogRef: MatDialogRef<ModalVentasComponent>,
-  @Inject(MAT_DIALOG_DATA) public data: any,
-    private BuscardniService: BuscarDniService,
-    private Personasservice: PersonasService,
-    private VentasService: VentasService
-    
-  ) {
-    console.log("Datos recibidos en el constructor:------------------------", data);
-    this.subtotal=data.subTotal.toFixed(2);
-    this.igv=data.igv.toFixed(2);
-    this.totalVenta=data.constoVenta.toFixed(2);  
-    this.totalVentatemp=this.cambio-this.totalVenta;
-   }
+   error = '';
+ prodDetalle: any[] = [];
+   constructor(
+     public dialogRef: MatDialogRef<ModalVentasComponent>,
+   @Inject(MAT_DIALOG_DATA) public data: any,
+     private BuscardniService: BuscarDniService,
+     private Personasservice: PersonasService,
+     private VentasService: VentasService,
+     private ClienteService:ClienteService,
+     private detalleventaservice:detalleventaservice
+
+   ) {
+     ;
+     //console.log("Datos recibidos en el constructor:------------------------", data);
+     debugger;
+     this.prodDetalle = data;
+     this.totalVenta = this.prodDetalle.reduce((sum, item) => sum + item.subTotal, 0);
+     this.igv =(this.totalVenta * 0.18).toFixed(2) as unknown as number;
+     this.subtotal = this.totalVenta - this.igv;
+     this.totalVentatemp=this.cambio-this.totalVenta;
+     debugger
+    }
    get vueltoCalculado(): number 
    {
       const recibido = this.cambio || 0;
       const total = this.totalVenta || 0;
       return recibido - total > 0 ? recibido - total : 0;
   }
+
    // Método para cambiar el método de pago
 cambiarMetodoPago(event: any) {
   this.metodoPago = event.target.value;
@@ -64,7 +80,9 @@ cambiarMetodoPago(event: any) {
 get mostrarQR(): boolean {
   return this.metodoPago === 'yape';
 }
-
+get nombreCompleto(): string {
+  return this.persona?.[0] ? `${this.persona[0].nombre} ${this.persona[0].paterno} ${this.persona[0].materno}` : '';
+}
 // Verificar si mostrar cuenta
 get mostrarCuenta(): boolean {
   return this.metodoPago === 'transferencia';
@@ -79,31 +97,48 @@ get mostrarInputNormal(): boolean {
 get datosCuenta(): string {
   return 'BCP: 123-456789-01-23';
 }
-
-  
-  
   BuscarPersona() { 
     
     this.Personasservice.BuscarPersonaByDni(this.dni).subscribe(
-      
       response=>{
-        
+          //si esta en la bd
         if(response.list.length>0 )
           {
+            
               this.persona =response.list;  
-              this.habilitarBotones = true;         
+              this.habilitarBotones = true;      
+             
+              this.ClienteService.listarByIdPersona(this.persona[0].idpersona).subscribe(responseCliente=>{
+                
+                if(responseCliente.list.length>0)
+                {
+                  this.idcliente=responseCliente.list[0].idcliente
+                }
+                else{
+                  const Cliente={
+                    persona:{
+                      idpersona: this.persona[0].idpersona
+                    }
+                  }
+                  this.ClienteService.guardar(Cliente).subscribe(()=>{});
+                  this.BuscarPersona();
+                }
+
+              });   
           }
-          else
-          {
+          //si no esta en la bd
+        else
+          {            
             if(this.dni.length==8)
             {
-              this.BuscardniService.BuscarDni(this.dni).subscribe(
+            this.BuscardniService.BuscarDni(this.dni).subscribe(
             response=>{
             this.data=response;
             this.personaTemporal=this.data;
             console.log(this.persona+"----desde response----");
             //realizar registro en la bd persona y cliente
             const persona = {
+                  
                   dni: Number(this.data['dni']), 
                   ruc: Number(this.data['dni']),
                   nombre: this.data['nombres'],
@@ -118,21 +153,14 @@ get datosCuenta(): string {
                 };            
             this.Personasservice.CrearPersona(persona).subscribe(
               response=>
-              {                  
-               if(200==response.status)
-                {
-                    this.Personasservice.BuscarPersonaByDni(this.dni).subscribe(
-                    response2=>
-                      {
-                        this.persona=response2.list
-                        this.habilitarBotones = true;
-                      });
-                }  
+              {                
+               
               }
             );
            
 
             });
+            this.BuscarPersona();
             }
             else
             {
@@ -145,24 +173,50 @@ get datosCuenta(): string {
         
       })
   }
-  ObtenrVeta(){
+  /*ObtenrVeta(){
    this.VentasService.List().subscribe(
      (    response: { correlativo: any; })=>{
       debugger;
       return response.correlativo;
     }
    ); 
-  }
+  }*/
+ 
+  
+  
   ventaTiket() {
-    debugger;
+  
     this.loading = true;
     this.VentasService.List().subscribe({
-      next: (data:any) => {
-
-        debugger;
-        console.log(data[0]+"venta tiket");
-        this.ventas = data;
-        this.loading = false;
+      next: (data:any) => 
+      {
+       
+        const venta:Venta=
+        {
+          serie : "VW-"+data.total+1,
+          correlativo : data.total+1,    
+          fechaventa : new Date(),
+          igv:   this.igv,
+          subtotal:  this.subtotal,
+          costoventa:  this.totalVenta,
+          cliente: {idcliente:this.idcliente},
+          empleado:{idempleado:1},
+          tipoComprobante: {idtipocomprobante:1},
+        }
+       debugger
+        this.VentasService.saveVenta(venta).subscribe({
+          next: (response) => {
+            const datosDelCuerpo: RespuestaVenta | null = response.body;
+            if (datosDelCuerpo) {
+              
+              const idDeLaVenta = datosDelCuerpo.idVenta;
+              this.guardarDetalleVenta(idDeLaVenta);
+            console.log('Venta registrada exitosamente'+idDeLaVenta);
+            }
+            
+            
+          }
+        });
       },
       error: (error:any) => {
         this.error = 'Error loading ventas';
@@ -170,26 +224,34 @@ get datosCuenta(): string {
         console.error('Error:', error);
       }
     });
-     //logica para crear una venta
-    //sacar venta de la base de datos
-    //sacar cliente de la base de datos
-    //sacar empleado de la base de datos
-    //sacar comprobante de la base de datos tiket=1
-    const venta={
-    
-    serie : "",
-    correlativo : "",
-    fechaVenta : new Date(),
-    igv:   0.0,
-    subTotal:   0.0,
-    constoVenta:  0.0,
-    idCliente: 0,
-    idEmpleado:  0,
-    idComprobante:  0,
-    }
+    //sacar comprobante de 
+   
     //logica para crear un detalle de venta
+    
   }
-
+   guardarDetalleVenta(idventa:number)
+   {
+    let contador = 1;
+    for (const producto of this.prodDetalle) {
+      const detalleventa:detalleventa={
+       venta:{idventa:idventa},
+       producto : { idproducto :producto.idproducto},
+       codigodetalleventa:"DV-W"+"-"+Date.now(),
+       unidades : producto.cantidadLlevar,
+       costounidad : producto.precioventa,
+       subtotal : producto.subTotal,
+       descuentounidad: 0,
+       total: producto.subTotal,
+       }
+      // this.detalleventaservic
+      debugger;
+       this.detalleventaservice.Save(detalleventa).subscribe();
+       contador++;
+       debugger;
+     }
+     this.loading = false;
+     this.dialogRef.close();
+   }
   ventaBoleta(){
     //sacar comprobante de la base de datos boleta=2
   }

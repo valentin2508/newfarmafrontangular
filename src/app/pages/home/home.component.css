@@ -1,4 +1,101 @@
-h1{
-    margin-top: 15px;
-    margin-left: 50%;
+.hero-section {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+}
+
+.contact-info p {
+  margin-bottom: 0.5rem;
+}
+
+.product-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.card-img-container {
+  height: 150px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+}
+
+.card-img-top {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.price {
+  font-weight: bold;
+  color: #28a745;
+}
+
+.service-card {
+  border: none;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+}
+
+.products-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.products-grid {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  padding: 1rem 0;
+  justify-content: flex-start;
+  scroll-behavior: smooth;
+  flex: 1;
+}
+
+.product-item {
+  flex: 0 0 200px;
+  max-width: 200px;
+}
+
+.slider-arrow {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #007bff;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 10;
+  transition: color 0.3s;
+}
+
+.slider-arrow:hover {
+  color: #0056b3;
+}
+
+.slider-arrow:focus {
+  outline: none;
+}
+
+.prev-arrow {
+  margin-right: 1rem;
+}
+
+.next-arrow {
+  margin-left: 1rem;
+}
+
+.about-section img {
+  max-height: 300px;
+  object-fit: cover;
 }

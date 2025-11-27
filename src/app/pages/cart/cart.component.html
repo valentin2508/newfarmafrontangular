@@ -1,0 +1,40 @@
+<div class="container mt-4">
+  <h2>Carrito de Compras</h2>
+  <div *ngIf="cartItems.length === 0" class="text-center">
+    <p>Tu carrito está vacío.</p>
+  </div>
+  <div *ngIf="cartItems.length > 0">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card" *ngFor="let item of cartItems">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-9">
+                <h5>{{ item.product.nombre }}</h5>
+                <p>{{ item.product.composicion }}</p>
+                <p>Precio: S/ {{ item.product.precioventa }}</p>
+              </div>
+              <div class="col-md-3">
+                <div class="input-group">
+                  <button class="btn btn-outline-secondary" (click)="decrementQuantity(item.product.idproducto)">-</button>
+                  <input type="number" class="form-control text-center" [value]="item.quantity" (input)="updateQuantity(item.product.idproducto, $any($event.target).value)">
+                  <button class="btn btn-outline-secondary" (click)="incrementQuantity(item.product.idproducto)">+</button>
+                </div>
+                <p class="mt-2">Subtotal: S/ {{ item.subtotal }}</p>
+                <button class="btn btn-danger btn-sm" (click)="removeItem(item.product.idproducto)">Remover</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5>Total: S/ {{ total }}</h5>
+            <button class="btn btn-primary w-100" (click)="checkout()">Realizar Pedidoss</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

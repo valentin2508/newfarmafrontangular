@@ -14,17 +14,20 @@
         <a href="./ventas" class="nav-link">Ventas</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="./modalVentas" class="nav-link">ModalVentas</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
         <a href="./clientes" class="nav-link">Clientes</a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="./productos" class="nav-link">Productos</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="./proveedores" class="nav-link">Proveedores</a>
-      </li>
+       <li class="nav-item d-none d-sm-inline-block">
+         <a href="./productos" class="nav-link">Productos</a>
+       </li>
+       <li class="nav-item d-none d-sm-inline-block">
+         <a href="./cart" class="nav-link">Carrito</a>
+       </li>
+       <li class="nav-item d-none d-sm-inline-block">
+         <a href="./orders" class="nav-link">Pedidos</a>
+       </li>
+       <li class="nav-item d-none d-sm-inline-block">
+         <a href="./proveedores" class="nav-link">Proveedores</a>
+       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Configuraciones</a>
       </li>
@@ -35,6 +38,12 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a href="./cart" class="nav-link">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="badge badge-danger navbar-badge" *ngIf="cartItemCount > 0">{{ cartItemCount }}</span>
+        </a>
+      </li>
       <!-- Navbar Search -->
       <li class="nav-item">
         <a class="nav-link" data-widget="navbar-search" href="#" role="button">

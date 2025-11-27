@@ -1,0 +1,24 @@
+<div class="container mt-4">
+  <h2>Lista de Pedidos</h2>
+  <div *ngIf="orders.length === 0" class="text-center">
+    <p>No tienes pedidos.</p>
+  </div>
+  <div *ngIf="orders.length > 0">
+    <div class="card" *ngFor="let order of orders">
+      <div class="card-body">
+        <h5>Pedido #{{ order.id }}</h5>
+        <p>Fecha: {{ order.date | date:'short' }}</p>
+        <p>Estado: {{ order.status }}</p>
+        <p>Total: S/ {{ order.total }}</p>
+        <div class="mt-3">
+          <h6>Productos:</h6>
+          <ul>
+            <li *ngFor="let item of order.items">
+              {{ item.product.nombre }} - Cantidad: {{ item.quantity }} - Subtotal: S/ {{ item.subtotal }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

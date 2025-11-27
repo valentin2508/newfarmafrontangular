@@ -1,7 +1,7 @@
 import { tipopersona } from "./tipopersona";
 
 export interface persona{
-     
+     idpersona:number;
     dni: number;
      ruc:number;
      nombre: String;
