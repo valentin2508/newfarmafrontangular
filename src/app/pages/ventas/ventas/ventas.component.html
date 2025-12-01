@@ -92,7 +92,7 @@
                     <td>{{item.presentacion.nombrepresentacion}}</td>
                     <td>{{item.unidadMedida.nombreunidad}}</td>
                     <td>{{item.laboratorio.nombrelaboratorio}}</td>
-                    <td>{{item.precioventa}}</td>
+                    <td>{{item.precioventa}}</td>                    
                     <td ><input type="number" value={{item.cantidadLlevar}} max="{{item.stock}}"></td>
                     <td style="text-align: center;">{{item.subTotal| currency:'PEN':'S/ ':'1.2-2' }}</td>
                     <td><button (click)="eliminarProducto(i)" class="btn-eliminar">Eliminar</button></td>

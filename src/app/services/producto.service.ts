@@ -44,7 +44,7 @@ export class ProductoService {
     return this.http.put(`http://localhost:8000/api/${index}`,product);
   }
   saveProducto(data:producto){
-    let save_url="http://localhost:8000/api";
+    let save_url="http://localhost:8000/api/producto";
     return this.http.post<producto>(save_url, data,{
       observe:'response'
     });

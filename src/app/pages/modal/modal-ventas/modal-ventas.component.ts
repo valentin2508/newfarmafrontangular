@@ -13,7 +13,9 @@ import { ClienteService } from '../../../services/cliente.service';
 import { detalleventaservice } from '../../../services/detalleventa.service';
 import { detalleventa } from '../../../models/detalleventa';
 import { RespuestaVenta } from '../../../models/RespuestaVenta';
+import { ProductoService } from '../../../services/producto.service';
 import { parse } from 'path';
+import { producto } from '../../../models/producto';
 
 @Component({
   selector: 'app-modal-ventas',
@@ -50,8 +52,8 @@ idcliente:number=0;
      private Personasservice: PersonasService,
      private VentasService: VentasService,
      private ClienteService:ClienteService,
-     private detalleventaservice:detalleventaservice
-
+     private detalleventaservice:detalleventaservice,
+     private productoservice:ProductoService
    ) {
      ;
      //console.log("Datos recibidos en el constructor:------------------------", data);
@@ -173,17 +175,7 @@ get datosCuenta(): string {
         
       })
   }
-  /*ObtenrVeta(){
-   this.VentasService.List().subscribe(
-     (    response: { correlativo: any; })=>{
-      debugger;
-      return response.correlativo;
-    }
-   ); 
-  }*/
  
-  
-  
   ventaTiket() {
   
     this.loading = true;
@@ -211,10 +203,7 @@ get datosCuenta(): string {
               
               const idDeLaVenta = datosDelCuerpo.idVenta;
               this.guardarDetalleVenta(idDeLaVenta);
-            console.log('Venta registrada exitosamente'+idDeLaVenta);
             }
-            
-            
           }
         });
       },
@@ -224,15 +213,11 @@ get datosCuenta(): string {
         console.error('Error:', error);
       }
     });
-    //sacar comprobante de 
-   
-    //logica para crear un detalle de venta
-    
   }
    guardarDetalleVenta(idventa:number)
    {
-    let contador = 1;
-    for (const producto of this.prodDetalle) {
+   
+     for (const producto of this.prodDetalle) {
       const detalleventa:detalleventa={
        venta:{idventa:idventa},
        producto : { idproducto :producto.idproducto},
@@ -243,12 +228,32 @@ get datosCuenta(): string {
        descuentounidad: 0,
        total: producto.subTotal,
        }
-      // this.detalleventaservic
-      debugger;
+      
+      const vencimientoDate = producto.vencimiento.split("/");
+
+      const ModProducto:producto={
+        idproducto:producto.idproducto,
+        codigoproducto:producto.codigoproducto,
+        nombre:producto.nombre,
+        vencimiento:vencimientoDate[2]+"/"+vencimientoDate[1]+"/"+vencimientoDate[0],
+        estado:producto.estado,
+        composicion:producto.composicion,
+        ubicacion:producto.ubicacion,
+        stock:producto.stock - producto.cantidadLlevar,
+        precioventa:producto.precioventa,
+        precioblister:producto.precioBlister,
+        preciocaja:producto.precioCaja,
+        codbarra:producto.codbarra,
+        laboratorio:producto.laboratorio,
+        presentacion:producto.presentacion,
+        unidadMedida:producto.unidadMedida,
+      }
+  
        this.detalleventaservice.Save(detalleventa).subscribe();
-       contador++;
-       debugger;
+       this.productoservice.saveProducto(ModProducto).subscribe();
+      
      }
+     //generar tiket de impresion
      this.loading = false;
      this.dialogRef.close();
    }

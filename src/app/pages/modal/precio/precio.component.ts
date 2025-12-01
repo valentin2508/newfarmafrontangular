@@ -185,6 +185,8 @@ export class PrecioComponent implements OnInit {
         unidadMedida: this.data.unidadMedida,
         laboratorio: this.data.laboratorio,
         precioventa: this.precioFraccion,
+        precioBlister:this.precioBlister,
+        precioCaja:this.precioCaja,
         cantidadLlevar: this.cantidadLlevar,
         codbarra: this.data.codbarra,
         subTotal: this.totalVenta,

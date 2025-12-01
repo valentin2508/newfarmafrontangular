@@ -42,7 +42,7 @@ export class VentaComponent implements OnInit {
   procesoEnCurso = false;
   mensaje: string | null = null;
   error = false;
-private ventasService=inject(VentasService);
+
   ngOnInit(): void {
     // Datos de ejemplo - en una aplicación real esto vendría de un servicio
     this.vertodos(1); 
@@ -84,7 +84,7 @@ private ventasService=inject(VentasService);
         }
       );
     }
-    else{
+    else if(this.codBarra.length==0 && this.search.length==0){
       this.vertodos(1); 
     }
 
@@ -109,7 +109,9 @@ agregarProducto(producto: Product): void {
 });
 
 datosRecibidos.afterClosed().subscribe(resultado => {
-      if (resultado !== undefined && resultado !== null) { // Check for undefined and null results
+  debugger;
+  console.log(resultado);
+      if (resultado !== undefined && resultado !== null) { 
         
         const existingProductIndex = this.prodDetalle.findIndex(
           item => item.idproducto === resultado.idproducto && item.tipoPrecioSeleccionado === resultado.tipoPrecioSeleccionado
@@ -119,7 +121,7 @@ datosRecibidos.afterClosed().subscribe(resultado => {
           existingItem.cantidadLlevar += resultado.cantidadLlevar;
           existingItem.subTotal += resultado.subTotal; 
         } else {
-          console.log("Datos recibidos desde el diálogo final-----:", resultado);
+          
           this.prodDetalle.push(resultado);
         }
         this.calcularTotalGeneral();
@@ -164,8 +166,12 @@ calcularTotalGeneral(): void {
         maxWidth: '800px',
         data: this.prodDetalle
         });
-   
-
+       
+        modalVenta.afterClosed().subscribe(() => {
+          this.prodDetalle = [];
+          this.totalVenta = 0;
+        });
+         
       this.mensaje = `✅ Todos los productos han sido agregados a la Venta ${1} exitosamente.`;
     } catch (err: any) {
       this.error = true;

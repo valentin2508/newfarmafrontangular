@@ -121,7 +121,6 @@ export class productFormComponent  implements OnInit
     let status:number=0
     let message:string='';
     const nuevoProducto= this.form.value;
-    console.log(nuevoProducto);
     this.productService.createProducto(nuevoProducto)
     .subscribe(result=>{
       code=result.body.code;
@@ -201,6 +200,7 @@ export class productFormComponent  implements OnInit
       preciocaja:response.list[0].preciocaja,
       stock:response.list[0].stock
     });
+    debugger;
   }
 
   
