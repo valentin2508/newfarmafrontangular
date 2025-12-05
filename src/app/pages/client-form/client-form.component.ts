@@ -9,6 +9,9 @@ import { PedidosService } from '../../services/pedidos.service';
 import { BuscarDniService } from '../../services/buscar-dni.service';
 import { Venta } from '../../models/venta.model';
 import { persona } from '../../models/persona';
+import { pedido } from '../../models/pedido';
+import moment from 'moment';
+import { ClienteService } from '../../services/cliente.service';
 
 @Component({
   selector: 'app-client-form',
@@ -18,6 +21,8 @@ import { persona } from '../../models/persona';
   styleUrl: './client-form.component.css'
 })
 export class ClientFormComponent {
+  idcliente:number=0;
+ dni: string = '';
 persona:persona[]=[];
 personaTemporal:any[]=[];
 public data: any
@@ -27,6 +32,7 @@ public data: any
   constructor(
     private fb: FormBuilder,
     private personasService: PersonasService,
+    private ClienteService:ClienteService,
     private router: Router,
     private toastr: ToastrService,
     private cartService: CartService,
@@ -49,81 +55,74 @@ public data: any
   }
 
   onSubmit(): void {
-    if (this.clientForm.valid) {
-      const clientData = this.clientForm.value;
-      // Asumir tipoPersona id, por ejemplo cliente
-      clientData.tipoPersona = { idtipopersona: 1, nombre: 'Cliente' };
-
-      this.personasService.CrearPersona(clientData).subscribe({
-        next: (response: any) => {
-          this.toastr.success('Cliente registrado exitosamente');
-          // Obtener idCliente de la respuesta
-          const idCliente = response.idpersona || response.id;
-          // Crear el pedido
-          this.createPedido(idCliente);
-        },
-        error: (error) => {
-          this.toastr.error('Error al registrar cliente');
-          console.error(error);
-        }
-      });
-    } else {
+    debugger
+    if (this.clientForm.valid) 
+      {
+        debugger
+        this.createPedido(this.idcliente);
+      } 
+    else {
       this.toastr.warning('Por favor, complete todos los campos requeridos');
     }
   }
-/*
-  buscarDni(): void {
-    const dni = this.clientForm.get('dni')?.value;
-    if (dni && dni.length === 8) {
-      this.buscarDniService.BuscarDni(dni).subscribe({
-        next: (data: any) => {
-          this.clientForm.patchValue({
-            nombre: data.nombres,
-            paterno: data.apellidoPaterno,
-            materno: data.apellidoMaterno
-          });
-          this.toastr.success('Datos del DNI cargados');
-        },
-        error: (error) => {
-          this.toastr.error('Error al buscar DNI');
-          console.error(error);
-        }
-      });
-    } else {
-      this.toastr.warning('Ingrese un DNI válido de 8 dígitos');
-    }
-  }*/
-BuscarPersona() { 
+
+  BuscarPersona() { 
+    debugger;
     const dni = this.clientForm.get('dni')?.value;
     this.personasService.BuscarPersonaByDni(dni).subscribe(
       response=>{
-        
+        debugger;
+          //si esta en la bd
         if(response.list.length>0 )
           {
-            this.persona =response.list; 
-           //debugger;
-            console.log("--------------------"+this.persona[0].nombre);
-            this.clientForm.patchValue({
-            nombre: this.persona[0].nombre,
-            paterno: this.persona[0].paterno,
-            materno: this.persona[0].materno,
-            fechanacimiento: this.persona[0].fechanacimiento,
-            telefono: this.persona[0].telefono,
-            correo: this.persona[0].correo,
-            sexo: this.persona[0].sexo,
-            direccion: this.persona[0].direccion
-          });
-          }
-          else
-          {
             
-            this.buscarDniService.BuscarDni(dni).subscribe(
+              this.persona =response.list;  
+              //this.habilitarBotones = true;      
+             debugger;
+              this.ClienteService.listarByIdPersona(this.persona[0].idpersona).subscribe(responseCliente=>{
+                debugger;
+                //si es un cliente muestra los datos en el form
+                if(responseCliente.list.length>0)
+                {
+                  this.idcliente=responseCliente.list[0].idcliente
+                  this.clientForm.patchValue({
+                  idpersona: this.persona[0].idpersona,
+                  nombre: this.persona[0].nombre,
+                  paterno: this.persona[0].paterno,
+                  materno: this.persona[0].materno,
+                  //moment(response.list[0].vencimiento, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+                  fechanacimiento: this.persona[0].fechanacimiento,
+                  telefono: this.persona[0].telefono,
+                  correo: this.persona[0].correo,
+                  sexo: this.persona[0].sexo,
+                  direccion: this.persona[0].direccion
+          });
+                }
+                else{
+                  const Cliente={
+                    persona:{
+                      idpersona: this.persona[0].idpersona
+                    }
+                  }
+                  this.ClienteService.guardar(Cliente).subscribe(()=>{});
+                  this.BuscarPersona();
+                }
+
+              });   
+          }
+          //si no esta en la bd
+        else
+          {            
+            if(this.dni.length==8)
+            {
+            this.buscarDniService.BuscarDni(this.dni).subscribe(
             response=>{
             this.data=response;
             this.personaTemporal=this.data;
             console.log(this.persona+"----desde response----");
             //realizar registro en la bd persona y cliente
             const persona = {
+                  
                   dni: Number(this.data['dni']), 
                   ruc: Number(this.data['dni']),
                   nombre: this.data['nombres'],
@@ -136,49 +135,38 @@ BuscarPersona() {
                   direccion: "Anonimo",
                   tipoPersona:{idtipopersona:1} 
                 };            
-            this.personasService.CrearPersona(persona).subscribe(
-              response=>
-              {                  
-               if(200==response.status)
-                {
-                    this.personasService.BuscarPersonaByDni('dni').subscribe(
-                    response2=>
-                      {
-                        this.persona=response2.list
-                     
-                      });
-                }  
-              }
-            );
+            this.personasService.CrearPersona(persona).subscribe();
            
 
             });
-           
+            this.BuscarPersona();
+            }
+            else
+            {
+              alert("DNI no encontrado, Ingrese un DNI válido");
+              this.dni='';
+              this.persona=[];
+             // this.habilitarBotones = false; 
+            }
           }
         
       })
   }
   private createPedido(idCliente: number): void {
+    debugger;
     const cartItems = this.cartService.getCartItems();
-    const total = this.cartService.getTotal();
-    // Calcular subtotal, igv, etc. Asumir igv 18%
-    const igv = total * 0.18;
-    const subTotal = total - igv;
-
-    const venta: Venta = {
-      idventa: 0,
-      serie: '001', // Asumir
-      correlativo: '0001', // Asumir
-      fechaventa: new Date(),
-      igv: igv,
-      subtotal: subTotal,
-      costoventa: total,
-      cliente: {idcliente: idCliente},
-      empleado: {idempleado:1}, // Asumir
-      tipoComprobante:{idtipocomprobante:1} // Asumir
-    };
-
-    this.pedidosService.savePedido(venta).subscribe({
+  
+    let pedidos:any=[];
+    for (const item of cartItems) {
+        pedidos=
+         {
+            stock:item.quantity,
+            fechapedido: new Date().toISOString(),
+            estado:{idestado:4}, // Asumir estado inicial pedido
+            cliente:{idcliente:idCliente},
+            producto:{idproducto:item.product.idproducto},
+          }
+          this.pedidosService.savePedido(pedidos).subscribe({
       next: (response) => {
         this.toastr.success('Pedido registrado exitosamente');
         this.cartService.clearCart();
@@ -189,5 +177,7 @@ BuscarPersona() {
         console.error(error);
       }
     });
+    }
+    
   }
 }

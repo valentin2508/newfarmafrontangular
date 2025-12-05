@@ -1,6 +1,7 @@
 import { persona } from "./persona";
 
 export interface cliente{
+    
     idcliente: number;
     idpersona?: persona;
 }
