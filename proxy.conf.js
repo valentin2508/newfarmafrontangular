@@ -1,11 +1,11 @@
-const PROXY_HOST = 'http://localhost:8000';
+const PROXY_HOST = 'https://localhost:8000';
 
 const PROXY_CONFIG =[
     {
-        contex:['/api'],
+        context:['/api'],
         target: PROXY_HOST,
         secure:false,
-        
+
     },
 ];
 

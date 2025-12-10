@@ -32,13 +32,12 @@ export const routes: Routes = [
 
     {path:"ventas", component: VentaComponent},
     {path:"client-form", component: ClientFormComponent},
-    { path: "add", component: productFormComponent,data: { renderMode: 'ssr' } },
-    {
-        path:"edit/:id",
-        component:productFormComponent,
-        data: { renderMode: 'ssr' }
-    },
-  { path: "productos", component: ProductosListComponent,data: { renderMode: 'ssr' } },
+     { path: "add", component: productFormComponent },
+     {
+         path:"edit/:id",
+         component:productFormComponent
+     },
+   { path: "productos", component: ProductosListComponent },
     {path: "**",component:NopageFoundComponent},
     
 ];

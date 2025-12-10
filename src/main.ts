@@ -8,8 +8,9 @@ import { provideHttpClient } from '@angular/common/http';
 bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));
 
-  export function app() {
-  return bootstrapApplication(AppComponent, {
+  export function app() 
+  {
+  return bootstrapApplication(AppComponent,{
     providers: [provideHttpClient(),provideServerRendering()],
   });
 }

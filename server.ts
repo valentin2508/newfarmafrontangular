@@ -1,11 +1,12 @@
 import 'zone.js/node';
+import '@angular/compiler';
 import express from 'express';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 // Importa la función `app()` generada por Angular en el bundle SSR
-import { app as angularApp } from './dist/NewFarmaProject/server/main.mjs';
- 
+import { app as angularApp } from './dist/NewFarmaProject/server/main.js';
+ //import { app as angularApp } from './dist/NewFarmaProject/server/main.server.mjs';
 
 export function app(): express.Express {
   const server = express();
@@ -31,7 +32,7 @@ function run(): void {
 
   const server = app();
   server.listen(port, () => {
-    console.log(`✅ SSR server listening on http://localhost:${port}`);
+    console.log(`✅ SSR server listening on https://localhost:${port}`);
   });
 }
 

@@ -4,6 +4,7 @@ import { producto } from "./producto";
 
 export interface pedido{
     idpedido: number;
+    codigopedido: String;
     idproducto: producto;
     stock: number;
     fechapedido: String;

@@ -67,20 +67,20 @@ public data: any
   }
 
   BuscarPersona() { 
-    debugger;
+   
     const dni = this.clientForm.get('dni')?.value;
     this.personasService.BuscarPersonaByDni(dni).subscribe(
       response=>{
-        debugger;
+        
           //si esta en la bd
         if(response.list.length>0 )
           {
             
               this.persona =response.list;  
               //this.habilitarBotones = true;      
-             debugger;
+             
               this.ClienteService.listarByIdPersona(this.persona[0].idpersona).subscribe(responseCliente=>{
-                debugger;
+               
                 //si es un cliente muestra los datos en el form
                 if(responseCliente.list.length>0)
                 {
@@ -91,7 +91,7 @@ public data: any
                   paterno: this.persona[0].paterno,
                   materno: this.persona[0].materno,
                   //moment(response.list[0].vencimiento, 'DD-MM-YYYY').format('YYYY-MM-DD'),
-                  fechanacimiento: this.persona[0].fechanacimiento,
+                  //fechanacimiento: this.persona[0].fechanacimiento,
                   telefono: this.persona[0].telefono,
                   correo: this.persona[0].correo,
                   sexo: this.persona[0].sexo,
@@ -155,7 +155,11 @@ public data: any
   private createPedido(idCliente: number): void {
     debugger;
     const cartItems = this.cartService.getCartItems();
-  
+    this.pedidosService.List().subscribe(response=>{
+      debugger;
+      console.log(response)
+    });
+    const count =1;
     let pedidos:any=[];
     for (const item of cartItems) {
         pedidos=
@@ -165,7 +169,9 @@ public data: any
             estado:{idestado:4}, // Asumir estado inicial pedido
             cliente:{idcliente:idCliente},
             producto:{idproducto:item.product.idproducto},
+            codigopedido: 'PED-' + count,
           }
+          debugger;
           this.pedidosService.savePedido(pedidos).subscribe({
       next: (response) => {
         this.toastr.success('Pedido registrado exitosamente');
