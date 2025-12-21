@@ -7,7 +7,7 @@ import { LaboratorioList } from '../models/laboratorio';
 })
 export class LaboratorioService {
 
-  private url: string="http://localhost:8000/api/laboratorio?page=1&xpage=600";
+  private url: string="/api/laboratorio?page=1&xpage=600";
                               
 
   constructor(private http:HttpClient) {}

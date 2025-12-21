@@ -1,10 +1,10 @@
-import { producto } from "./producto";
+import { Producto } from "./producto";
 import { Venta } from "./venta.model";
 
-export interface detalleventa{
+export interface DetalleVenta{
     iddetalleventa?:number,
     venta:Venta,
-    producto:producto,
+    producto:Producto,
     codigodetalleventa:string,
     unidades:number,
     costounidad:Float32Array,
@@ -12,9 +12,9 @@ export interface detalleventa{
     descuentounidad:number,
     total:Float32Array,
 }
-export interface detalleventaList{
+export interface DetalleVentaList{
     total: number;
         xpage: number;
         page: number;
-        list: detalleventa[];
+        list: DetalleVenta[];
 }

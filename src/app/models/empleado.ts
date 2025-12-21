@@ -1,10 +1,10 @@
-import { estado } from "./estado";
-import { persona } from "./persona";
+import { Estado } from "./estado";
+import { Persona } from "./persona";
 
 export interface Empleado {
     idempleado: number;
-    estado_estado?: estado;
-    persona?: persona;
+    estado_estado?: Estado;
+    persona?: Persona;
     usuario?: string;
 }
 export interface EmpleadoList {

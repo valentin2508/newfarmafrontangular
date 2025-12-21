@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BuscarDniService } from '../../../services/buscar-dni.service';
 import { PersonasService } from '../../../services/personas.service';
-import { persona } from '../../../models/persona';
+import { Persona } from '../../../models/persona';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { MatInputModule } from '@angular/material/input';
@@ -10,12 +10,14 @@ import { CommonModule } from '@angular/common';
 import { Venta } from '../../../models/venta.model';
 import { VentasService } from '../../../services/ventas.service';
 import { ClienteService } from '../../../services/cliente.service';
-import { detalleventaservice } from '../../../services/detalleventa.service';
-import { detalleventa } from '../../../models/detalleventa';
+import { DetalleVentaService } from '../../../services/detalleventa.service';
+import { DetalleVenta } from '../../../models/detalleventa';
+//import { detalleventaservice } from '../../../services/detalleventa.service';
+//import { detalleVenta } from '../../../models/detalleventa';
 import { RespuestaVenta } from '../../../models/RespuestaVenta';
 import { ProductoService } from '../../../services/producto.service';
 import { parse } from 'path';
-import { producto } from '../../../models/producto';
+import { Producto } from '../../../models/producto';
 
 @Component({
   selector: 'app-modal-ventas',
@@ -32,7 +34,7 @@ export class ModalVentasComponent {
 // idpersona:number=0;
 idcliente:number=0;
  dni: string = '';
- persona:persona[]=[];
+ persona:Persona[]=[];
  ventas: Venta[] = [];
  personaTemporal:any[]=[];
  subtotal:number=0;
@@ -46,13 +48,13 @@ idcliente:number=0;
    error = '';
  prodDetalle: any[] = [];
    constructor(
-     public dialogRef: MatDialogRef<ModalVentasComponent>,
+   public dialogRef: MatDialogRef<ModalVentasComponent>,
    @Inject(MAT_DIALOG_DATA) public data: any,
      private BuscardniService: BuscarDniService,
      private Personasservice: PersonasService,
      private VentasService: VentasService,
      private ClienteService:ClienteService,
-     private detalleventaservice:detalleventaservice,
+     private detalleventaservice:DetalleVentaService,
      private productoservice:ProductoService
    ) {
      ;
@@ -218,7 +220,7 @@ get datosCuenta(): string {
    {
    
      for (const producto of this.prodDetalle) {
-      const detalleventa:detalleventa={
+      const detalleventa:DetalleVenta={
        venta:{idventa:idventa},
        producto : { idproducto :producto.idproducto},
        codigodetalleventa:"DV-W"+"-"+Date.now(),
@@ -231,7 +233,7 @@ get datosCuenta(): string {
       
       const vencimientoDate = producto.vencimiento.split("/");
 
-      const ModProducto:producto={
+      const ModProducto:Producto={
         idproducto:producto.idproducto,
         codigoproducto:producto.codigoproducto,
         nombre:producto.nombre,

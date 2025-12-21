@@ -4,11 +4,10 @@ import { RouterOutlet } from '@angular/router';
 import { PagesComponent } from './pages/pages.component';
 
 
-
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, PagesComponent],
+  imports: [PagesComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

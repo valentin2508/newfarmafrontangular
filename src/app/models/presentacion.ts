@@ -1,4 +1,4 @@
-interface presentacion{
+interface Presentacion{
     idpresentacion: number;
     nombre: string;
 }
@@ -6,8 +6,6 @@ export interface PresentacionList {
     total: number;
     xpage: number;
     page: number;
-    list: presentacion[];
+    list: Presentacion[];
   }
-  export interface Presentacion{
-    prod:presentacion;
-  }
+

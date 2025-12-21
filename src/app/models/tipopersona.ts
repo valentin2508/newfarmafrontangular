@@ -1,12 +1,12 @@
-export interface tipopersona{
+export interface TipoPersona{
     idtipopersona: number;
     nombre: string;
  
 }
-export interface tipopersonaList {
+export interface TipoPersonaList {
     total: number;
     xpage: number;
     page: number;
-    list: tipopersona[];
+    list: TipoPersona[];
   }
   

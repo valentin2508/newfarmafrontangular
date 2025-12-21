@@ -80,10 +80,11 @@ export class CartService {
   checkout(): Order {
     const order: Order = {
       id: this.orderIdCounter++,
+      codigopedido: 'ORD-' + Date.now(),
       items: [...this.cartItems],
       total: this.getTotal(),
       date: new Date(),
-      status: 'pending'
+      estado:"pending",
     };
     this.orders.push(order);
     this.ordersSubject.next(this.orders);

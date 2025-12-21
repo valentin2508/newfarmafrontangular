@@ -1,3 +1,5 @@
+import { Cliente } from './cliente';
+import { Estado } from './estado';
 import { Product } from './product';
 
 export interface CartItem {
@@ -8,8 +10,11 @@ export interface CartItem {
 
 export interface Order {
   id: number;
+  codigopedido: string;
   items: CartItem[];
   total: number;
   date: Date;
-  status: 'pending' | 'completed' | 'cancelled';
+  estado?: string;
+  cliente?:Cliente;
+  producto?:Product;
 }

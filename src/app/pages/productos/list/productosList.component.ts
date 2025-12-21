@@ -5,7 +5,7 @@ import { PaginateComponent } from '../../../shared/paginate/paginate.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
-import { producto } from '../../../models/producto';
+import { Producto } from '../../../models/producto';
 import { DatosService } from '../../../services/datos.service';
 import { ProductoService } from '../../../services/producto.service';
 import { FiltroPipe } from "../../../shared/pipes/filtro.pipe";
@@ -34,7 +34,7 @@ export class ProductosListComponent implements OnInit{
   {
     
   }
-  modificado: producto[] = [];
+  modificado: Producto[] = [];
   @Output() borrado:EventEmitter<number>=new EventEmitter();
 
   prod: any[] = [];

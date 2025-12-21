@@ -1,4 +1,4 @@
-interface unidadMedida{
+interface UnidadMedida{
     idunidadmedida: number;
     nombreunidadmedida: string;
 }
@@ -6,8 +6,6 @@ export interface UnidadMedidaList {
     total: number;
     xpage: number;
     page: number;
-    list: unidadMedida[];
+    list: UnidadMedida[];
   }
-  export interface UnidadMedida{
-    prod:unidadMedida;
-  }
+ 

@@ -1,4 +1,4 @@
-import { cliente } from "./cliente";
+import { Cliente } from "./cliente";
 import { Empleado } from "./empleado";
 import { TipoComprobante } from "./tipocomprobante";
 
@@ -10,7 +10,7 @@ export interface Venta {
     igv?: number;
     subtotal?: number;
     costoventa?: number;
-    cliente?: cliente;
+    cliente?: Cliente;
     empleado?: Empleado;
     tipoComprobante?:TipoComprobante;
 }

@@ -1,13 +1,13 @@
-import { persona } from "./persona";
+import { Persona } from "./persona";
 
-export interface cliente{
+export interface Cliente{
     
     idcliente: number;
-    idpersona?: persona;
+    idpersona?: Persona;
 }
 export interface ClienteList {
     total: number;
     xpage: number;
     page: number;
-    list: cliente[];
+    list: Cliente[];
   }

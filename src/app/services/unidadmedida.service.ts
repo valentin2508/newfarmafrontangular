@@ -7,7 +7,7 @@ import { UnidadMedidaList } from '../models/unidadmedida';
 })
 export class UnidadmedidaService {
 
-  private url: string="http://localhost:8000/api/unidadmedida?page=1&xpage=600";
+  private url: string="/api/unidadmedida?page=1&xpage=600";
                               
 
   constructor(private http:HttpClient) {}

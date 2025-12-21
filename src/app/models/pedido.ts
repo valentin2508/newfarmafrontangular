@@ -1,20 +1,22 @@
-import { cliente } from "./cliente";
-import { estado } from "./estado";
-import { producto } from "./producto";
+import { Cliente } from "./cliente";
+import { Estado } from "./estado";
+import { Persona } from "./persona";
+import { Producto } from "./producto";
 
-export interface pedido{
+export interface Pedido{
     idpedido: number;
-    codigopedido: String;
-    idproducto: producto;
+    codigopedido: string;
+    idproducto: Producto;
     stock: number;
-    fechapedido: String;
-    idcliente: cliente;
-    idestado: estado;
+    fechapedido: string;
+    idcliente: Cliente;
+    idestado?: Estado;
     
 }   
 export interface PedidoList {
     total: number;
     xpage: number;
     page: number;
-    list: pedido[];
+    list: Pedido[];
+    list2:Persona;
   }

@@ -7,9 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 import { CartService } from '../../services/cart.service';
 import { PedidosService } from '../../services/pedidos.service';
 import { BuscarDniService } from '../../services/buscar-dni.service';
-import { Venta } from '../../models/venta.model';
-import { persona } from '../../models/persona';
-import { pedido } from '../../models/pedido';
+import { Pedido } from '../../models/pedido';
+import { Persona } from '../../models/persona';
 import moment from 'moment';
 import { ClienteService } from '../../services/cliente.service';
 
@@ -22,9 +21,10 @@ import { ClienteService } from '../../services/cliente.service';
 })
 export class ClientFormComponent {
   idcliente:number=0;
- dni: string = '';
-persona:persona[]=[];
-personaTemporal:any[]=[];
+  dni: string = '';
+  persona:Persona[]=[];
+  personaTemporal:any[]=[];
+  countPedidos:number=0;
 public data: any
 
   clientForm: FormGroup;
@@ -32,7 +32,7 @@ public data: any
   constructor(
     private fb: FormBuilder,
     private personasService: PersonasService,
-    private ClienteService:ClienteService,
+    private clienteService:ClienteService,
     private router: Router,
     private toastr: ToastrService,
     private cartService: CartService,
@@ -53,12 +53,16 @@ public data: any
       tipoPersona: [null] // Se setea automáticamente en onSubmit
     });
   }
+  ngOnInit(): void {
+    this.CountPedidos();
+  }
 
   onSubmit(): void {
     debugger
     if (this.clientForm.valid) 
       {
         debugger
+        this.modificarPersona();
         this.createPedido(this.idcliente);
       } 
     else {
@@ -67,7 +71,7 @@ public data: any
   }
 
   BuscarPersona() { 
-   
+   debugger;
     const dni = this.clientForm.get('dni')?.value;
     this.personasService.BuscarPersonaByDni(dni).subscribe(
       response=>{
@@ -75,71 +79,79 @@ public data: any
           //si esta en la bd
         if(response.list.length>0 )
           {
-            
+            debugger;
               this.persona =response.list;  
               //this.habilitarBotones = true;      
              
-              this.ClienteService.listarByIdPersona(this.persona[0].idpersona).subscribe(responseCliente=>{
+              this.clienteService.listarByIdPersona(this.persona[0].idpersona).subscribe(responseCliente=>{
                
                 //si es un cliente muestra los datos en el form
                 if(responseCliente.list.length>0)
                 {
                   this.idcliente=responseCliente.list[0].idcliente
-                  this.clientForm.patchValue({
-                  idpersona: this.persona[0].idpersona,
-                  nombre: this.persona[0].nombre,
-                  paterno: this.persona[0].paterno,
-                  materno: this.persona[0].materno,
-                  //moment(response.list[0].vencimiento, 'DD-MM-YYYY').format('YYYY-MM-DD'),
-                  //fechanacimiento: this.persona[0].fechanacimiento,
-                  telefono: this.persona[0].telefono,
-                  correo: this.persona[0].correo,
-                  sexo: this.persona[0].sexo,
-                  direccion: this.persona[0].direccion
-          });
+                  this.clientForm.patchValue
+                  ({
+                    idpersona: this.persona[0].idpersona,
+                    nombre: this.persona[0].nombre,
+                    paterno: this.persona[0].paterno,
+                    materno: this.persona[0].materno,
+                    //moment(response.list[0].vencimiento, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+                    //fechanacimiento: this.persona[0].fechanacimiento,
+                    telefono: this.persona[0].telefono,
+                    correo: this.persona[0].correo,
+                    sexo: this.persona[0].sexo,
+                    direccion: this.persona[0].direccion
+                  });
                 }
                 else{
+                  debugger;
                   const Cliente={
                     persona:{
                       idpersona: this.persona[0].idpersona
                     }
                   }
-                  this.ClienteService.guardar(Cliente).subscribe(()=>{});
-                  this.BuscarPersona();
+                  this.clienteService.guardar(Cliente).subscribe(()=>{
+                    this.BuscarPersona();
+                  });
                 }
 
               });   
           }
           //si no esta en la bd
         else
-          {            
-            if(this.dni.length==8)
+          { 
+            debugger;           
+            if(dni.length==8)
             {
-            this.buscarDniService.BuscarDni(this.dni).subscribe(
-            response=>{
-            this.data=response;
-            this.personaTemporal=this.data;
-            console.log(this.persona+"----desde response----");
-            //realizar registro en la bd persona y cliente
-            const persona = {
-                  
-                  dni: Number(this.data['dni']), 
-                  ruc: Number(this.data['dni']),
-                  nombre: this.data['nombres'],
-                  materno: this.data['apellidoMaterno'],
-                  paterno: this.data['apellidoPaterno'],
-                  fechanacimiento: "1900-01-01",
-                  telefono: "000000000",
-                  correo: this.data['nombres']+"@gmail.com",
-                  sexo: "",
-                  direccion: "Anonimo",
-                  tipoPersona:{idtipopersona:1} 
-                };            
-            this.personasService.CrearPersona(persona).subscribe();
+              debugger;
+              this.buscarDniService.BuscarDni(dni).subscribe(
+              response=>{
+              this.data=response;
+              this.personaTemporal=this.data;
+              console.log(this.persona+"----desde response----");
+              //realizar registro en la bd persona y cliente
+              const persona = {
+                    
+                    dni: Number(this.data['dni']), 
+                    ruc: Number(this.data['dni']),
+                    nombre: this.data['nombres'],
+                    materno: this.data['apellidoMaterno'],
+                    paterno: this.data['apellidoPaterno'],
+                    fechanacimiento: "1900-01-01",
+                    telefono: this.data['telefono'],//"000000000",
+                    correo:this.data['nombres'].split(' ').join('_')+"@gmail.com",
+                    sexo: "",
+                    direccion: "Anonimo",
+                    tipoPersona:{idtipopersona:1} 
+                  };          
+                  debugger;  
+                this.personasService.CrearPersona(persona).subscribe(() => {
+                this.BuscarPersona();
+            });
            
 
             });
-            this.BuscarPersona();
+            
             }
             else
             {
@@ -152,14 +164,37 @@ public data: any
         
       })
   }
+  modificarPersona() {
+    debugger;
+    const updatedPersona = {
+      idpersona: this.persona[0].idpersona,
+      dni: this.clientForm.get('dni')?.value,
+      ruc: this.clientForm.get('ruc')?.value,
+      nombre: this.clientForm.get('nombre')?.value,
+      materno: this.clientForm.get('materno')?.value,
+      paterno: this.clientForm.get('paterno')?.value,
+      fechanacimiento: this.clientForm.get('fechanacimiento')?.value,
+      telefono: this.clientForm.get('telefono')?.value,
+      correo: this.clientForm.get('correo')?.value,
+      sexo: this.clientForm.get('sexo')?.value,
+      direccion: this.clientForm.get('direccion')?.value,
+      tipoPersona:{idtipopersona:1} 
+    };
+    this.personasService.CrearPersona(updatedPersona).subscribe(() => {
+      //this.toastr.success('Persona actualizada con éxito');
+     // this.BuscarPersona();
+    });
+  }
+  CountPedidos():void{
+  this.pedidosService.List().subscribe(response=>{
+    debugger;
+    console.log(response);
+      this.countPedidos= Number(response.total+1);
+    });
+  }
   private createPedido(idCliente: number): void {
     debugger;
     const cartItems = this.cartService.getCartItems();
-    this.pedidosService.List().subscribe(response=>{
-      debugger;
-      console.log(response)
-    });
-    const count =1;
     let pedidos:any=[];
     for (const item of cartItems) {
         pedidos=
@@ -169,7 +204,7 @@ public data: any
             estado:{idestado:4}, // Asumir estado inicial pedido
             cliente:{idcliente:idCliente},
             producto:{idproducto:item.product.idproducto},
-            codigopedido: 'PED-' + count,
+            codigopedido: 'PED-' + this.countPedidos,
           }
           debugger;
           this.pedidosService.savePedido(pedidos).subscribe({

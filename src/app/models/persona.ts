@@ -1,22 +1,22 @@
-import { tipopersona } from "./tipopersona";
+import { TipoPersona } from "./tipopersona";
 
-export interface persona{
+export interface Persona{
      idpersona:number;
     dni: number;
      ruc:number;
-     nombre: String;
+     nombre: string;
      materno:string;
      paterno:string;
-     fechanacimiento: String;
+     fechanacimiento: string;
      telefono:string;
-     correo: String;
-     sexo: String;
-     direccion: String;
-     tipoPersona: tipopersona;
+     correo: string;
+     sexo: string;
+     direccion: string;
+     tipoPersona: TipoPersona;
 }
 export interface PersonaList {
     total: number;
     xpage: number;
     page: number;
-    list: persona[];
+    list: Persona[];
   }

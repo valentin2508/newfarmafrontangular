@@ -5,9 +5,9 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 // Importa la función `app()` generada por Angular en el bundle SSR
-import { app as angularApp } from './dist/NewFarmaProject/server/main.js';
- //import { app as angularApp } from './dist/NewFarmaProject/server/main.server.mjs';
 
+
+import { app as angularApp } from './dist/NewFarmaProject/server/main.js';
 export function app(): express.Express {
   const server = express();
 

@@ -6,7 +6,7 @@ import { PresentacionList } from '../models/presentacion';
   providedIn: 'root'
 })
 export class PresentacionService {
-  private url: string="http://localhost:8000/api/presentacion?page=1&xpage=600";
+  private url: string="/api/presentacion?page=1&xpage=600";
 
   constructor(private http:HttpClient) {}
 

@@ -1,10 +1,10 @@
-export interface estado{
+export interface Estado{
     idestado: number;
-    estado: String;
+    estado: string;
 }
 export interface EstadoList {
     total: number;
     xpage: number;
     page: number;
-    list: estado[];
+    list: Estado[];
   }

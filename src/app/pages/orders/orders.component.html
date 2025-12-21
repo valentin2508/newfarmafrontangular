@@ -1,24 +1,63 @@
 <div class="container mt-4">
-  <h2>Lista de Pedidos</h2>
+  <h2 class="text-center">Lista de Pedidos</h2>
   <div *ngIf="orders.length === 0" class="text-center">
     <p>No tienes pedidos.</p>
   </div>
   <div *ngIf="orders.length > 0">
-    <div class="card" *ngFor="let order of orders">
-      <div class="card-body">
-        <h5>Pedido #{{ order.id }}</h5>
-        <p>Fecha: {{ order.date | date:'short' }}</p>
-        <p>Estado: {{ order.status }}</p>
-        <p>Total: S/ {{ order.total }}</p>
-        <div class="mt-3">
-          <h6>Productos:</h6>
-          <ul>
-            <li *ngFor="let item of order.items">
-              {{ item.product.nombre }} - Cantidad: {{ item.quantity }} - Subtotal: S/ {{ item.subtotal }}
-            </li>
-          </ul>
+     <div class="card" *ngFor="let group of agrupados">
+       <div class="card-body">
+           <div class="d-flex align-items-center">
+             <div class="flex-grow-1 text-center"><i class="fas fa-shopping-cart"></i> Pedido N°: {{ group.codigopedido }}</div>
+            <div class="d-flex align-items-center">
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{ group.items[0].estado.estado }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a *ngFor="let item of estado" class="dropdown-item" [class.active]="item.id === group.items[0].estado.id" (click)="cambiarEstado(group, item)">{{item.estado}}</a>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-sm ms-2">
+                <i class="fas fa-shopping-cart"></i> Procesar Pedido
+              </button>
+            </div>
+          </div>
+         
+          <table class="table table-striped table-sm responsive">
+            <thead class="table-light-dark">
+              <tr>
+                <th>Cliente</th>
+                <th>Contacto</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Fecha Pedido</th>
+                <th>Estado</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-pedidos">
+              <tr *ngFor="let item of group.items">
+                <td>{{ item.cliente.persona.nombre }}</td>
+                <td>{{ item.cliente.persona.telefono }}</td>
+                <td>{{ item.producto.nombre }}</td>
+                <td>{{ item.stock }}</td>
+                <td>{{ item.fechapedido | date:'dd/MM/yyyy' }}</td>
+                <td>{{ item.estado.estado }}</td>
+
+               <td class="center">
+                   <button class="btn btn-success btn-sm">
+                    <i class="nav-icon fas fa-edit"></i>
+                   </button>
+
+                   <button class="btn btn-danger btn-sm">
+                       <i class="nav-icon fas fa-trash"></i>
+                   </button>
+               </td>
+              </tr>
+            </tbody>
+           </table>
+
         </div>
       </div>
     </div>
-  </div>
-</div>
+ </div>

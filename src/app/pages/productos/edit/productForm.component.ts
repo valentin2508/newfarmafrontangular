@@ -14,7 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { ProductosListComponent } from '../list/productosList.component';
 import { DatosService } from '../../../services/datos.service';
-import { producto } from '../../../models/producto';
+import { Producto } from '../../../models/producto';
 
 
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -40,7 +40,7 @@ export class productFormComponent  implements OnInit
     operacionBoton: string="Crear";
     randon:number=this.randomMath();
     IdProductoEdit: number;  
-    prod: producto[] = [];
+    prod: Producto[] = [];
    // total:number=0;
     //xpage:number = 0;
    

@@ -9,9 +9,9 @@ import { RespuestaVenta } from '../models/RespuestaVenta';
 export class VentasService {
   result: any;
    constructor(private http: HttpClient) { }
-  private url: string = "http://localhost:8000/api/venta";
+   private url: string = "/api/venta";
 
-  urlList="http://localhost:8000/api/venta?page=1&xpage=10";
+   urlList="/api/venta?page=1&xpage=10";
 List(){
       return  this.http.get<Venta>(this.urlList);
      

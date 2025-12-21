@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProductList } from '../models/product';
-import { producto } from '../models/producto';
+import { Producto } from '../models/producto';
 
 
 @Injectable({
@@ -12,13 +12,13 @@ import { producto } from '../models/producto';
 export class ProductoService {
  
   //private url: string="https://newfarmabak.azurewebsites.net/api/producto?page=1&xpage=10";
-  private url: string="http://localhost:8000/api/producto?page=1&xpage=10";
+  private url: string="/api/producto?page=1&xpage=10";
 
-  private urlEndpoint: string="http://localhost:8000/api/producto?page=";
+  private urlEndpoint: string="/api/producto?page=";
   constructor(private http: HttpClient) { }
 
   list(){
-    return this.http.get(`http://localhost:8000/api/producto?page=1&xpage=10`);
+    return this.http.get(`/api/producto?page=1&xpage=10`);
   }
   //devuelve un solo producto por codigo de barra
   get(codBarra: number){
@@ -26,7 +26,7 @@ export class ProductoService {
 }
   //devuelve un solo producto por Id
   getProductById(id:number){
-    let ListUrlProducto="http://localhost:8000/api/producto/"+id;
+    let ListUrlProducto="/api/producto/"+id;
     return this.http.get<ProductList>(ListUrlProducto);
   }
 
@@ -41,26 +41,26 @@ export class ProductoService {
   }
  
   changeProducto(index:number,product:any){
-    return this.http.put(`http://localhost:8000/api/${index}`,product);
+    return this.http.put(`/api/${index}`,product);
   }
-  saveProducto(data:producto){
-    let save_url="http://localhost:8000/api/producto";
-    return this.http.post<producto>(save_url, data,{
+  saveProducto(data:Producto){
+    let save_url="/api/producto";
+    return this.http.post<Producto>(save_url, data,{
       observe:'response'
     });
   }
   deleteProducto(index:number){
     console.log("---------------",index);
-    let del_url="http://localhost:8000/api/producto/"+index;
+    let del_url="/api/producto/"+index;
     return this.http.delete<ProductList>(del_url);
   }
- createProducto(product:any){
-   //return this.http.post('http://localhost:8000/api',product);
-   let save_url="http://localhost:8000/api/producto";
-                        
+  createProducto(product:any){
+   //return this.http.post('/api',product);
+   let save_url="/api/producto";
+
    return this.http.post<any>(save_url, product,{
      observe:'response'
    });
-   
+
   }
 }

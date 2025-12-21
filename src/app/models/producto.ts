@@ -1,4 +1,4 @@
-export class producto{
+export class Producto{
     idproducto?: number;
         codigoproducto?: string;
         nombre?: string;
