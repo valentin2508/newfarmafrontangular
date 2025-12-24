@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Venta } from '../models/venta.model';
+import { Venta, ventaList } from '../models/venta.model';
 import { RespuestaVenta } from '../models/RespuestaVenta';
 
 @Injectable({
@@ -11,9 +11,9 @@ export class VentasService {
    constructor(private http: HttpClient) { }
    private url: string = "/api/venta";
 
-   urlList="/api/venta?page=1&xpage=10";
-List(){
-      return  this.http.get<Venta>(this.urlList);
+   urlList="/api/venta";
+List(page: number, xpage: number){
+      return  this.http.get<ventaList>(`${this.urlList}?page=${page}&xpage=${xpage}`);
      
     }
    

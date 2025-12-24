@@ -16,6 +16,7 @@ import { DetalleVenta } from '../../../models/detalleventa';
 //import { detalleVenta } from '../../../models/detalleventa';
 import { RespuestaVenta } from '../../../models/RespuestaVenta';
 import { ProductoService } from '../../../services/producto.service';
+import { TicketService } from '../../../services/ticket.service';
 import { parse } from 'path';
 import { Producto } from '../../../models/producto';
 
@@ -43,10 +44,11 @@ idcliente:number=0;
  cambio:number=0;
  totalVentatemp:number=0;
  metodoPago: string = 'efectivo';
- habilitarBotones: boolean = false;
- loading = false;
-   error = '';
- prodDetalle: any[] = [];
+  habilitarBotones: boolean = false;
+  loading = false;
+    error = '';
+  prodDetalle: any[] = [];
+  mostrarTicket: boolean = false;
    constructor(
    public dialogRef: MatDialogRef<ModalVentasComponent>,
    @Inject(MAT_DIALOG_DATA) public data: any,
@@ -55,7 +57,8 @@ idcliente:number=0;
      private VentasService: VentasService,
      private ClienteService:ClienteService,
      private detalleventaservice:DetalleVentaService,
-     private productoservice:ProductoService
+     private productoservice:ProductoService,
+     private ticketService: TicketService
    ) {
      ;
      //console.log("Datos recibidos en el constructor:------------------------", data);
@@ -181,7 +184,7 @@ get datosCuenta(): string {
   ventaTiket() {
   
     this.loading = true;
-    this.VentasService.List().subscribe({
+    this.VentasService.List(1, 1).subscribe({
       next: (data:any) => 
       {
        
@@ -255,12 +258,35 @@ get datosCuenta(): string {
        this.productoservice.saveProducto(ModProducto).subscribe();
       
      }
-     //generar tiket de impresion
-     this.loading = false;
-     this.dialogRef.close();
+      //generar tiket de impresion
+      this.mostrarTicket = true;
+      this.loading = false;
    }
   ventaBoleta(){
     //sacar comprobante de la base de datos boleta=2
   }
-  ventaFactura(){}
+   ventaFactura(){}
+
+  imprimirTicket() {
+    try {
+      if (!this.prodDetalle || !Array.isArray(this.prodDetalle) || this.prodDetalle.length === 0) {
+        console.error('No hay productos válidos para imprimir');
+        return;
+      }
+      
+      const ventaParcial: Partial<Venta> = {
+        subtotal: this.subtotal,
+        igv: this.igv,
+        costoventa: this.totalVenta
+      };
+
+      const ticketHTML = this.ticketService.createTicketHTML(ventaParcial, this.prodDetalle, this.nombreCompleto || 'Cliente Genérico');
+      this.ticketService.openPrintPreview(ticketHTML);
+      this.dialogRef.close();
+
+    } catch (error) {
+      console.error('Error al imprimir ticket:', error);
+      alert('Error al generar el ticket. Revisa la consola para más detalles.');
+    }
+  }
 }

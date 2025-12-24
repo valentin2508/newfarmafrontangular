@@ -1,0 +1,71 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Reporte de Ventas</h3>
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>ID Venta</th>
+            <th>Serie</th>
+            <th>Correlativo</th>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Cliente</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let venta of agrupados">
+            <tr (click)="toggleDetalles(venta.idventa!)" style="cursor: pointer;">
+              <td>{{ venta.idventa }}</td>
+              <td>{{ venta.serie }}</td>
+              <td>{{ venta.correlativo }}</td>
+              <td>{{ venta.fechaventa | date: 'dd/MM/yyyy' }}</td>
+              <td>S/ {{ venta.costoventa?.toFixed(2) }}</td>
+              <td>{{ venta.cliente.persona.nombre }} {{ venta.cliente.persona.paterno }}</td>
+              <td>
+                <button class="btn btn-primary btn-sm" (click)="reimprimirTicket(venta); $event.stopPropagation();">
+                  Reimprimir
+                </button>
+              </td>
+            </tr>
+            <tr class="tbodys" *ngIf="selectedVentaId === venta.idventa">
+              <td  colspan="7">
+                <div  *ngIf="detallesVenta[venta.idventa!]">
+                  <h5>Detalles de la Venta</h5>
+                  <table class="table table-sm table-striped">
+                    <thead>
+                      <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Subtotal</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let detalle of detallesVenta[venta.idventa!]">
+                        <td>{{ detalle.producto.nombre }}</td>
+                        <td>{{ detalle.unidades }}</td>
+                        <td>S/ {{ detalle.costounidad.toFixed(2) }}</td>
+                        <td>S/ {{ detalle.total.toFixed(2) }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer">
+      <div class="paginador">
+        <button (click)="previoPage()" class="btn btn-primary btn-sm">&lt;</button>
+        <app-paginate [total]="totalVentas" [npage]="pages" (SendIndex)="onPageChange($event)"></app-paginate>
+        <button (click)="nextPage()" class="btn btn-primary btn-sm">&gt;</button>
+      </div>
+    </div>
+  </div>
+</div>

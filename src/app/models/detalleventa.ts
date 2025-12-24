@@ -7,10 +7,10 @@ export interface DetalleVenta{
     producto:Producto,
     codigodetalleventa:string,
     unidades:number,
-    costounidad:Float32Array,
-    subtotal:Float32Array,
+    costounidad:number,
+    subtotal:number,
     descuentounidad:number,
-    total:Float32Array,
+    total:number,
 }
 export interface DetalleVentaList{
     total: number;

@@ -1,0 +1,12 @@
+.paginador {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page button {
+    margin: 0 2px;
+}
+.tbodys{
+    border: solid 2px red;
+}

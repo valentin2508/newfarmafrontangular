@@ -14,6 +14,9 @@ import { productFormComponent } from './pages/productos/edit/productForm.compone
 import { VentaComponent } from './pages/ventas/ventas/ventas.component';
 import { ModalVentasComponent } from './pages/modal/modal-ventas/modal-ventas.component';
 import { ClientFormComponent } from './pages/client-form/client-form.component';
+import { ReportsComponent } from './pages/reports/reports.component';
+import { ClienteListComponent } from './pages/clientes/list/list.component';
+import { ClienteFormComponent } from './pages/clientes/form/form.component';
 
 export const routes: Routes = [
     {path: "",component: LoginComponent},
@@ -29,9 +32,13 @@ export const routes: Routes = [
     {path:"home", component: HomeComponent},
     {path:"cart", component: CartComponent},
     {path:"orders", component: OrdersComponent},
-
+    {path:"reports", component: ReportsComponent},
+    //{path:"clientes", component: ClientFormComponent},
     {path:"ventas", component: VentaComponent},
-    {path:"client-form", component: ClientFormComponent},
+    {path:"clientes", component: ClienteListComponent},
+    { path: 'client-form', component: ClientFormComponent },
+    { path: 'form', component: ClienteFormComponent },
+
      { path: "add", component: productFormComponent },
      {
          path:"edit/:id",
