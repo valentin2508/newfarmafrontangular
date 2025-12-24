@@ -1,0 +1,47 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">{{ isEditMode ? 'Editar' : 'Nuevo' }} Cliente</h3>
+        </div>
+        <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
+          <div class="card-body">
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" formControlName="nombre" class="form-control" placeholder="Nombre del cliente">
+            </div>
+            <div class="form-group">
+              <label for="apellido">Apellido</label>
+              <input type="text" id="apellido" formControlName="apellido" class="form-control" placeholder="Apellido del cliente">
+            </div>
+            <div class="form-group">
+              <label for="dni">DNI</label>
+              <input type="text" id="dni" formControlName="dni" class="form-control" placeholder="DNI">
+            </div>
+            <div class="form-group">
+              <label for="ruc">RUC</label>
+              <input type="text" id="ruc" formControlName="ruc" class="form-control" placeholder="RUC">
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" formControlName="email" class="form-control" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <label for="telefono">Teléfono</label>
+              <input type="text" id="telefono" formControlName="telefono" class="form-control" placeholder="Teléfono">
+            </div>
+            <div class="form-group">
+              <label for="direccion">Dirección</label>
+              <input type="text" id="direccion" formControlName="direccion" class="form-control" placeholder="Dirección">
+            </div>
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
+            <a [routerLink]="['/dashboard/clientes']" class="btn btn-secondary">Cancelar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

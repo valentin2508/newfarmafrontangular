@@ -24,7 +24,15 @@ export class ClienteService {
     });
   }
 
+  getById(id: number) {
+    return this.http.get<Cliente>('/api/cliente/' + id);
+  }
+
   eliminar(id: number) {
     return this.http.delete('/api/cliente/' + id);
+  }
+
+  updateCliente(id: number, cliente: Cliente) {
+    return this.http.put<Cliente>(`/api/cliente/${id}`, cliente);
   }
 }
