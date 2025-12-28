@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Cliente, ClienteList } from '../../../models/cliente';
 import { ClienteService } from '../../../services/cliente.service';
 
@@ -13,32 +13,52 @@ import { ClienteService } from '../../../services/cliente.service';
 })
 export class ClienteListComponent implements OnInit {
   clientes: any[] = [];
+  page: number = 1;
+  xpage: number = 10;
+  totalItems: number = 0;
+  totalPages: number = 0;
 
-  constructor(private clienteService: ClienteService, private router: Router) { }
+  constructor(private clienteService: ClienteService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.loadClientes();
   }
 
   loadClientes(): void {
-    this.clienteService.listar().subscribe((data: any) => { // Changed getClientes to listar and added type
-      this.clientes = Object.values(data.list); // Access the 'list' property from ClienteList
+    this.clienteService.listar(this.page, this.xpage).subscribe((data: any) => {
+      this.clientes = data.list;
+      this.totalItems = data.total;
+      this.totalPages = Math.ceil(this.totalItems / this.xpage);
     });
   }
 
+  nextPage(): void {
+    if ((this.page * this.xpage) < this.totalItems) {
+      this.page++;
+      this.loadClientes();
+    }
+  }
+
+  previousPage(): void {
+    if (this.page > 1) {
+      this.page--;
+      this.loadClientes();
+    }
+  }
+
   editCliente(id: number): void {
-    this.router.navigate(['/dashboard/clientes/form', id]);
+    this.router.navigate(['form', id], { relativeTo: this.route.parent });
   }
 
   deleteCliente(id: number): void {
     if (confirm('Are you sure you want to delete this client?')) {
-      this.clienteService.eliminar(id).subscribe(() => { // Changed deleteCliente to eliminar
+      this.clienteService.eliminar(id).subscribe(() => { 
         this.loadClientes();
       });
     }
   }
 
   addCliente(): void {
-    this.router.navigate(['/form']);
+    this.router.navigate(['form'], { relativeTo: this.route.parent });
   }
 }

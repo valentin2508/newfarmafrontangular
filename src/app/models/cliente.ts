@@ -3,7 +3,7 @@ import { Persona } from "./persona";
 export interface Cliente{
     
     idcliente: number;
-    idpersona?: Persona;
+    persona?: Persona;
 }
 export interface ClienteList {
     total: number;

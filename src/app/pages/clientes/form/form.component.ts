@@ -6,6 +6,10 @@ import { ClienteService } from '../../../services/cliente.service';
 import { Cliente } from '../../../models/cliente';
 import { Persona } from '../../../models/persona';
 import { TipoPersona } from '../../../models/tipopersona';
+import { formatDate } from '@angular/common';
+import { TipoPersonaService } from '../../../services/tipopersona.service';
+import { forkJoin, of } from 'rxjs';
+import { log } from 'node:console';
 
 @Component({
   selector: 'app-cliente-form',
@@ -19,10 +23,14 @@ export class ClienteFormComponent implements OnInit {
   clienteForm!: FormGroup;
   isEditMode = false;
   clienteId?: number;
+  personaId?: number;
+  fechaLimpia = '';
+  tipopersonas: TipoPersona[] = [];
 
   constructor(
     private fb: FormBuilder,
     private clienteService: ClienteService,
+    private tipoPersonaService: TipoPersonaService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -30,7 +38,7 @@ export class ClienteFormComponent implements OnInit {
   ngOnInit(): void {
     this.clienteId = this.route.snapshot.params['id'];
     this.isEditMode = !!this.clienteId;
-
+    
     this.clienteForm = this.fb.group({
       nombre: ['', Validators.required],
       paterno: ['', Validators.required],
@@ -39,65 +47,85 @@ export class ClienteFormComponent implements OnInit {
       ruc: ['', [Validators.pattern('^[0-9]{11}$')]],
       correo: ['', [Validators.required, Validators.email]], // Changed from email to correo
       telefono: [''],
-      direccion: ['']
+      direccion: [''],
+      sexo: [''],
+      fechanacimiento: ['', [
+        Validators.required, 
+        Validators.pattern(/^\d{2}-\d{2}-\d{4}$/)
+      ]],
+      tipopersona: [null, Validators.required]
     });
 
-    if (this.isEditMode && this.clienteId) {
-      this.clienteService.getById(this.clienteId).subscribe((cliente: Cliente) => { // Changed getClienteById to getById and added type
+    const tipopersonas$ = this.tipoPersonaService.listar();
+    const cliente$ = this.isEditMode && this.clienteId ? this.clienteService.getById(this.clienteId) : of(null);
+
+    forkJoin({ tipopersonas: tipopersonas$, cliente: cliente$ }).subscribe(({ tipopersonas, cliente }) => {
+      this.tipopersonas = tipopersonas.list;
+      
+      if (this.isEditMode && cliente) {
+        const clienteData: any = Object.values(cliente.list);
+    
+        this.personaId = clienteData[0].persona.idpersona;
+        this.fechaLimpia = formatDate(clienteData[0].persona.fechanacimiento, 'yyyy-MM-dd', 'en-US');
+        
         this.clienteForm.patchValue({
-          nombre: cliente.idpersona?.nombre, // Corrected property access
-          paterno: cliente.idpersona?.paterno, // Added paterno
-          materno: cliente.idpersona?.materno, // Added materno
-          dni: cliente.idpersona?.dni,
-          ruc: cliente.idpersona?.ruc,
-          correo: cliente.idpersona?.correo, // Changed from email to correo
-          telefono: cliente.idpersona?.telefono,
-          direccion: cliente.idpersona?.direccion
+          nombre: clienteData[0].persona.nombre,
+          paterno: clienteData[0].persona.paterno,
+          materno: clienteData[0].persona.materno,
+          dni: clienteData[0].persona.dni,
+          ruc: clienteData[0].persona.ruc,
+          correo: clienteData[0].persona.correo,
+          telefono: clienteData[0].persona.telefono,
+          direccion: clienteData[0].persona.direccion,
+          sexo: clienteData[0].persona.sexo,
+          fechanacimiento: this.fechaLimpia,
+          tipopersona: clienteData[0].persona.tipoPersona
         });
-      });
-    }
+      }
+    });
   }
 
   onSubmit(): void {
-    if (this.clienteForm.invalid) {
+    debugger;
+    /*if (this.clienteForm.invalid) {
       return;
-    }
-
+    }*/
+    debugger;
     const formValue = this.clienteForm.value;
-
-    const tipoPersona: TipoPersona = { // Renamed from tipoCliente
-      idtipopersona: 1, // Asumiendo que 1 es para clientes
-      nombre: 'CLIENTE' // Corrected property name and value
-    };
-
+    
     const persona: Persona = {
-      idpersona: 0, // se asignará en el backend
+      idpersona: Number(this.personaId) || 0,
       nombre: formValue.nombre,
-      paterno: formValue.paterno, // Added paterno
-      materno: formValue.materno, // Added materno
+      paterno: formValue.paterno,
+      materno: formValue.materno,
       dni: formValue.dni,
-      ruc: formValue.ruc, // Ruc is part of Persona in the model
-      correo: formValue.correo, // Changed from email to correo
+      ruc: formValue.ruc,
+      correo: formValue.correo,
       telefono: formValue.telefono,
       direccion: formValue.direccion,
-      fechanacimiento: '', // Assuming an empty string or default value if not captured by form
-      sexo: '', // Assuming an empty string or default value if not captured by form
-      tipoPersona: tipoPersona
+      fechanacimiento: formValue.fechanacimiento,
+      sexo: formValue.sexo,
+      tipoPersona: formValue.tipopersona
     };
 
     const cliente: Cliente = {
-      idcliente: this.clienteId || 0, // Corrected property name
-      idpersona: persona, // Corrected property name
+      idcliente: this.clienteId || 0,
+      persona: persona,
     };
 
     if (this.isEditMode && this.clienteId) {
-      this.clienteService.updateCliente(this.clienteId, cliente).subscribe(() => {
-        this.router.navigate(['/dashboard/clientes']);
+      this.clienteService.guardar( cliente).subscribe(() => {
+        this.router.navigate(['/clientes']);
       });
     } else {
-      this.clienteService.guardar(cliente).subscribe(() => { // Changed createCliente to guardar
-        this.router.navigate(['/dashboard/clientes']);
+      this.clienteService.guardar(cliente).subscribe(() => {
+        this.router.navigate(['/clientes']);
       });
     }
   }
+
+  compareWith(o1: TipoPersona, o2: TipoPersona): boolean {
+    return o1 && o2 ? o1.idtipopersona === o2.idtipopersona : o1 === o2;
+  }
 }
+

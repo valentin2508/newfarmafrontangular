@@ -20,6 +20,7 @@
                 <th>DNI</th>
                 <th>RUC</th>
                 <th>Telefono</th>
+                <th>Tipo Persona</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -31,6 +32,7 @@
                 <td>{{ cliente.persona?.dni }}</td>
                 <td>{{ cliente.persona?.ruc }}</td>
                 <td>{{ cliente.persona.telefono }}</td>
+                <td>{{ cliente.persona.tipoPersona.nombre }}</td>
                 <td>
                   <button class="btn btn-sm btn-info" (click)="editCliente(cliente.idcliente)">
                     <i class="fas fa-edit"></i>
@@ -42,6 +44,27 @@
               </tr>
             </tbody>
           </table>
+        </div>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-sm-12 col-md-5">
+              <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+                Mostrando {{ (page - 1) * xpage + 1 }} a {{ page * xpage > totalItems ? totalItems : page * xpage }} de {{ totalItems }} registros
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-7">
+              <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+                <ul class="pagination">
+                  <li class="paginate_button page-item previous" [class.disabled]="page === 1">
+                    <button (click)="previousPage()" class="page-link">Anterior</button>
+                  </li>
+                  <li class="paginate_button page-item next" [class.disabled]="page * xpage >= totalItems">
+                    <button (click)="nextPage()" class="page-link">Siguiente</button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

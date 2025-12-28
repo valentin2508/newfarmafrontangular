@@ -12,8 +12,12 @@
               <input type="text" id="nombre" formControlName="nombre" class="form-control" placeholder="Nombre del cliente">
             </div>
             <div class="form-group">
-              <label for="apellido">Apellido</label>
-              <input type="text" id="apellido" formControlName="apellido" class="form-control" placeholder="Apellido del cliente">
+              <label for="paterno">Paterno</label>
+              <input type="text" id="paterno" formControlName="paterno" class="form-control" placeholder="Apellido paterno del cliente">
+            </div>
+            <div class="form-group">
+              <label for="materno">Materno</label>
+              <input type="text" id="materno" formControlName="materno" class="form-control" placeholder="Apellido materno del cliente">
             </div>
             <div class="form-group">
               <label for="dni">DNI</label>
@@ -24,8 +28,8 @@
               <input type="text" id="ruc" formControlName="ruc" class="form-control" placeholder="RUC">
             </div>
             <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" formControlName="email" class="form-control" placeholder="Email">
+              <label for="correo">Email</label>
+              <input type="email" id="correo" formControlName="correo" class="form-control" placeholder="Email">
             </div>
             <div class="form-group">
               <label for="telefono">Teléfono</label>
@@ -35,10 +39,29 @@
               <label for="direccion">Dirección</label>
               <input type="text" id="direccion" formControlName="direccion" class="form-control" placeholder="Dirección">
             </div>
+            <div class="form-group">
+              <label for="sexo">Sexo</label>
+              
+              <input type="text" id="sexo" formControlName="sexo" class="form-control" placeholder="Sexo">
+              
+            </div>
+            <div class="form-group">
+              <label for="tipopersona">Tipo Persona</label>
+              <select id="tipopersona" class="form-select" formControlName="tipopersona" [compareWith]="compareWith">
+                <option [ngValue]="null" disabled>Seleccione un tipo</option>
+                <option *ngFor="let tipo of tipopersonas" [ngValue]="tipo">
+                  {{tipo.nombre}}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fechanacimiento">Fecha Nacimiento</label>
+              <input type="date" id="fechanacimiento" formControlName="fechanacimiento" class="form-control" placeholder="Fecha Nacimiento">
+            </div>
           </div>
-          <div class="card-footer">
+          <div class="card-footer text-center">
             <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
-            <a [routerLink]="['/dashboard/clientes']" class="btn btn-secondary">Cancelar</a>
+            <a [routerLink]="['/clientes']" class="btn btn-secondary">Cancelar</a>
           </div>
         </form>
       </div>

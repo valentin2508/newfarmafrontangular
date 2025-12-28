@@ -9,10 +9,10 @@ export class ClienteService {
 
   constructor(private http: HttpClient) { }
 
-  listar() {
-    return this.http.get<ClienteList>('/api/cliente?page=1&xpage=10');
+  listar(page: number, xpage: number) {
+    return this.http.get<ClienteList>(`/api/cliente?page=${page}&xpage=${xpage}`);
   }
-  //http://localhost:8000/api/cliente?page=1&xpage=100&persona_idpersona=7
+  
  listarByIdPersona(personaId:number) {
     return this.http.get<ClienteList>(`/api/cliente?page=1&xpage=100&persona_idpersona=${personaId}`);
   }
@@ -25,7 +25,7 @@ export class ClienteService {
   }
 
   getById(id: number) {
-    return this.http.get<Cliente>('/api/cliente/' + id);
+    return this.http.get<any>('api/cliente?page=1&xpage=100&idcliente=' + id);
   }
 
   eliminar(id: number) {
