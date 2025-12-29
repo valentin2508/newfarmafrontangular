@@ -17,7 +17,7 @@
                   <a *ngFor="let item of estado" class="dropdown-item" [class.active]="item.id === group.items[0].estado.id" (click)="cambiarEstado(group, item)">{{item.estado}}</a>
                 </div>
               </div>
-              <button class="btn btn-primary btn-sm ms-2">
+              <button class="btn btn-primary btn-sm ms-2" (click)="procesarPedido(group)">
                 <i class="fas fa-shopping-cart"></i> Procesar Pedido
               </button>
             </div>
@@ -38,7 +38,8 @@
             <tbody id="tbody-pedidos">
               <tr *ngFor="let item of group.items">
                 <td>{{ item.cliente.persona.nombre }}</td>
-                <td>{{ item.cliente.persona.telefono }}</td>
+                <td> <a href="https://api.whatsapp.com/send?phone={{ item.cliente.persona.telefono }}">{{ item.cliente.persona.telefono }}</a> </td>
+               
                 <td>{{ item.producto.nombre }}</td>
                 <td>{{ item.stock }}</td>
                 <td>{{ item.fechapedido | date:'dd/MM/yyyy' }}</td>

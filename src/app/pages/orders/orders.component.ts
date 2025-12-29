@@ -65,5 +65,26 @@ export class OrdersComponent implements OnInit {
    cambiarEstado(group: any, estado: any) {
      group.items.forEach((item: any) => item.estado = estado);
    }
-
+  procesarPedido(group: any) {
+    debugger;
+    group.items.forEach((item: any) => {
+      item.idpedido = item.idpedido;
+      item.stock= item.stock;
+      item.fechapedido= item.fechapedido;
+      item.codigopedido= item.codigopedido;
+      item.estado = { idestado: item.estado.idestado };
+      item.cliente={idcliente:item.cliente.idcliente};
+      item.producto={idproducto:item.producto.idproducto};
+debugger;
+      this.pedidoServicce.savePedido(item).subscribe({
+      next: (response) => {
+        console.log('Pedido procesado:', response);
+      },
+      error: (error) => {
+        console.error('Error al procesar el pedido:', error);
+      }
+    });
+    });
+    
+  }
  }

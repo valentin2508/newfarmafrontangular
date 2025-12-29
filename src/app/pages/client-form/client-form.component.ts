@@ -25,7 +25,8 @@ export class ClientFormComponent {
   persona:Persona[]=[];
   personaTemporal:any[]=[];
   countPedidos:number=0;
-public data: any
+  public data: any
+  selectedEstado: number | null = null;
 
   clientForm: FormGroup;
 
@@ -39,13 +40,21 @@ public data: any
     private pedidosService: PedidosService,
     private buscarDniService: BuscarDniService
   ) {
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state) {
+      this.selectedEstado = navigation.extras.state['estado'];
+    }
+
     this.clientForm = this.fb.group({
       dni: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
       ruc: ['', [Validators.pattern(/^\d{11}$/)]],
       nombre: ['', Validators.required],
       materno: ['', Validators.required],
       paterno: ['', Validators.required],
-      fechanacimiento: ['', Validators.required],
+      fechanacimiento: ['', [
+        Validators.required, 
+        Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)
+      ]],
       telefono: ['', Validators.required],
       correo: ['', [Validators.required, Validators.email]],
       sexo: ['', Validators.required],
@@ -58,10 +67,8 @@ public data: any
   }
 
   onSubmit(): void {
-    debugger
     if (this.clientForm.valid) 
       {
-        debugger
         this.modificarPersona();
         this.createPedido(this.idcliente);
       } 
@@ -97,6 +104,7 @@ public data: any
                     materno: this.persona[0].materno,
                     //moment(response.list[0].vencimiento, 'DD-MM-YYYY').format('YYYY-MM-DD'),
                     //fechanacimiento: this.persona[0].fechanacimiento,
+                    fechanacimiento: moment(this.persona[0].fechanacimiento).format('YYYY-MM-DD'),
                     telefono: this.persona[0].telefono,
                     correo: this.persona[0].correo,
                     sexo: this.persona[0].sexo,
@@ -125,13 +133,22 @@ public data: any
             {
               debugger;
               this.buscarDniService.BuscarDni(dni).subscribe(
-              response=>{
-              this.data=response;
-              this.personaTemporal=this.data;
-              console.log(this.persona+"----desde response----");
-              //realizar registro en la bd persona y cliente
-              const persona = {
-                    
+              response=>
+                {
+                  this.data=response;
+                  this.personaTemporal=this.data;
+                  console.log(this.persona+"----desde response----");
+                  //realizar registro en la bd persona y cliente
+                  if(this.data==null)
+                    {
+                      alert("DNI no encontrado, Ingrese un DNI válido");
+                      this.dni='';
+                      this.persona=[];
+                      return;
+                    }
+                  debugger;
+                  const persona = {
+                        
                     dni: Number(this.data['dni']), 
                     ruc: Number(this.data['dni']),
                     nombre: this.data['nombres'],
@@ -145,13 +162,33 @@ public data: any
                     tipoPersona:{idtipopersona:1} 
                   };          
                   debugger;  
-                this.personasService.CrearPersona(persona).subscribe(() => {
-                this.BuscarPersona();
-            });
+                  this.personasService.CrearPersona(persona).subscribe(() => 
+                    {
+                      this.BuscarPersona();
+                    });
            
 
-            });
-            
+                });
+                
+            const persona = {
+                        
+                    dni: dni, 
+                    ruc: 10101010101,
+                    nombre: 'anonimo',
+                    materno: 'anonimo',
+                    paterno: 'anonimo',
+                    fechanacimiento: "1900-01-01",
+                    telefono: "900000000",
+                    correo:"anonimo@gmail.com",
+                    sexo: "M",
+                    direccion: "Anonimo",
+                    tipoPersona:{idtipopersona:1}  
+                  };          
+                  debugger;  
+                  this.personasService.CrearPersona(persona).subscribe(() => 
+                    {
+                      this.BuscarPersona();
+                    });
             }
             else
             {
@@ -194,6 +231,11 @@ public data: any
   }
   private createPedido(idCliente: number): void {
     debugger;
+    if (this.selectedEstado === null) {
+      this.toastr.error('No se ha seleccionado un estado para el pedido.');
+      return;
+    }
+
     const cartItems = this.cartService.getCartItems();
     let pedidos:any=[];
     for (const item of cartItems) {
@@ -201,7 +243,7 @@ public data: any
          {
             stock:item.quantity,
             fechapedido: new Date().toISOString(),
-            estado:{idestado:4}, // Asumir estado inicial pedido
+            estado:{idestado: this.selectedEstado }, // Usar estado seleccionado
             cliente:{idcliente:idCliente},
             producto:{idproducto:item.product.idproducto},
             codigopedido: 'PED-' + this.countPedidos,

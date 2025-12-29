@@ -47,7 +47,7 @@ export class ClienteListComponent implements OnInit {
   }
 
   editCliente(id: number): void {
-    this.router.navigate(['form', id], { relativeTo: this.route.parent });
+    this.router.navigate(['form', {id}], { relativeTo: this.route.parent });
   }
 
   deleteCliente(id: number): void {
