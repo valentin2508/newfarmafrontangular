@@ -30,12 +30,10 @@
                     <th class="pb">P.B</th>
                     <th class="pc">P.C</th>
                     <th class="stock">STOCK</th>
-                    <th class="stock">LLEVAR</th>
-                    <th class="center">OPCIONES</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let producto of prod">
+                <tr *ngFor="let producto of prod" (click)="agregarProducto(producto)" style="cursor: pointer;">
                     <td>{{producto.idproducto}}</td>
                     <td>{{producto.nombre}}</td>
                     <td >{{producto.composicion}}</td>
@@ -48,16 +46,6 @@
                     <td>{{producto.precioblister}}</td>
                     <td>{{producto.preciocaja}}</td>
                     <td class="stock">{{producto.stock}}</td>
-                    <td>
-                        <input
-                            id="cantLlevar"
-                            type="number"
-                            [min]=1
-                            [max]="producto.stock"
-                            style="width: 50px;"
-                            [(ngModel)]="producto.cantidadLlevar" >
-                    </td>
-                    <td><button (click)="agregarProducto(producto)">Agregar</button></td>
                 </tr>
             </tbody>
         </table>
@@ -93,7 +81,7 @@
                     <td>{{item.unidadMedida.nombreunidad}}</td>
                     <td>{{item.laboratorio.nombrelaboratorio}}</td>
                     <td>{{item.precioventa}}</td>                    
-                    <td ><input type="number" value={{item.cantidadLlevar}} max="{{item.stock}}"></td>
+                    <td style="text-align: center;">{{item.cantidadLlevar}}</td>
                     <td style="text-align: center;">{{item.subTotal| currency:'PEN':'S/ ':'1.2-2' }}</td>
                     <td><button (click)="eliminarProducto(i)" class="btn-eliminar">Eliminar</button></td>
                 </tr>

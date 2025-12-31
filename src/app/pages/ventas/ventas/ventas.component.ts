@@ -10,6 +10,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { VentasService } from '../../../services/ventas.service';
 import { Venta } from '../../../models/venta.model';
 import { ModalVentasComponent } from '../../modal/modal-ventas/modal-ventas.component';
+import { VentaProductoModalComponent } from '../../modal/venta-producto-modal/venta-producto-modal.component';
 @Component({
   selector: 'app-ventas',
   standalone: true,
@@ -93,43 +94,28 @@ export class VentaComponent implements OnInit {
   
 agregarProducto(producto: Product): void {
   
-   if (!producto.cantidadLlevar || producto.cantidadLlevar <= 0) {
-      alert('La cantidad debe ser mayor a cero');
-      return;
-    }
-    if (producto.cantidadLlevar > producto.stock) {
-      alert('No hay suficiente stock');
-      return;
-    }
-  
-  const datosRecibidos =this.dialog.open(PrecioComponent,{
-  disableClose: true,
-  maxWidth: '727.4px',
-  data:producto
-});
+  const dialogRef = this.dialog.open(VentaProductoModalComponent, {
+    width: '600px',
+    height: '400px',
+    data: { producto: producto }
+  });
 
-datosRecibidos.afterClosed().subscribe(resultado => {
-  debugger;
-  console.log(resultado);
-      if (resultado !== undefined && resultado !== null) { 
-        
-        const existingProductIndex = this.prodDetalle.findIndex(
-          item => item.idproducto === resultado.idproducto && item.tipoPrecioSeleccionado === resultado.tipoPrecioSeleccionado
-        );
-        if (existingProductIndex > -1) {
-          const existingItem = this.prodDetalle[existingProductIndex];
-          existingItem.cantidadLlevar += resultado.cantidadLlevar;
-          existingItem.subTotal += resultado.subTotal; 
-        } else {
-          
-          this.prodDetalle.push(resultado);
-        }
-        this.calcularTotalGeneral();
+  dialogRef.afterClosed().subscribe(resultado => {
+    if (resultado) {
+      const existingProductIndex = this.prodDetalle.findIndex(
+        item => item.idproducto === resultado.idproducto && item.tipoPrecioSeleccionado === resultado.tipoPrecioSeleccionado
+      );
+      if (existingProductIndex > -1) {
+        const existingItem = this.prodDetalle[existingProductIndex];
+        existingItem.cantidadLlevar = (existingItem.cantidadLlevar || 0) + resultado.cantidadLlevar;
+        existingItem.subTotal = (existingItem.subTotal || 0) + resultado.subTotal;
       } else {
-        console.log("Modal cerrado sin datos o cancelado.");
+        this.prodDetalle.push(resultado);
       }
-    });
-  }
+      this.calcularTotalGeneral();
+    }
+  });
+}
   eliminarProducto(index: number): void {
     if (index >= 0 && index < this.prodDetalle.length) {
       this.prodDetalle.splice(index, 1);
@@ -137,7 +123,7 @@ datosRecibidos.afterClosed().subscribe(resultado => {
     }
   }
 calcularTotalGeneral(): void {
-    this.totalVenta = this.prodDetalle.reduce((sum, item) => sum + item.subTotal, 0);
+    this.totalVenta = this.prodDetalle.reduce((sum, item) => sum + (item.subTotal || 0), 0);
   }
   
   

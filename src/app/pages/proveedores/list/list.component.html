@@ -1,0 +1,72 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Lista de Proveedores</h3>
+          <div class="card-tools">
+            <button class="btn btn-primary" (click)="addProveedor()">
+              <i class="fas fa-plus"></i> Nuevo Proveedor
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>DNI</th>
+                <th>RUC</th>
+                <th>Telefono</th>
+                <th>Tipo Persona</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let proveedor of proveedores">
+                <td>{{ proveedor.idproveedor }}</td>
+                <td>{{ proveedor.persona.nombre }}</td>
+                <td>{{ proveedor.persona?.paterno }} {{ proveedor.persona?.materno }}</td>
+                <td>{{ proveedor.persona?.dni }}</td>
+                <td>{{ proveedor.persona?.ruc }}</td>
+                <td>{{ proveedor.persona.telefono }}</td>
+                <td>{{ proveedor.persona.tipoPersona.nombre }}</td>
+                <td>
+                  <button class="btn btn-sm btn-info" (click)="editProveedor(proveedor.idproveedor)">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn btn-sm btn-danger" (click)="deleteProveedor(proveedor.idproveedor)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-sm-12 col-md-5">
+              <div class="dataTables_info">
+                Mostrando {{ (page - 1) * xpage + 1 }} a {{ page * xpage > totalItems ? totalItems : page * xpage }} de {{ totalItems }} registros
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-7">
+              <div class="dataTables_paginate paging_simple_numbers">
+                <ul class="pagination">
+                  <li class="paginate_button page-item previous" [class.disabled]="page === 1">
+                    <button (click)="previousPage()" class="page-link">Anterior</button>
+                  </li>
+                  <li class="paginate_button page-item next" [class.disabled]="page * xpage >= totalItems">
+                    <button (click)="nextPage()" class="page-link">Siguiente</button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

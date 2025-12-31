@@ -1,5 +1,12 @@
 .hero-section {
   background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  height: 250px; /* Reduced height */
+  display: flex; /* Use flexbox to vertically center content */
+  align-items: center; /* Vertically center content */
+}
+
+.contact-info {
+  text-align: left; /* Align text to the left */
 }
 
 .contact-info p {
@@ -98,4 +105,8 @@
 .about-section img {
   max-height: 300px;
   object-fit: cover;
+}
+.contacto{
+  
+  padding-left: 150px;
 }

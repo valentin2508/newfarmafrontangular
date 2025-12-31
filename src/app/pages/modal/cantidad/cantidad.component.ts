@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-cantidad',
+  standalone: true,
   imports: [FormsModule],
   templateUrl: './cantidad.component.html',
   styleUrl: './cantidad.component.css'

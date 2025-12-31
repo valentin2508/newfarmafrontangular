@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ producto.nombre }}</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="dialogRef.close()"></button>
+</div>
+<div class="modal-body">
+  <p><strong>Stock:</strong> {{ producto.stock }}</p>
+  <div class="price-selection">
+    <button class="btn" [class.btn-primary]="selectedPriceType === 'precioventa'" [class.btn-outline-primary]="selectedPriceType !== 'precioventa'" (click)="selectPrice('precioventa')">
+      Unidad: S/ {{ producto.precioventa }}
+    </button>
+    <button class="btn" [class.btn-primary]="selectedPriceType === 'precioblister'" [class.btn-outline-primary]="selectedPriceType !== 'precioblister'" (click)="selectPrice('precioblister')">
+      Blister: S/ {{ producto.precioblister }}
+    </button>
+    <button class="btn" [class.btn-primary]="selectedPriceType === 'preciocaja'" [class.btn-outline-primary]="selectedPriceType !== 'preciocaja'" (click)="selectPrice('preciocaja')">
+      Caja: S/ {{ producto.preciocaja }}
+    </button>
+  </div>
+  <div class="cantidadselect">
+    <label for="quantity">Cantidad:</label>
+    <div class="input-group">
+      <button class="btn btn-outline-secondary" (click)="decrementQuantity()">-</button>
+      <input type="number" id="quantity" class="form-control text-center" [(ngModel)]="quantity" min="1">
+      <button class="btn btn-outline-secondary" (click)="incrementQuantity()">+</button>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="dialogRef.close()">Cancelar</button>
+  <button type="button" class="btn btn-primary" (click)="addToSale()">Agregar</button>
+</div>
