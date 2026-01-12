@@ -52,7 +52,7 @@ export class ProveedorFormComponent implements OnInit {
         Validators.required, 
         Validators.pattern(/^\d{2}-\d{2}-\d{4}$/)
       ]],
-      tipopersona: [null, Validators.required]
+      tipopersona: [null]
     });
 
     const tipopersonas$ = this.tipoPersonaService.listar();
@@ -85,9 +85,9 @@ export class ProveedorFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.proveedorForm.invalid) {
+    /*if (this.proveedorForm.invalid) {
       return;
-    }
+    }*/
     const formValue = this.proveedorForm.value;
     
     const persona: Persona = {
@@ -112,7 +112,7 @@ export class ProveedorFormComponent implements OnInit {
 
     if (this.isEditMode && this.proveedorId) {
       this.proveedorService.guardar(proveedor).subscribe(() => {
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.router.navigate(['../proveedores'], { relativeTo: this.route });
       });
     } else {
       this.proveedorService.guardar(proveedor).subscribe(() => {

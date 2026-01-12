@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { VentasService } from '../../services/ventas.service';
-import { DetalleVentaService } from '../../services/detalleventa.service';
-import { Venta, ventaList } from '../../models/venta.model';
-import { DetalleVenta, DetalleVentaList } from '../../models/detalleventa';
+import { VentasService } from '../../../services/ventas.service';
+import { DetalleVentaService } from '../../../services/detalleventa.service';
+import { Venta, ventaList } from '../../../models/venta.model';
+import { DetalleVenta, DetalleVentaList } from '../../../models/detalleventa';
 import { CommonModule } from '@angular/common';
-import { TicketService } from '../../services/ticket.service';
-import { PaginateComponent } from '../../shared/paginate/paginate.component';
+import { TicketService } from '../../../services/ticket.service';
+import { PaginateComponent } from '../../../shared/paginate/paginate.component';
 
 @Component({
   selector: 'app-reports',

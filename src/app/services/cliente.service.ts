@@ -10,6 +10,7 @@ export class ClienteService {
   constructor(private http: HttpClient) { }
 
   listar(page: number, xpage: number) {
+    debugger;
     return this.http.get<ClienteList>(`/api/cliente?page=${page}&xpage=${xpage}`);
   }
   

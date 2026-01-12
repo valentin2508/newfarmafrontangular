@@ -3,6 +3,11 @@ import { Persona } from "./persona";
 export interface Proveedor {
     idproveedor: number;
     persona?: Persona;
+    nombre?: string;
+    ruc?: string;
+    telefono?: string;
+    email?: string;
+    direccion?: string;
 }
 
 export interface ProveedorList {

@@ -115,7 +115,7 @@ export class ClienteFormComponent implements OnInit {
 
     if (this.isEditMode && this.clienteId) {
       this.clienteService.guardar( cliente).subscribe(() => {
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.router.navigate(['../clientes'], { relativeTo: this.route });
       });
     } else {
       this.clienteService.guardar(cliente).subscribe(() => {

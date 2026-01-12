@@ -146,8 +146,6 @@ calcularTotalGeneral(): void {
     this.error = false;
 
     try {
- 
-       
         const modalVenta =this.dialog.open(ModalVentasComponent, {
         maxWidth: '800px',
         data: this.prodDetalle

@@ -1,0 +1,10 @@
+.tbodys {
+  background-color: #f8f9fa;
+}
+
+.paginador {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
