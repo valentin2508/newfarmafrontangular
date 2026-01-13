@@ -7,11 +7,14 @@
         <input class="form-control" type="text" [(ngModel)]="search" (keydown)="buscar()"/>
     </label>
     
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end mr-10">
-      <button type="button" class="btn btn-primary"  (click)="vertodos(1)">Actualizar</button>  
-      <!--<button  class="btn btn-primary"> <a href="./edit" class="nav-link">Nuevo Registro</a> </button>-->
-      <button  class="btn btn-primary" routerLink="/add">Nuevo Registro</button>
-    </div>
+     <div class="d-grid gap-2 d-md-flex justify-content-md-end mr-10">
+       <button type="button" class="btn btn-success" (click)="exportToExcel()">
+         <i class="fas fa-file-excel"></i> Exportar Excel
+       </button>
+       <button type="button" class="btn btn-primary"  (click)="vertodos(1)">Actualizar</button>
+       <!--<button  class="btn btn-primary"> <a href="./edit" class="nav-link">Nuevo Registro</a> </button>-->
+       <button  class="btn btn-primary" routerLink="/add">Nuevo Registro</button>
+     </div>
       
     
 </div>

@@ -14,9 +14,8 @@ export class VentasService {
    urlList="/api/venta";
 List(page: number, xpage: number){
       return  this.http.get<ventaList>(`${this.urlList}?page=${page}&xpage=${xpage}`);
-     
     }
-   
+
 saveVenta(venta: any) 
   {
     console.log("Datos de venta a enviar:", venta);

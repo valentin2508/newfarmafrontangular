@@ -33,12 +33,14 @@ export class ReportsComprasComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    debugger;
     this.loadCompras();
   }
 
   loadCompras(): void {
     debugger;
     this.comprasService.List(this.currentPage, this.itemsPerPage).subscribe((response: CompraList) => {
+      debugger;
       this.compras = response.list;
       this.agrupados = Object.values(response.list);
       this.totalCompras = response.total;

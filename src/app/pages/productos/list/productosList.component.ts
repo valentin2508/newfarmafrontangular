@@ -12,6 +12,7 @@ import { FiltroPipe } from "../../../shared/pipes/filtro.pipe";
 import { MatDialog } from '@angular/material/dialog';
 import { CartService } from '../../../services/cart.service';
 import { ToastrService } from 'ngx-toastr';
+import * as XLSX from 'xlsx';
 
 
 @Component({
@@ -164,16 +165,51 @@ export class ProductosListComponent implements OnInit{
     }
   }
  }
- nextPage(){
-   this.pagesNumber +=1;
-   this.onindexClic(this.pagesNumber);   
-   if (this.nextCount<=Math.ceil(this.total / this.xpage)-31) {
-    this.nextCount+=this.pagesNumber+28;
-   this.pages = this.generatePageRange(this.nextCount,this.nextCount+30);
-   }
-   else{
-    this.pages = this.generatePageRange(1,30);
-   }
- }
+  nextPage(){
+    this.pagesNumber +=1;
+    this.onindexClic(this.pagesNumber);
+    if (this.nextCount<=Math.ceil(this.total / this.xpage)-31) {
+     this.nextCount+=this.pagesNumber+28;
+    this.pages = this.generatePageRange(this.nextCount,this.nextCount+30);
+    }
+    else{
+     this.pages = this.generatePageRange(1,30);
+    }
+  }
+
+  exportToExcel(): void {
+    // Preparar los datos para exportar
+    
+    this.productoService.getAllProductos(1, this.total).subscribe(response=>{
+      debugger;
+     const dataToExport = response.list.map(producto => ({
+      'ID': producto.idproducto,
+      'Nombre': producto.nombre,
+      'Composición': producto.composicion,
+      'Vencimiento': producto.vencimiento,
+      'Ubicación': producto.ubicacion,
+      'Presentación': producto.presentacion?.nombrepresentacion || '',
+      'Unidad de Medida': producto.unidadMedida?.nombreunidad || '',
+      'Laboratorio': producto.laboratorio?.nombrelaboratorio || '',
+      'Precio Venta': producto.precioventa,
+      'Precio Blister': producto.precioblister,
+      'Precio Caja': producto.preciocaja,
+      'Stock': producto.stock
+    }));
+    // Crear el libro de trabajo
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataToExport);
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Productos');
+
+    // Generar el archivo y descargarlo
+    const fileName = `productos_${new Date().toISOString().split('T')[0]}.xlsx`;
+    XLSX.writeFile(workbook, fileName);
+
+    this.toastr.success('Archivo Excel exportado correctamente');
+    });
+    
+
+    
+  }
 }
  

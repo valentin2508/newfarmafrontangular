@@ -29,14 +29,14 @@ export const routes: Routes = [
     {path:"home", component: HomeComponent},
     {path:"cart", component: CartComponent},
     {path:"orders", component: OrdersComponent},
-    {path:"reports", component: ReportsComponent,
-        children:
+    {path: "dashboard", component: DashboardComponent},
+    {path: "reports", 
+        children: 
         [
-            {    path:"ventas", component: ReportsComponent},
-            {    path:"compras", component: ReportsComprasComponent},
+            { path: "ventas", component: ReportsComponent },
+            { path: "compras", component: ReportsComprasComponent }
         ]
     },
-    //{path:"clientes", component: ClientFormComponent},
     {path:"ventas", component: VentaComponent},
     {path:"clientes", component: ClienteListComponent},
     { path: 'form', component: ClienteFormComponent },//nuevo cliente o editar cliente
@@ -47,6 +47,7 @@ export const routes: Routes = [
     { path:"edit/:id",component:productFormComponent},
     { path: "productos", component: ProductosListComponent },
     { path: "compras", component: ComprasComponent },
-     {path: "**",component:NopageFoundComponent},
+    {path: "**",component:NopageFoundComponent},
+    
     
 ];

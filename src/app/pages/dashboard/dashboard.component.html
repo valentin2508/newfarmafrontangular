@@ -1,1 +1,183 @@
-<p>dashboard works!</p>
+<!-- Content Header (Page header) -->
+
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <!-- Info boxes -->
+    <div class="row">
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box">
+          <span class="info-box-icon bg-info elevation-1"><i class="fas fa-shopping-cart"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Ventas Totales</span>
+            <span class="info-box-number">
+              {{ totalSales | number }}
+            </span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+          <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-calendar-alt"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Ventas Este Mes</span>
+            <span class="info-box-number">{{ currentMonthSales | number }}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+          <span class="info-box-icon bg-success elevation-1"><i class="fas fa-chart-line"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Crecimiento</span>
+            <span class="info-box-number">{{ growthPercentage | number:'1.1-1' }}%</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+          <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Clientes</span>
+            <span class="info-box-number">{{ totalClients }}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+<!-- Sales Chart -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Ventas por Mes</h3>
+          </div>
+          <div class="card-body">
+            <canvas id="salesChart" width="400" height="100"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Main row -->
+    <div class="row">
+      <!-- Left col -->
+      <div class="col-md-8">
+        <!-- TABLE: LATEST ORDERS -->
+        <div class="card">
+          <div class="card-header border-transparent">
+            <h3 class="card-title">Últimas Ventas</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table m-0">
+                <thead>
+                <tr>
+                  <th>ID Venta</th>
+                  <th>Cliente</th>
+                  <th>Estado</th>
+                  <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let venta of latestSales">
+                  <td><a href="javascript:void(0)">{{ venta.idventa }}</a></td>
+                  <td>{{ venta.cliente?.persona?.nombre }}</td>
+                  <td><span class="badge badge-success">{{ venta.serie }}</span></td>
+                  <td>
+                    <div class="sparkbar" data-color="#00a65a" data-height="20">{{ venta.costoventa| number }}</div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.table-responsive -->
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer clearfix">
+            <a href="./reports/ventas" class="btn btn-sm btn-info float-left">Ver Todas las Ventas</a>
+            <a href="./ventas" class="btn btn-sm btn-secondary float-right">Nueva Venta</a>
+          </div>
+          <!-- /.card-footer -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+
+      <div class="col-md-4">
+        <!-- Info Boxes Style 2 -->
+        <div class="info-box mb-3 bg-warning">
+          <span class="info-box-icon"><i class="fas fa-tag"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Productos Vendidos</span>
+            <span class="info-box-number">{{ totalProductsSold }}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+        <div class="info-box mb-3 bg-success">
+          <span class="info-box-icon"><i class="fas fa-heart"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Favoritos</span>
+            <span class="info-box-number">92,050</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+        <div class="info-box mb-3 bg-danger">
+          <span class="info-box-icon"><i class="fas fa-cloud-download-alt"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Descargas</span>
+            <span class="info-box-number">114,381</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+        <div class="info-box mb-3 bg-info">
+          <span class="info-box-icon"><i class="fas fa-comment"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Mensajes Directos</span>
+            <span class="info-box-number">163,921</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+    
+  </div><!--/. container-fluid -->
+</section>
+<!-- /.content -->

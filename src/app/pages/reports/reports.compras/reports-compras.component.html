@@ -18,13 +18,13 @@
         </thead>
         <tbody>
           <ng-container *ngFor="let compra of agrupados">
-            <tr (click)="toggleDetalles(compra.idcompra!)" style="cursor: pointer;">
+            <tr (click)="toggleDetalles(compra.idcompra!)" style="cursor: pointer;"  class="prueba">
               <td>{{ compra.idcompra }}</td>
               <td>{{ compra.serie }}</td>
               <td>{{ compra.correlativo }}</td>
-              <td>{{ compra.fechaCompra | date: 'dd/MM/yyyy' }}</td>
-              <td>S/ {{ compra.costoCompra?.toFixed(2) }}</td>
-              <td>{{ compra.proveedor?.nombre }}</td>
+              <td>{{ compra.fechacompra | date: 'dd/MM/yyyy' }}</td>
+              <td>S/ {{ compra.costocompra?.toFixed(2) }}</td>
+              <td>{{ compra.proveedor.persona.nombre }}</td>
               <td>{{ compra.empleado?.persona.nombre }} {{ compra.empleado?.persona.paterno }}</td>
             </tr>
             <tr class="tbodys" *ngIf="selectedCompraId === compra.idcompra">

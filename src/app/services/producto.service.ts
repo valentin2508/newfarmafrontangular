@@ -33,6 +33,9 @@ export class ProductoService {
   getProductos(index:number){
     return this.http.get<ProductList>(this.urlEndpoint+index+"&xpage=5");
   }
+  getAllProductos(index:number,xpage:number){
+    return this.http.get<ProductList>(this.urlEndpoint+index+"&xpage="+xpage);
+  }
   getProductosBySearch(search:string){
     return this.http.get<ProductList>(this.url+"&search="+search);
   }

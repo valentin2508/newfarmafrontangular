@@ -66,10 +66,22 @@ export class HomeComponent implements OnInit {
   }
 
   getProductImage(product: Product, index: number): string {
+    debugger;
+    const nombre = product.nombre 
+    ? product.nombre.toUpperCase().split(/[\s\/]+/).filter(Boolean).join('-') 
+    : '';
     if (index === 0) {
-      return '/assets/img/BENCILPENICILINA-PROCAINICA-1-000-000UI.png';
+      return '/assets/img/' + nombre + '.png';
+    } else if (index === 1) {
+      return '/assets/img/GRAVDAN 50MG-5ML.png';
+    } else if (index === 2) {
+      return '/assets/img/TRAMADOL CLORHIDRATO 100MG-2ML.png';}
+    else if (index === 3) {
+      return '/assets/img/OXACILINA 1G.png';}
+    else if (index === 4) {
+      return '/assets/img/AMITRIPTILINA 25 MG.png';
     }
-    return '/assets/img/product-placeholder.png';
+    return '/assets/img/default.png';
   }
 
   getQuantity(productId: number): number {
