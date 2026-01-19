@@ -11,9 +11,9 @@
         <div class="info-box">
           <span class="info-box-icon bg-info elevation-1"><i class="fas fa-shopping-cart"></i></span>
 
-          <div class="info-box-content">
+          <div class="info-box-content text-center">
             <span class="info-box-text">Ventas Totales</span>
-            <span class="info-box-number">
+            <span class="info-box-number ">
               {{ totalSales | number }}
             </span>
           </div>
@@ -26,9 +26,9 @@
         <div class="info-box mb-3">
           <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-calendar-alt"></i></span>
 
-          <div class="info-box-content">
-            <span class="info-box-text">Ventas Este Mes</span>
-            <span class="info-box-number">{{ currentMonthSales | number }}</span>
+          <div class="info-box-content text-center">
+            <span class="info-box-text">Ventas En Este Mes</span>
+            <span class="info-box-number ">{{ currentMonthSales | number }}</span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -38,9 +38,9 @@
         <div class="info-box mb-3">
           <span class="info-box-icon bg-success elevation-1"><i class="fas fa-chart-line"></i></span>
 
-          <div class="info-box-content">
+          <div class="info-box-content text-center">
             <span class="info-box-text">Crecimiento</span>
-            <span class="info-box-number">{{ growthPercentage | number:'1.1-1' }}%</span>
+            <span class="info-box-number ">{{ growthPercentage | number:'1.1-1' }}%</span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -51,8 +51,8 @@
         <div class="info-box mb-3">
           <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
 
-          <div class="info-box-content">
-            <span class="info-box-text">Clientes</span>
+          <div class="info-box-content text-center">
+            <span class="info-box-text ">Clientes</span>
             <span class="info-box-number">{{ totalClients }}</span>
           </div>
           <!-- /.info-box-content -->

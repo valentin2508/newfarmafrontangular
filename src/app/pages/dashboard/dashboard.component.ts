@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { VentasService } from '../../services/ventas.service';
 import { Venta } from '../../models/venta.model';
 import Chart from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-dashboard',
@@ -102,6 +103,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     const labels = Object.keys(this.salesByMonth).sort();
     const data = labels.map(label => this.salesByMonth[label]);
 
+    Chart.register(ChartDataLabels);
+
     this.chart = new Chart(ctx, {
       data: {
         labels: labels,
@@ -128,6 +131,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         }]
       },
       options: {
+        plugins: {
+          datalabels: {
+            display: (context) => context.dataset.type === 'bar',
+            anchor: 'end',
+            align: 'top',
+            formatter: (value) => value.toString()
+          }
+        },
         scales: {
           y: {
             beginAtZero: true

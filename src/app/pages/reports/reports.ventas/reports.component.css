@@ -10,3 +10,11 @@
 .tbodys{
     border: solid 2px red;
 }
+.form-control{
+    border-color: rgb(255, 0, 0);
+    content: 🔍;
+    position: static;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-15%);
+}

@@ -21,6 +21,8 @@ import { ClienteFormComponent } from './pages/clientes/form/form.component';
 import { ProveedorListComponent } from './pages/proveedores/list/list.component';
 import { ProveedorFormComponent } from './pages/proveedores/form/form.component';
 import { ComprasComponent } from './pages/compras/compras';
+import { EmpleadosListComponent } from './pages/empleados/list/list.component';
+import { FormComponent } from './pages/empleados/form/form.component';
 
 export const routes: Routes = [
     {path: "",component: LoginComponent},
@@ -39,6 +41,9 @@ export const routes: Routes = [
     },
     {path:"ventas", component: VentaComponent},
     {path:"clientes", component: ClienteListComponent},
+    {path:"empleados", component: EmpleadosListComponent},
+    { path: 'empleados/agregar', component: FormComponent },
+    { path: 'empleados/editar/:id', component: FormComponent },
     { path: 'form', component: ClienteFormComponent },//nuevo cliente o editar cliente
     { path: 'client-form', component: ClientFormComponent },//este es para el formulario de cliente al hacer venta
     {path: 'proveedores',component: ProveedorListComponent, data: { title: 'Proveedores' }},
