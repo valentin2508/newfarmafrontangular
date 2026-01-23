@@ -1,0 +1,33 @@
+ <div class="container-fluid">
+   <div class="row justify-content-center">
+     <div class="col-md-6">
+       <div class="card card-primary">
+         <div class="card-header">
+           <h3 class="card-title">{{ isEditMode ? 'Editar Unidad de Medida' : 'Agregar Unidad de Medida' }}</h3>
+         </div>
+         <form [formGroup]="unidadmedidaForm" (ngSubmit)="onSubmit()">
+           <div class="card-body">
+             <div class="form-group">
+               <label for="nombreunidadmedida">Nombre de la Unidad de Medida</label>
+               <input
+                 type="text"
+                 class="form-control"
+                 id="nombreunidad"
+                 formControlName="nombreunidad"
+                 placeholder="Ingrese el nombre de la unidad de medida"
+               />
+             </div>
+           </div>
+           <div class="card-footer">
+             <button type="submit" class="btn btn-primary" [disabled]="!unidadmedidaForm.valid">
+               {{ isEditMode ? 'Actualizar' : 'Guardar' }}
+             </button>
+             <button type="button" class="btn btn-secondary ml-2" (click)="cancel()">
+               Cancelar
+             </button>
+           </div>
+         </form>
+       </div>
+     </div>
+   </div>
+ </div>

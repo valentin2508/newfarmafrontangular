@@ -7,58 +7,67 @@
         </div>
         <form [formGroup]="proveedorForm" (ngSubmit)="onSubmit()">
           <div class="card-body">
-            <div class="form-group">
-              <label for="nombre">Nombre</label>
-              <input type="text" id="nombre" formControlName="nombre" class="form-control" placeholder="Nombre del proveedor">
+            <div class="form-row">
+                  <div class="form-group col-md-6">
+                  <label for="dni">DNI</label>
+                  <input type="text" id="dni" formControlName="dni" class="form-control" placeholder="DNI">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="ruc">RUC</label>
+                    <input type="text" id="ruc" formControlName="ruc" class="form-control" placeholder="RUC">
+                  </div>
             </div>
-            <div class="form-group">
-              <label for="paterno">Paterno</label>
-              <input type="text" id="paterno" formControlName="paterno" class="form-control" placeholder="Apellido paterno del proveedor">
+            <div class="form-row">
+                  <div class="form-group col-md-5">
+                  <label for="nombre">Nombre</label>
+                  <input type="text" id="nombre" formControlName="nombre" class="form-control" placeholder="Nombre del proveedor">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="paterno">Paterno</label>
+                    <input type="text" id="paterno" formControlName="paterno" class="form-control" placeholder="Apellido paterno del proveedor">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="materno">Materno</label>
+                    <input type="text" id="materno" formControlName="materno" class="form-control" placeholder="Apellido materno del proveedor">
+                  </div>
             </div>
-            <div class="form-group">
-              <label for="materno">Materno</label>
-              <input type="text" id="materno" formControlName="materno" class="form-control" placeholder="Apellido materno del proveedor">
+            
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                <label for="correo">Email</label>
+                <input type="email" id="correo" formControlName="correo" class="form-control" placeholder="Email">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="telefono">Teléfono</label>
+                  <input type="text" id="telefono" formControlName="telefono" class="form-control" placeholder="Teléfono">
+                </div>
+                <div class="form-group col-md-5">
+                  <label for="direccion">Dirección</label>
+                  <input type="text" id="direccion" formControlName="direccion" class="form-control" placeholder="Dirección">
+                </div>
             </div>
-            <div class="form-group">
-              <label for="dni">DNI</label>
-              <input type="text" id="dni" formControlName="dni" class="form-control" placeholder="DNI">
-            </div>
-            <div class="form-group">
-              <label for="ruc">RUC</label>
-              <input type="text" id="ruc" formControlName="ruc" class="form-control" placeholder="RUC">
-            </div>
-            <div class="form-group">
-              <label for="correo">Email</label>
-              <input type="email" id="correo" formControlName="correo" class="form-control" placeholder="Email">
-            </div>
-            <div class="form-group">
-              <label for="telefono">Teléfono</label>
-              <input type="text" id="telefono" formControlName="telefono" class="form-control" placeholder="Teléfono">
-            </div>
-            <div class="form-group">
-              <label for="direccion">Dirección</label>
-              <input type="text" id="direccion" formControlName="direccion" class="form-control" placeholder="Dirección">
-            </div>
-            <div class="form-group">
-              <label for="sexo">Sexo</label>
-              <input type="text" id="sexo" formControlName="sexo" class="form-control" placeholder="Sexo">
-            </div>
-            <div class="form-group">
-              <label for="tipopersona">Tipo Persona</label>
-              <select id="tipopersona" class="form-select" formControlName="tipopersona" [compareWith]="compareWith">
-                <option [ngValue]="null" disabled>Seleccione un tipo</option>
-                <option *ngFor="let tipo of tipopersonas" [ngValue]="tipo">
-                  {{tipo.nombre}}
-                </option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="fechanacimiento">Fecha Nacimiento</label>
-              <input type="date" id="fechanacimiento" formControlName="fechanacimiento" class="form-control" placeholder="Fecha Nacimiento">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                <label for="sexo">Sexo</label>
+                <input type="text" id="sexo" formControlName="sexo" class="form-control" placeholder="Sexo">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="tipopersona">Tipo Persona</label>
+                  <select id="tipopersona" class="form-select" formControlName="tipopersona" [compareWith]="compareWith">
+                    <option [ngValue]="null" disabled>Seleccione un tipo</option>
+                    <option *ngFor="let tipo of tipopersonas" [ngValue]="tipo">
+                      {{tipo.nombre}}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="fechanacimiento">Fecha Nacimiento</label>
+                  <input type="date" id="fechanacimiento" formControlName="fechanacimiento" class="form-control" placeholder="Fecha Nacimiento">
+                </div>
             </div>
           </div>
           <div class="card-footer text-center">
-            <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
+            <button type="submit" class="btn btn-primary mr-2 mr-md-3">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
             <a [routerLink]="['/proveedores']" class="btn btn-secondary">Cancelar</a>
           </div>
         </form>

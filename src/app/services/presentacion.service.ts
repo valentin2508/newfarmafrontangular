@@ -1,20 +1,30 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PresentacionList } from '../models/presentacion';
+import { HttpClient } from '@angular/common/http';
+import { Presentacion, PresentacionList } from '../models/presentacion';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PresentacionService {
-  private url: string="/api/presentacion?page=1&xpage=600";
 
-  constructor(private http:HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  list(){
-    return this.http.get<PresentacionList>(this.url);
+  List(page: number = 1, xpage: number = 100) {
+    return this.http.get<PresentacionList>(`/api/presentacion?page=${page}&xpage=${xpage}`);
   }
 
-  getPresentacion(index:number){
-    return this.http.get<PresentacionList>(this.url+index+"&xpage=10");
+  guardar(presentacion: any) {
+    return this.http.post<any>('/api/presentacion', presentacion, {
+      observe: 'response'
+    });
   }
+
+  getById(id: number) {
+    return this.http.get<any>('api/presentacion?page=1&xpage=10&idpresentacion=' + id);
+  }
+
+  eliminar(id: number) {
+    return this.http.delete('/api/presentacion/' + id);
+  }
+
 }

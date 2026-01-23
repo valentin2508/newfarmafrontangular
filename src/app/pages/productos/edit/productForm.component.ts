@@ -156,19 +156,19 @@ export class productFormComponent  implements OnInit
       
       // Cargar las unidades de medida si aún no están disponibles
       if (!this.unidadmedida || this.unidadmedida.length === 0) {
-        this.unidadmedidaService.list().subscribe(unidades => {
+        this.unidadmedidaService.List().subscribe(unidades => {
           this.unidadmedida = unidades.list;
   
           // Una vez que las unidades están cargadas, parchea el formulario
           this.parcharFormulario(response);
         });
         
-        this.presentacionService.list().subscribe(presentaciones=>{
+        this.presentacionService.List().subscribe(presentaciones=>{
           this.presentacion=presentaciones.list;
           this.parcharFormulario(response);
         });
 
-        this.laboratorioService.list().subscribe(laboratorio=>{
+        this.laboratorioService.List().subscribe(laboratorio=>{
            this.laboratorio=laboratorio.list;
            this.parcharFormulario(response);
           });
@@ -207,7 +207,7 @@ export class productFormComponent  implements OnInit
  
   //trae toda la presentacion
   verPresentacion():void{
-    this.presentacionService.list().subscribe(
+    this.presentacionService.List().subscribe(
       response=>{
         this.presentacion = response.list;
         
@@ -216,7 +216,7 @@ export class productFormComponent  implements OnInit
     }
     //trae toda la unidad de medida
   verUnidadMedida():void{
-    this.unidadmedidaService.list().subscribe(
+    this.unidadmedidaService.List().subscribe(
       response=>{
         this.unidadmedida = response.list;
        
@@ -225,7 +225,7 @@ export class productFormComponent  implements OnInit
     }
  //trae toda laboratorio
  verLaboratorio():void{
-  this.laboratorioService.list().subscribe(
+  this.laboratorioService.List().subscribe(
     response=>{
       this.laboratorio = response.list;
     }

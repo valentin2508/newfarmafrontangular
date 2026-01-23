@@ -140,34 +140,65 @@
             </ul>
           </li>
           
-         
-          
-          <li class="nav-header">EXAMPLES</li>
-          
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="fas fa-circle nav-icon"></i>
-              <p>Level 1</p>
+            <a routerLink="/configuracion" class="nav-link">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>
+                CONFIGURACIONES
+                <i class="right fas fa-angle-left"></i>
+              </p>
             </a>
+            <ul class="nav nav-treeview">
+              
+              <li class="nav-item">
+                <a href="/empresas" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Empresas</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/cargos" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Cargos</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/usuarios" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Usuarios</p>
+                </a>
+              </li>
+            </ul>
           </li>
-          <li class="nav-header">LABELS</li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a routerLink="#" class="nav-link">
+              <i class="nav-icon fas fa-car"></i>
+              <p>
+                CARACTERISTICAS
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              
+              <li class="nav-item">
+            <a href="/unidadmedida" class="nav-link">
               <i class="nav-icon far fa-circle text-danger"></i>
-              <p class="text">Important</p>
+              <p class="text">Unidad de Medida</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="/laboratorio" class="nav-link">
               <i class="nav-icon far fa-circle text-warning"></i>
-              <p>Warning</p>
+              <p class="text">Laboratorio</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="/presentacion" class="nav-link">
               <i class="nav-icon far fa-circle text-info"></i>
-              <p>Informational</p>
+              <p class="text">Presentacion</p>
             </a>
+          </li>
+            </ul>
           </li>
         </ul>
       </nav>

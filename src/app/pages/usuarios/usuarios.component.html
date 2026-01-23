@@ -1,1 +1,104 @@
-<p>usuarios works!</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Lista de Usuarios</h3>
+          <div class="card-tools">
+            <button class="btn btn-primary" (click)="addUsuario()">
+              <i class="fas fa-plus"></i> Nuevo Usuario
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre de Usuario</th>
+                <th>Cargo</th>
+                <th>Fecha de Creación</th>
+                <th class="text-end">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let usr of usuarios">
+                <td>{{ usr.idusuario }}</td>
+                <td>{{ usr.nombreusuario }}</td>
+                <td>{{ usr.cargo?.nombrecargo }}</td>
+                <td>{{ usr.fechacreacion | date:'short' }}</td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-info" (click)="editUsuario(usr.idusuario)">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn btn-sm btn-danger" (click)="deleteUsuario(usr.idusuario)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-sm-12 col-md-5">
+              <div class="dataTables_info" role="status" aria-live="polite">
+                Mostrando {{ (page - 1) * xpage + 1 }} a {{ page * xpage > totalItems ? totalItems : page * xpage }} de {{ totalItems }} registros
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-7">
+              <div class="dataTables_paginate paging_simple_numbers">
+                <ul class="pagination">
+                  <li class="paginate_button page-item previous" [class.disabled]="page === 1">
+                    <button (click)="previousPage()" class="page-link">Anterior</button>
+                  </li>
+                  <li class="paginate_button page-item next" [class.disabled]="page * xpage >= totalItems">
+                    <button (click)="nextPage()" class="page-link">Siguiente</button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ isEditMode ? 'Editar Usuario' : 'Nuevo Usuario' }}</h5>
+        <button type="button" class="close" (click)="closeModal()">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="usuarioForm">
+          <div class="form-group">
+            <label for="nombreusuario">Nombre de Usuario</label>
+            <input type="text" class="form-control" id="nombreusuario" formControlName="nombreusuario" required>
+          </div>
+          <div class="form-group">
+            <label for="clave">Clave</label>
+            <input type="password" class="form-control" id="clave" formControlName="clave" required>
+          </div>
+          <div class="form-group">
+            <label for="cargo">Cargo</label>
+            <select class="form-control" id="cargo" formControlName="cargo" required>
+              <option value="">Seleccione un cargo</option>
+              <option *ngFor="let c of cargos" [value]="c.idcargo">{{ c.nombrecargo }}</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="saveUsuario()" [disabled]="!usuarioForm.valid">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop show" *ngIf="showModal"></div>

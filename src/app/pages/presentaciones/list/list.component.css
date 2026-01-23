@@ -1,0 +1,6 @@
+/* Add any custom styles for the presentaciones list component */
+.card-header h2 {
+    padding-left: 35%;
+    font-weight: bold;
+   font-weight: 500px;
+}

@@ -1,6 +1,6 @@
-interface UnidadMedida{
+export interface UnidadMedida{
     idunidadmedida: number;
-    nombreunidadmedida: string;
+    nombreunidad: string;
 }
 export interface UnidadMedidaList {
     total: number;

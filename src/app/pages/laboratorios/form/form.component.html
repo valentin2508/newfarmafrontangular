@@ -1,0 +1,33 @@
+ <div class="container-fluid">
+   <div class="row justify-content-center">
+     <div class="col-md-6">
+       <div class="card card-primary">
+         <div class="card-header">
+           <h3 class="card-title">{{ isEditMode ? 'Editar Laboratorio' : 'Agregar Laboratorio' }}</h3>
+         </div>
+         <form [formGroup]="laboratorioForm" (ngSubmit)="onSubmit()">
+           <div class="card-body">
+             <div class="form-group">
+               <label for="nombrelaboratorio">Nombre del Laboratorio</label>
+               <input
+                 type="text"
+                 class="form-control"
+                 id="nombrelaboratorio"
+                 formControlName="nombrelaboratorio"
+                 placeholder="Ingrese el nombre del laboratorio"
+               />
+             </div>
+           </div>
+           <div class="card-footer">
+             <button type="submit" class="btn btn-primary" [disabled]="!laboratorioForm.valid">
+               {{ isEditMode ? 'Actualizar' : 'Guardar' }}
+             </button>
+             <button type="button" class="btn btn-secondary ml-2" (click)="cancel()">
+               Cancelar
+             </button>
+           </div>
+         </form>
+       </div>
+     </div>
+   </div>
+ </div>

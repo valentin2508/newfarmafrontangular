@@ -1,5 +1,5 @@
-interface Laboratorio{
-    idunidadmedida: number;
+export interface Laboratorio{
+    idlaboratorio: number;
     nombrelaboratorio: string;
 }
 export interface LaboratorioList {

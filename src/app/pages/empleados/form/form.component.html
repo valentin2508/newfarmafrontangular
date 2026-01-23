@@ -131,10 +131,12 @@
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" [disabled]="!empleadoForm.valid">
-              {{ isEditMode ? 'Actualizar' : 'Crear' }} Empleado
-            </button>
-            <button type="button" class="btn btn-secondary ml-2" (click)="cancel()">Cancelar</button>
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary" [disabled]="!empleadoForm.valid">
+                {{ isEditMode ? 'Actualizar' : 'Crear' }} Empleado
+                </button>
+                <button type="button" class="btn btn-secondary ml-2" (click)="cancel()">Cancelar</button>
+            </div>
           </form>
         </div>
       </div>

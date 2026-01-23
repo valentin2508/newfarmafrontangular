@@ -1,6 +1,6 @@
-interface Presentacion{
+export interface Presentacion{
     idpresentacion: number;
-    nombre: string;
+    nombrepresentacion: string;
 }
 export interface PresentacionList {
     total: number;

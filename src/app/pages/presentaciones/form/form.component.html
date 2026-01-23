@@ -1,0 +1,33 @@
+ <div class="container-fluid">
+   <div class="row justify-content-center">
+     <div class="col-md-6">
+       <div class="card card-primary">
+         <div class="card-header">
+           <h3 class="card-title">{{ isEditMode ? 'Editar Presentación' : 'Agregar Presentación' }}</h3>
+         </div>
+         <form [formGroup]="presentacionForm" (ngSubmit)="onSubmit()">
+           <div class="card-body">
+             <div class="form-group">
+               <label for="nombre">Nombre de la Presentación</label>
+               <input
+                 type="text"
+                 class="form-control"
+                 id="nombre"
+                 formControlName="nombre"
+                 placeholder="Ingrese el nombre de la presentación"
+               />
+             </div>
+           </div>
+           <div class="card-footer">
+             <button type="submit" class="btn btn-primary" [disabled]="!presentacionForm.valid">
+               {{ isEditMode ? 'Actualizar' : 'Guardar' }}
+             </button>
+             <button type="button" class="btn btn-secondary ml-2" (click)="cancel()">
+               Cancelar
+             </button>
+           </div>
+         </form>
+       </div>
+     </div>
+   </div>
+ </div>

@@ -1,24 +1,30 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UnidadMedidaList } from '../models/unidadmedida';
+import { HttpClient } from '@angular/common/http';
+import { UnidadMedida, UnidadMedidaList } from '../models/unidadmedida';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UnidadmedidaService {
 
-  private url: string="/api/unidadmedida?page=1&xpage=600";
-                              
+  constructor(private http: HttpClient) { }
 
-  constructor(private http:HttpClient) {}
-
-  list(){
-    return this.http.get<UnidadMedidaList>(this.url);
+  List(page: number = 1, xpage: number = 100) {
+    return this.http.get<UnidadMedidaList>(`/api/unidadmedida?page=${page}&xpage=${xpage}`);
   }
 
-  getPresentacion(index:number){
-    return this.http.get<UnidadMedidaList>(this.url+index+"&xpage=10");
+  guardar(unidadmedida: any) {
+    return this.http.post<any>('/api/unidadmedida', unidadmedida, {
+      observe: 'response'
+    });
   }
 
+  getById(id: number) {
+    return this.http.get<any>('api/unidadmedida?page=1&xpage=10&idunidadmedida=' + id);
+  }
+
+  eliminar(id: number) {
+    return this.http.delete('/api/unidadmedida/' + id);
+  }
 
 }
