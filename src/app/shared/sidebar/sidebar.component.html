@@ -8,15 +8,26 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user (optional) -->
+<!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
           <img src="./assets/dist/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="https://www.linkedin.com/in/jose-darwin-valentin-vicente-686045a3/" class="d-block">Jose Valentin</a>
+          <a class="d-block">
+            {{ currentUser?.nombreusuario || 'Usuario' }}
+            <small *ngIf="isVisitante" class="d-block text-warning">(VISITANTE)</small>
+          </a>
         </div>
       </div>
+
+<!-- Debug Info (temporal)
+      <div class="p-2 mb-2 bg-warning text-dark" style="font-size: 12px;" *ngIf="currentUser">
+        <strong>DEBUG:</strong><br>
+        Usuario: {{ currentUser?.nombreusuario || 'No definido' }}<br>
+        ID Cargo: {{ currentUser?.cargo?.idcargo || 'No definido' }}<br>
+        Es Visitante: {{ isVisitante ? 'SÍ' : 'NO' }}
+      </div> -->
 
       <!-- SidebarSearch Form -->
       <div class="form-inline">
@@ -30,176 +41,205 @@
         </div>
       </div>
 
-      <!-- Sidebar Menu -->
+<!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+          <!-- Menús para VISITANTE (solo home, cart, y client-form) -->
+          <li class="nav-item" *ngIf="isVisitante">
+            <a href="/home" class="nav-link">
+              <i class="nav-icon fas fa-home"></i>
               <p>
-                Dashboard
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              
-              <li class="nav-item">
-                <a href="/dashboard" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard ventas</p>
-                </a>
-              </li>
-              
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a routerLink="/reports" class="nav-link">
-              <i class="nav-icon fas fa-chart-bar"></i>
-              <p>
-                Reportes
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              
-              <li class="nav-item">
-                <a href="./reports/ventas" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Reporte de ventas</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./reports/compras" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Reporte de compras</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="./clientes" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
-              <p>
-                Clientes
+                Inicio
               </p>
             </a>
           </li>
-           <li class="nav-item">
-             <a href="./proveedores" class="nav-link">
-               <i class="nav-icon fas fa-truck"></i>
-               <p>
-                 Proveedores
-               </p>
-             </a>
-           </li>
-           <li class="nav-item">
-             <a href="./compras" class="nav-link">
-               <i class="nav-icon fas fa-shopping-cart"></i>
-               <p>
-                 Compras
-               </p>
-             </a>
-           </li>
-          
-          
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
+          <li class="nav-item" *ngIf="isVisitante">
+            <a href="/cart" class="nav-link">
+              <i class="nav-icon fas fa-shopping-cart"></i>
               <p>
-                Charts
-                <i class="right fas fa-angle-left"></i>
+                Mi Carrito
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="../charts/chartjs.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>ChartJS</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../charts/flot.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Flot</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../charts/inline.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inline</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../charts/uplot.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>uPlot</p>
-                </a>
-              </li>
-            </ul>
           </li>
-          
-          <li class="nav-item">
-            <a routerLink="/configuracion" class="nav-link">
-              <i class="nav-icon fas fa-cog"></i>
+          <li class="nav-item" *ngIf="isVisitante">
+            <a href="/client-form" class="nav-link">
+              <i class="nav-icon fas fa-user-plus"></i>
               <p>
-                CONFIGURACIONES
-                <i class="right fas fa-angle-left"></i>
+                Registrar Datos
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              
-              <li class="nav-item">
-                <a href="/empresas" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Empresas</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/cargos" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Cargos</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/usuarios" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Usuarios</p>
-                </a>
-              </li>
-            </ul>
           </li>
-          <li class="nav-item">
-            <a routerLink="#" class="nav-link">
-              <i class="nav-icon fas fa-car"></i>
-              <p>
-                CARACTERISTICAS
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              
-              <li class="nav-item">
-            <a href="/unidadmedida" class="nav-link">
-              <i class="nav-icon far fa-circle text-danger"></i>
-              <p class="text">Unidad de Medida</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="/laboratorio" class="nav-link">
-              <i class="nav-icon far fa-circle text-warning"></i>
-              <p class="text">Laboratorio</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="/presentacion" class="nav-link">
-              <i class="nav-icon far fa-circle text-info"></i>
-              <p class="text">Presentacion</p>
-            </a>
-          </li>
-            </ul>
-          </li>
+
+          <!-- Menús para USUARIOS NORMALES (todos los menús) -->
+          <ng-container *ngIf="!isVisitante">
+            <!-- Add icons to the links using the .nav-icon class
+                 with font-awesome or any other icon font library -->
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                  Dashboard
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                
+                <li class="nav-item">
+                  <a href="/dashboard" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Dashboard ventas</p>
+                  </a>
+                </li>
+                
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a routerLink="/reports" class="nav-link">
+                <i class="nav-icon fas fa-chart-bar"></i>
+                <p>
+                  Reportes
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                
+                <li class="nav-item">
+                  <a href="./reports/ventas" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Reporte de ventas</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="./reports/compras" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Reporte de compras</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="./clientes" class="nav-link">
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                  Clientes
+                </p>
+              </a>
+            </li>
+             <li class="nav-item">
+               <a href="./proveedores" class="nav-link">
+                 <i class="nav-icon fas fa-truck"></i>
+                 <p>
+                   Proveedores
+                 </p>
+               </a>
+             </li>
+             <li class="nav-item">
+               <a href="./compras" class="nav-link">
+                 <i class="nav-icon fas fa-shopping-cart"></i>
+                 <p>
+                   Compras
+                 </p>
+               </a>
+             </li>
+             
+             
+             <li class="nav-item">
+               <a href="#" class="nav-link">
+                 <i class="nav-icon fas fa-chart-pie"></i>
+                 <p>
+                   Charts
+                   <i class="right fas fa-angle-left"></i>
+                 </p>
+               </a>
+               <ul class="nav nav-treeview">
+                 <li class="nav-item">
+                   <a href="../charts/chartjs.html" class="nav-link">
+                     <i class="far fa-circle nav-icon"></i>
+                     <p>ChartJS</p>
+                   </a>
+                 </li>
+                 <li class="nav-item">
+                   <a href="../charts/flot.html" class="nav-link">
+                     <i class="far fa-circle nav-icon"></i>
+                     <p>Flot</p>
+                   </a>
+                 </li>
+                 <li class="nav-item">
+                   <a href="../charts/inline.html" class="nav-link">
+                     <i class="far fa-circle nav-icon"></i>
+                     <p>Inline</p>
+                   </a>
+                 </li>
+                 <li class="nav-item">
+                   <a href="../charts/uplot.html" class="nav-link">
+                     <i class="far fa-circle nav-icon"></i>
+                     <p>uPlot</p>
+                   </a>
+                 </li>
+               </ul>
+             </li>
+             
+             <li class="nav-item">
+               <a routerLink="/configuracion" class="nav-link">
+                 <i class="nav-icon fas fa-cog"></i>
+                 <p>
+                   CONFIGURACIONES
+                   <i class="right fas fa-angle-left"></i>
+                 </p>
+               </a>
+               <ul class="nav nav-treeview">
+                 
+                 <li class="nav-item">
+                   <a href="/empresas" class="nav-link">
+                     <i class="far fa-circle nav-icon"></i>
+                     <p>Empresas</p>
+                   </a>
+                 </li>
+                 <li class="nav-item">
+                   <a href="/cargos" class="nav-link">
+                     <i class="far fa-circle nav-icon"></i>
+                     <p>Cargos</p>
+                   </a>
+                 </li>
+                 <li class="nav-item">
+                   <a href="/usuarios" class="nav-link">
+                     <i class="far fa-circle nav-icon"></i>
+                     <p>Usuarios</p>
+                   </a>
+                 </li>
+               </ul>
+             </li>
+             <li class="nav-item">
+               <a routerLink="#" class="nav-link">
+                 <i class="nav-icon fas fa-car"></i>
+                 <p>
+                   CARACTERISTICAS
+                   <i class="right fas fa-angle-left"></i>
+                 </p>
+               </a>
+               <ul class="nav nav-treeview">
+                 
+                 <li class="nav-item">
+               <a href="/unidadmedida" class="nav-link">
+                 <i class="nav-icon far fa-circle text-danger"></i>
+                 <p class="text">Unidad de Medida</p>
+               </a>
+             </li>
+             <li class="nav-item">
+               <a href="/laboratorio" class="nav-link">
+                 <i class="far fa-circle text-warning"></i>
+                 <p class="text">Laboratorio</p>
+               </a>
+             </li>
+             <li class="nav-item">
+               <a href="/presentacion" class="nav-link">
+                 <i class="far fa-circle text-info"></i>
+                 <p class="text">Presentacion</p>
+               </a>
+             </li>
+               </ul>
+             </li>
+          </ng-container>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

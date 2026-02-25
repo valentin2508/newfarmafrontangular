@@ -1,2 +1,5 @@
-<!--<router-outlet></router-outlet>-->
-<app-pages></app-pages>
+<ng-container *ngIf="isLoggedIn$ | async">
+    <app-pages></app-pages>
+</ng-container>
+
+<router-outlet *ngIf="!(isLoggedIn$ | async)"></router-outlet>

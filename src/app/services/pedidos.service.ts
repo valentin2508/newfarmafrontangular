@@ -12,7 +12,7 @@ export class PedidosService {
    constructor(private http: HttpClient) { }
     private url: string = "/api/pedido";
     urlcount= "/api/pedido";
-     urlList ="/api/pedido?page=1&xpage=100";
+     urlList ="/api/pedido?page=1&xpage=1000";
       List()
       {
         return this.http.get<PedidoList>(this.urlList);

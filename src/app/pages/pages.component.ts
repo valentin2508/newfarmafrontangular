@@ -14,5 +14,5 @@ import { PaginateComponent } from '../shared/paginate/paginate.component';
     imports: [HeaderComponent,SidebarComponent,FooterComponent,RouterOutlet]
 })
 export class PagesComponent {
-  
+   
 }

@@ -14,13 +14,13 @@ export class UsuarioService {
   }
 
   guardar(usuario: any) {
-    return this.http.post<any>('/api/usuario', usuario, {
+    return this.http.post<any>('/api/auth/register', usuario, {
       observe: 'response'
     });
   }
 
   getById(id: number) {
-    return this.http.get<any>('api/usuario?page=1&xpage=100&idusuario=' + id);
+    return this.http.get<any>('api/usuario/' + id);
   }
 
   eliminar(id: number) {

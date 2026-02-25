@@ -21,7 +21,20 @@
 <!-- Products Section -->
 <section class="products-section py-5">
   <div class="container">
-    <h2 class="text-center mb-4">Productos Destacados</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="flex-grow-1">
+        <h2 class="text-center">Productos Destacados</h2>
+      </div>
+      <!-- Link al carrito -->
+      <div class="cart-link">
+        <a href="/cart" class="btn btn-success position-relative">
+          <i class="fas fa-shopping-cart"></i> Carrito
+          <span class="badge badge-danger position-absolute" style="top: -8px; right: -8px;">
+            {{ getCartItemCount() }}
+          </span>
+        </a>
+      </div>
+    </div>
     <div class="products-container">
       <button class="jet-listing-grid__slider-icon prev-arrow slick-arrow slider-arrow" (click)="scrollLeft()">
         <i class="fas fa-chevron-left"></i>

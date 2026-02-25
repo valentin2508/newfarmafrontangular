@@ -1,0 +1,161 @@
+/* Overlay oscuro para el modal de registro */
+.register-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10001;
+  backdrop-filter: blur(2px);
+}
+
+/* Contenedor del modal de registro */
+.register-modal {
+  width: 100%;
+  max-width: 450px;
+  margin: 20px;
+  animation: slideInUp 0.3s ease-out;
+  position: relative;
+  z-index: 10002;
+}
+
+/* Animación de entrada */
+@keyframes slideInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos del card */
+.register-modal .card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.register-modal .card-header {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  border: none;
+  padding: 1.5rem;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.register-modal .card-header h4 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+.register-modal .close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  line-height: 1;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-modal .close:hover {
+  opacity: 1;
+}
+
+.register-modal .card-body {
+  padding: 2rem;
+  background: white;
+}
+
+/* Estilos del formulario */
+.register-modal .form-group label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.register-modal .form-control {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  padding: 0.25rem 1rem;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.register-modal .form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.register-modal .btn-primary {
+  height: 45px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  border: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.register-modal .btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0056b3, #004085);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+}
+
+.register-modal .btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Estilos de validación */
+.register-modal .invalid-feedback {
+  display: block;
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.register-modal .form-control.is-invalid {
+  border-color: #dc3545;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .register-modal {
+    max-width: 90%;
+    margin: 10px;
+  }
+  
+  .register-modal .card-body {
+    padding: 1.5rem;
+  }
+  
+  .register-modal .card-header {
+    padding: 1rem;
+  }
+  
+  .register-modal .card-header h4 {
+    font-size: 1.1rem;
+  }
+}

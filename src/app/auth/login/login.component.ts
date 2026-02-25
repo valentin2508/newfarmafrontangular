@@ -4,16 +4,18 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { RegisterComponent } from '../register/register.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RegisterComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  showRegisterModal: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -22,8 +24,8 @@ export class LoginComponent {
     private toastr: ToastrService
   ) {
     this.loginForm = this.fb.group({
-      nombreusuario: ['', Validators.required],
-      clave: ['', Validators.required]
+      usuario: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 
@@ -33,15 +35,35 @@ export class LoginComponent {
       this.authService.login(credentials).subscribe({
         next: (response) => {
           this.toastr.success('Login exitoso');
-          this.router.navigate(['/dashboard']);
+          console.log('Login response:', response);
+          
+          // Force a delay to ensure data is stored
+          setTimeout(() => {
+            const currentUser = this.authService.getUserFromToken();
+            console.log('Usuario after login:', currentUser);
+            this.router.navigate(['/home']);
+          }, 100);
+          
         },
         error: (err) => {
           console.error('Login failed', err);
-          this.toastr.error('Credenciales incorrectas');
+          if (err.status === 401) {
+            this.toastr.error('Credenciales incorrectas');
+          } else {
+            this.toastr.error('Error de conexión con el servidor');
+          }
         }
       });
     } else {
       this.toastr.warning('Por favor, complete todos los campos');
     }
+  }
+
+  openRegisterModal(): void {
+    this.showRegisterModal = true;
+  }
+
+  closeRegisterModal(): void {
+    this.showRegisterModal = false;
   }
 }

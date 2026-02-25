@@ -136,4 +136,10 @@ export class HomeComponent implements OnInit {
     // Reset quantity after adding
     this.quantities[product.idproducto] = 1;
   }
+
+
+
+  getCartItemCount(): number {
+    return this.cartService.getCartItems().reduce((total, item) => total + item.quantity, 0);
+  }
 }

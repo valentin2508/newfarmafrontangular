@@ -1,12 +1,64 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
+  currentUser: any = null;
+  isVisitante: boolean = false;
 
+  constructor(private authService: AuthService, private cdr: ChangeDetectorRef) {}
+
+  ngOnInit(): void {
+    // Check localStorage on init
+    this.checkUserRole();
+    
+    this.authService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+      console.log('Usuario actual en sidebar:', user);
+      
+      this.checkUserRole();
+      this.cdr.detectChanges(); // Force change detection
+    });
+  }
+
+  private checkUserRole(): void {
+    // Extract user data from JWT token
+    const token = this.authService.getToken();
+    let userFromToken = null;
+    
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        userFromToken = payload;
+        console.log('Claims del token:', userFromToken);
+      } catch (e) {
+        console.error('Error al decodificar el token:', e);
+      }
+    }
+    
+    // Get cargo ID from token claims
+    const cargoId = userFromToken?.idcargo || userFromToken?.cargo?.idcargo;
+    console.log('Cargo ID desde token:', cargoId);
+    
+    // Get username from token
+    const username = userFromToken?.nombreusuario || userFromToken?.sub || userFromToken?.user;
+    console.log('Username desde token:', username);
+    
+    // Update component data
+    this.currentUser = {
+      ...this.currentUser,
+      nombreusuario: username,
+      cargo: { idcargo: cargoId }
+    };
+    
+    this.isVisitante = cargoId === 3;
+    console.log('¿Es visitante?', this.isVisitante);
+  }
 }
