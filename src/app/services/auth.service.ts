@@ -31,7 +31,8 @@ export class AuthService {
   }
 
   login(credentials: { usuario: string; password: string }): Observable<any> {
-    return this.http.post<any>('/api/auth/login', credentials).pipe(
+    const url = '/api/auth/login';
+    return this.http.post<any>(url, credentials).pipe(
       tap(response => {
         console.log('Respuesta completa del login:', response);
         console.log('Token:', response.access_token);
@@ -109,6 +110,6 @@ export class AuthService {
   }
 
   register(usuarioData: Partial<usuario>): Observable<any> {
-    return this.http.post('http://localhost:8000/api/auth/register', usuarioData);
+    return this.http.post('/api/auth/register', usuarioData);
   }
 }

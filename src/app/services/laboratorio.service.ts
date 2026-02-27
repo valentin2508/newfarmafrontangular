@@ -21,7 +21,7 @@ export class LaboratorioService {
 
   getById(id: number) {
     debugger;
-    return this.http.get<any>('api/laboratorio?page=1&xpage=10&idlaboratorio=' + id);
+    return this.http.get<any>('/api/laboratorio?page=1&xpage=10&idlaboratorio=' + id);
   }
 
   eliminar(id: number) {

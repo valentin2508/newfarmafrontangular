@@ -20,7 +20,7 @@ export class UnidadmedidaService {
   }
 
   getById(id: number) {
-    return this.http.get<any>('api/unidadmedida?page=1&xpage=10&idunidadmedida=' + id);
+    return this.http.get<any>('/api/unidadmedida?page=1&xpage=10&idunidadmedida=' + id);
   }
 
   eliminar(id: number) {

@@ -13,7 +13,8 @@ export class VentasService {
 
    urlList="/api/venta";
 List(page: number, xpage: number){
-      return  this.http.get<ventaList>(`${this.urlList}?page=${page}&xpage=${xpage}`);
+      return  this.http.get<ventaList>(`/api/venta?page=${page}&xpage=${xpage}`);
+      
     }
  ListWithFilters(page: number, xpage: number, filters: { serie?: string, correlativo?: string, search?: string }){
        let query = `${this.urlList}?page=${page}&xpage=${xpage}`;

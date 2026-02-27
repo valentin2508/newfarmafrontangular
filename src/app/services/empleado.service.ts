@@ -20,7 +20,7 @@ export class EmpleadoService {
   }
 
   getById(id: number) {
-    return this.http.get<any>('api/empleado?page=1&xpage=100&idempleado=' + id);
+    return this.http.get<any>('/api/empleado?page=1&xpage=100&idempleado=' + id);
   }
 
   eliminar(id: number) {

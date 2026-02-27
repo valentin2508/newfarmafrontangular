@@ -10,7 +10,7 @@ export class CargoService {
   constructor(private http: HttpClient) { }
 
   List(page: number = 1, xpage: number = 100) {
-    return this.http.get<CargoList>(`http://localhost:8000/api/cargo?page=${page}&xpage=${xpage}`);
+    return this.http.get<CargoList>(`/api/cargo?page=${page}&xpage=${xpage}`);
   }
 
   guardar(cargo: any) {
@@ -21,7 +21,7 @@ export class CargoService {
 
   getById(id: number) {
     debugger;
-    return this.http.get<any>('api/cargo?page=1&xpage=10&idcargo=' + id);
+    return this.http.get<any>('/api/cargo?page=1&xpage=10&idcargo=' + id);
   }
 
   eliminar(id: number) {

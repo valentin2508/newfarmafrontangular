@@ -20,7 +20,7 @@ export class EmpresaService {
   }
 
   getById(id: number) {
-    return this.http.get<any>('api/empresa?page=1&xpage=10&idempresa=' + id);
+    return this.http.get<any>('/api/empresa?page=1&xpage=10&idempresa=' + id);
   }
 
   eliminar(id: number) {

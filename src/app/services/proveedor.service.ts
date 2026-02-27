@@ -10,9 +10,7 @@ export class ProveedorService {
   constructor(private http: HttpClient) { }
 
   listar(page: number, xpage: number) {
-    debugger;
     return this.http.get<any>(`/api/proveedor?page=${page}&xpage=${xpage}`);
-    
   }
   
   listarByIdPersona(personaId:number) {
@@ -26,7 +24,7 @@ export class ProveedorService {
   }
 
   getById(id: number) {
-    return this.http.get<any>('api/proveedor?page=1&xpage=100&idproveedor=' + id);
+    return this.http.get<any>('/api/proveedor?page=1&xpage=100&idproveedor=' + id);
   }
 
   eliminar(id: number) {

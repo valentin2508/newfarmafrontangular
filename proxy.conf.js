@@ -1,4 +1,4 @@
-const PROXY_HOST = 'http://localhost:8000';
+const PROXY_HOST = 'https://pure-charisma-production-5f5b.up.railway.app';
 
 const PROXY_CONFIG =[
     {

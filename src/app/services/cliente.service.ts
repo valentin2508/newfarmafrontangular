@@ -26,7 +26,7 @@ export class ClienteService {
   }
 
   getById(id: number) {
-    return this.http.get<any>('api/cliente?page=1&xpage=100&idcliente=' + id);
+    return this.http.get<any>('/api/cliente?page=1&xpage=100&idcliente=' + id);
   }
 
   eliminar(id: number) {

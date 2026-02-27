@@ -44,7 +44,7 @@ export class ProductoService {
   }
  
   changeProducto(index:number,product:any){
-    return this.http.put(`/api/${index}`,product);
+    return this.http.put(`/api/producto/${index}`,product);
   }
   saveProducto(data:Producto){
     let save_url="/api/producto";

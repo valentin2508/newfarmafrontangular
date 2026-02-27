@@ -20,7 +20,7 @@ export class UsuarioService {
   }
 
   getById(id: number) {
-    return this.http.get<any>('api/usuario/' + id);
+    return this.http.get<any>('/api/usuario/' + id);
   }
 
   eliminar(id: number) {

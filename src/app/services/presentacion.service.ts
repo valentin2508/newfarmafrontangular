@@ -20,7 +20,7 @@ export class PresentacionService {
   }
 
   getById(id: number) {
-    return this.http.get<any>('api/presentacion?page=1&xpage=10&idpresentacion=' + id);
+    return this.http.get<any>('/api/presentacion?page=1&xpage=10&idpresentacion=' + id);
   }
 
   eliminar(id: number) {
