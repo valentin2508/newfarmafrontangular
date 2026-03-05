@@ -10,7 +10,13 @@
     "serve:ssr": "node server.js",
     "build:ssr": "ng build && ng run NewFarmaProject:server",
     "serve:ssr:NewFarmaProject": "node dist/NewFarmaProject/server/server.mjs",
-    "vercel-build": "npm install --legacy-peer-deps --no-audit --no-fund && npm run build"
+    "vercel-build": "npm install && npm run build"
+  },
+  "overrides": {
+    "@angular/animations": "20.3.15",
+    "primeng": {
+      "@angular/animations": "20.3.15"
+    }
   },
   "private": true,
   "dependencies": {
