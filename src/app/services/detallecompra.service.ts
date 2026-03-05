@@ -14,6 +14,7 @@ export class DetalleCompraService
         return this.http.get<DetalleCompraList>(this.urlList);
     }
     Save(detalle:any){
+        debugger;
         return this.http.post<DetalleCompra>(this.url,detalle,{
             observe: 'response'
         })

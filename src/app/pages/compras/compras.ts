@@ -201,6 +201,7 @@ debugger
   }
 
   agregarProductosACompra() {
+    debugger;
     if (!this.selectedProveedor || !this.selectedComprobante || !this.selectedEmpleado || !this.serie || !this.correlativo) {
       this.toastr.warning('Debe completar todos los campos de la compra');
       return;
@@ -213,7 +214,7 @@ debugger
         serie: this.serie,
         correlativo: this.correlativo,
         proveedor: this.selectedProveedor,
-        tipoComprobante: this.selectedComprobante,
+        tipocomprobante: this.selectedComprobante,
         empleado: this.selectedEmpleado,
         fechacompra: this.fechaCompra,
         costocompra: this.totalCompra,
@@ -223,12 +224,12 @@ debugger;
       this.comprasService.saveCompra(compraData).subscribe({
         next: (response) => {
           const datosDelCuerpo: any | null = response.body;
-          console.log(datosDelCuerpo);
+          debugger
+          console.log("retorno de compras"+datosDelCuerpo);
           if(datosDelCuerpo)
           {
             const idCompra = datosDelCuerpo.idCompra;
             this.RegistrarDetalleCompra(idCompra);
-            // Aquí podrías llamar a otro método para guardar los detalles de la compra si es necesario
           }
           this.toastr.success('Compra creada exitosamente');
           this.mensaje = `✅ Compra creada exitosamente.`;
