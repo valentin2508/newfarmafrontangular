@@ -14,7 +14,8 @@
   },
   "overrides": {
     "primeng": {
-      "@angular/animations": "20.3.15"
+      "@angular/animations": "20.3.15",
+      "@angular/cdk": "$@angular/cdk"
     }
   },
   "private": true,
