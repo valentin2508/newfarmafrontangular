@@ -10,7 +10,7 @@
     "serve:ssr": "node server.js",
     "build:ssr": "ng build && ng run NewFarmaProject:server",
     "serve:ssr:NewFarmaProject": "node dist/NewFarmaProject/server/server.mjs",
-    "vercel-build": "npm install --legacy-peer-deps && npm run build"
+    "vercel-build": "npm install --legacy-peer-deps --no-audit --no-fund && npm run build"
   },
   "private": true,
   "dependencies": {
