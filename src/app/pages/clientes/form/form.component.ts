@@ -86,11 +86,11 @@ export class ClienteFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    debugger;
+    
     /*if (this.clienteForm.invalid) {
       return;
     }*/
-    debugger;
+    
     const formValue = this.clienteForm.value;
     
     const persona: Persona = {

@@ -10,7 +10,7 @@ export class ClienteService {
   constructor(private http: HttpClient) { }
 
   listar(page: number, xpage: number) {
-    debugger;
+
     return this.http.get<ClienteList>(`/api/cliente?page=${page}&xpage=${xpage}`);
   }
   
@@ -18,7 +18,7 @@ export class ClienteService {
     return this.http.get<ClienteList>(`/api/cliente?page=1&xpage=100&persona_idpersona=${personaId}`);
   }
   guardar(Cliente: any) {
-    debugger;
+
     return this.http.post<any>('/api/cliente', Cliente, {
 
       observe: 'response'

@@ -109,7 +109,6 @@ export class ReportsComponent implements OnInit {
   }
 
   toggleFilter(column: string): void {
-    debugger
     switch (column) {
       case 'id':
         this.showFilterId = !this.showFilterId;

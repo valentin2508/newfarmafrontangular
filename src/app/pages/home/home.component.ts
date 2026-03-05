@@ -66,7 +66,6 @@ export class HomeComponent implements OnInit {
   }
 
   getProductImage(product: Product, index: number): string {
-    debugger;
     const nombre = product.nombre 
     ? product.nombre.toUpperCase().split(/[\s\/]+/).filter(Boolean).join('-') 
     : '';

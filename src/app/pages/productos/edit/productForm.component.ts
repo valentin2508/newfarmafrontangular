@@ -200,7 +200,6 @@ export class productFormComponent  implements OnInit
       preciocaja:response.list[0].preciocaja,
       stock:response.list[0].stock
     });
-    debugger;
   }
 
   

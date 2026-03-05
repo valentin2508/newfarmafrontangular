@@ -125,7 +125,6 @@ export class UsuariosComponent implements OnInit {
   }
 
   saveUsuario(): void {
-    debugger
     if (this.usuarioForm.valid) {
       const formValue = this.usuarioForm.value;
       const selectedCargo = this.cargos.find(c => c.idcargo === +formValue.cargo);

@@ -20,7 +20,6 @@ export class CargoService {
   }
 
   getById(id: number) {
-    debugger;
     return this.http.get<any>('/api/cargo?page=1&xpage=10&idcargo=' + id);
   }
 

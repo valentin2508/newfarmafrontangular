@@ -62,13 +62,11 @@ idcliente:number=0;
    ) {
      ;
      //console.log("Datos recibidos en el constructor:------------------------", data);
-     debugger;
      this.prodDetalle = data;
      this.totalVenta = this.prodDetalle.reduce((sum, item) => sum + item.subTotal, 0);
      this.igv =(this.totalVenta * 0.18).toFixed(2) as unknown as number;
      this.subtotal = this.totalVenta - this.igv;
      this.totalVentatemp=this.cambio-this.totalVenta;
-     debugger
     }
    get vueltoCalculado(): number 
    {
@@ -200,7 +198,6 @@ get datosCuenta(): string {
           empleado:{idempleado:1},
           tipoComprobante: {idtipocomprobante:1},
         }
-       debugger
         this.VentasService.saveVenta(venta).subscribe({
           next: (response) => {
             const datosDelCuerpo: RespuestaVenta | null = response.body;

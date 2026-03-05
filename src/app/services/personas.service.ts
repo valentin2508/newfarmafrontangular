@@ -22,7 +22,7 @@ export class PersonasService {
   return this.http.get<PersonaList>(`/api/persona?page=1&xpage=10&dni=${dni}`);
   }
   CrearPersona(persona:any){
-    debugger;
+
     return this.http.post<any>("/api/persona",persona);
   }
 }

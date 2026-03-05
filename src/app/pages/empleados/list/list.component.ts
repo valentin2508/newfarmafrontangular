@@ -26,7 +26,6 @@ export class EmpleadosListComponent implements OnInit {
   loadEmpleados(): void {
     this.empleadoService.listar(this.page, this.xpage).subscribe({
       next: (data) => {
-        debugger;
         console.log('Empleados data:', data);
         this.empleados = data.list;
         this.total = data.total;

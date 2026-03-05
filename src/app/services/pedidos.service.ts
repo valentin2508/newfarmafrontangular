@@ -18,7 +18,6 @@ export class PedidosService {
         return this.http.get<PedidoList>(this.urlList);
       }
      lastPedido(){
-      debugger;
       return this.http.get<string>(this.urlcount+"/lastpedido");
      }
   savePedido(venta: Venta)

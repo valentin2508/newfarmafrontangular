@@ -38,13 +38,11 @@ export class CompraProductoModalComponent implements OnInit {
      this.precioVentaUnidad = this.producto.precioventa || 0;
      this.precioVentaBlister = this.producto.precioblister || 0;
      this.precioVentaCaja = this.producto.preciocaja || 0;
-     debugger
      if (this.producto.vencimiento && (this.producto.vencimiento instanceof Date || typeof this.producto.vencimiento === 'string') && !isNaN(new Date(this.producto.vencimiento).getTime())) {
        this.fechaVencimiento = formatDate(this.producto.vencimiento, 'yyyy-MM-dd', 'en-US');
      } else {
        this.fechaVencimiento = '';
      }
-        debugger
     //formatDate(Date.now(), 'yyyy-dd-MM', 'en-US');
     this.ubicacion = this.producto.ubicacion || '';
     this.composicion = this.producto.composicion || '';
@@ -66,7 +64,6 @@ export class CompraProductoModalComponent implements OnInit {
   loadLastPrecioCompra(ProductId: number):void{
     this.DetalleCompraService.getLastPrecioCompra(ProductId).subscribe(
       response=>{
-        debugger;
           this.precioCompra=response.lastCost? response.lastCost : 0;
       }
     );  

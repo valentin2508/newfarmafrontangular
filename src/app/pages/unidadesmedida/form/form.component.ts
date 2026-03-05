@@ -65,7 +65,6 @@ export class UnidadmedidaFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    debugger;
     if (this.unidadmedidaForm.valid) {
       const formValue = this.unidadmedidaForm.value;
 
@@ -75,7 +74,6 @@ export class UnidadmedidaFormComponent implements OnInit {
       };
 
       if (this.isEditMode && this.unidadmedidaId) {
-        debugger;
         this.unidadmedidaService.guardar(unidadmedida).subscribe({
           next: () => {
             this.toastr.success('Unidad de medida actualizada exitosamente');

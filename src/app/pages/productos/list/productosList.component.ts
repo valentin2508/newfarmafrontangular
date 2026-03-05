@@ -181,7 +181,6 @@ export class ProductosListComponent implements OnInit{
     // Preparar los datos para exportar
     
     this.productoService.getAllProductos(1, this.total).subscribe(response=>{
-      debugger;
      const dataToExport = response.list.map(producto => ({
       'ID': producto.idproducto,
       'Nombre': producto.nombre,

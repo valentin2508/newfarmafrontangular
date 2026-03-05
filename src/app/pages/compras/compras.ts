@@ -97,7 +97,7 @@ export class ComprasComponent implements OnInit {
     if (this.search.length > 0) {
       this.productoService.getProductosBySearch(this.search).subscribe(
         response => {
-          debugger;
+          
           console.log("response----"+response);
           this.prod = response.list;
           this.total = response.total;
@@ -108,7 +108,7 @@ export class ComprasComponent implements OnInit {
     else if (this.codBarra.length > 0) {
       this.productoService.getProductosByCodBarra(this.codBarra).subscribe(
         response => {
-          debugger;
+          
           this.prod = response.list;
           this.total = response.total;
           this.xpage = response.xpage;
@@ -152,7 +152,7 @@ loadempleados(): void {
   }
 
   agregarProducto(producto: Product): void {
-debugger
+
     const dialogRef = this.dialog.open(CompraProductoModalComponent, {
       width: '600px',
       data: { producto: producto }
@@ -201,7 +201,7 @@ debugger
   }
 
   agregarProductosACompra() {
-    debugger;
+    
     if (!this.selectedProveedor || !this.selectedComprobante || !this.selectedEmpleado || !this.serie || !this.correlativo) {
       this.toastr.warning('Debe completar todos los campos de la compra');
       return;
@@ -220,11 +220,11 @@ debugger
         costocompra: this.totalCompra,
        // productos: this.prodDetalle
       };
-debugger;
+
       this.comprasService.saveCompra(compraData).subscribe({
         next: (response) => {
           const datosDelCuerpo: any | null = response.body;
-          debugger
+          
           console.log("retorno de compras"+datosDelCuerpo);
           if(datosDelCuerpo)
           {
@@ -254,7 +254,7 @@ debugger;
   }
   RegistrarDetalleCompra(idcompra:number)
   {
-    debugger;
+    
     for (const producto of this.prodDetalle) {
       const detallecompra={
        compra:{idcompra:idcompra},
@@ -265,9 +265,7 @@ debugger;
        lote : 0,
        total: producto.subTotal,
        }
-       debugger;
-
-     
+       
        const productoupdate:Producto={
         idproducto:producto.idproducto,
         codigoproducto:producto.codigoproducto,
@@ -287,7 +285,7 @@ debugger;
         unidadMedida:producto.unidadMedida,
       }
        //guarda el detalle de compra
-       debugger;
+       
        this.DetalleCompraService.Save(detallecompra).subscribe({
         next: (response:any) => {
           console.log('Detalle de compra guardado:', response);
@@ -297,7 +295,7 @@ debugger;
         }
       });
       //actualiza stock del producto
-      debugger;
+      
       this.productoService.saveProducto(productoupdate).subscribe({
         next: (response:any) => {
           console.log('Stock actualizado:', response);

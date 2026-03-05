@@ -75,7 +75,7 @@ export class CartComponent implements OnInit {
   }
 
   checkout(): void {
-    debugger
+    
     if (this.selectedEstado === null) {
       this.toastr.warning('Por favor, seleccione un estado para el pedido.');
       return;

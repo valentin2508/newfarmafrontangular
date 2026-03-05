@@ -26,7 +26,6 @@ export class OrdersComponent implements OnInit {
     {}
 
   ngOnInit(): void {
-    debugger;
       this.estadoservice.List().subscribe(result=>{
         this.estado=result.list.filter(e => ['PEDIDO', 'ATENDIDO', 'CANCELADO'].includes(e.estado));
         this.estado.sort((a, b) => {
@@ -66,7 +65,6 @@ export class OrdersComponent implements OnInit {
      group.items.forEach((item: any) => item.estado = estado);
    }
   procesarPedido(group: any) {
-    debugger;
     group.items.forEach((item: any) => {
       item.idpedido = item.idpedido;
       item.stock= item.stock;
@@ -75,7 +73,6 @@ export class OrdersComponent implements OnInit {
       item.estado = { idestado: item.estado.idestado };
       item.cliente={idcliente:item.cliente.idcliente};
       item.producto={idproducto:item.producto.idproducto};
-debugger;
       this.pedidoServicce.savePedido(item).subscribe({
       next: (response) => {
         console.log('Pedido procesado:', response);

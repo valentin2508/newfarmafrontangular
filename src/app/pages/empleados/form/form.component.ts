@@ -91,7 +91,7 @@ export class FormComponent implements OnInit {
   }
 
   checkEditMode(): void {
-    debugger;
+    
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.isEditMode = true;
@@ -103,7 +103,7 @@ export class FormComponent implements OnInit {
   loadEmpleado(id: number): void {
     this.empleadoService.getById(id).subscribe({
       next: (data) => {
-        debugger;
+        
         const empleado = data.list[0];
         if (empleado) {
            this.idpersona= empleado.persona?.idpersona,
@@ -183,7 +183,7 @@ export class FormComponent implements OnInit {
         usuario: usuarioObj,
         estado: selectedEstado ? { idestado: selectedEstado.idestado, estado: selectedEstado.estado } : undefined
       };
-debugger;
+
       if (this.isEditMode && this.empleadoId) {
         this.empleadoService.guardar(empleado).subscribe({
           next: () => {

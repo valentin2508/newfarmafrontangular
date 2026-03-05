@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   loadSalesData(): void {
     this.ventasService.List(1, 100).subscribe({
       next: (data) => {
-        debugger;
+        
         const ventas = data.list;
         //this.totalProductsSold=data.total;
         this.processSalesData(ventas);
@@ -99,7 +99,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   createChart(): void {
     const ctx = document.getElementById('salesChart') as HTMLCanvasElement;
     if (!ctx) return;
-    debugger;
+    
     const labels = Object.keys(this.salesByMonth).sort();
     const data = labels.map(label => this.salesByMonth[label]);
 

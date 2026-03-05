@@ -78,7 +78,7 @@ export class ClientFormComponent {
   }
 
   BuscarPersona() { 
-   debugger;
+  
     const dni = this.clientForm.get('dni')?.value;
     this.personasService.BuscarPersonaByDni(dni).subscribe(
       response=>{
@@ -86,7 +86,7 @@ export class ClientFormComponent {
           //si esta en la bd
         if(response.list.length>0 )
           {
-            debugger;
+            
               this.persona =response.list;  
               //this.habilitarBotones = true;      
              
@@ -112,7 +112,7 @@ export class ClientFormComponent {
                   });
                 }
                 else{
-                  debugger;
+                  
                   const Cliente={
                     persona:{
                       idpersona: this.persona[0].idpersona
@@ -128,10 +128,10 @@ export class ClientFormComponent {
           //si no esta en la bd
         else
           { 
-            debugger;           
+                       
             if(dni.length==8)
             {
-              debugger;
+              
               this.buscarDniService.BuscarDni(dni).subscribe(
               response=>
                 {
@@ -146,7 +146,7 @@ export class ClientFormComponent {
                       this.persona=[];
                       return;
                     }
-                  debugger;
+                  
                   const persona = {
                         
                     dni: Number(this.data['dni']), 
@@ -161,7 +161,7 @@ export class ClientFormComponent {
                     direccion: "Anonimo",
                     tipoPersona:{idtipopersona:1} 
                   };          
-                  debugger;  
+                    
                   this.personasService.CrearPersona(persona).subscribe(() => 
                     {
                       this.BuscarPersona();
@@ -184,7 +184,7 @@ export class ClientFormComponent {
                     direccion: "Anonimo",
                     tipoPersona:{idtipopersona:1}  
                   };          
-                  debugger;  
+                    
                   this.personasService.CrearPersona(persona).subscribe(() => 
                     {
                       this.BuscarPersona();
@@ -202,7 +202,7 @@ export class ClientFormComponent {
       })
   }
   modificarPersona() {
-    debugger;
+    
     const updatedPersona = {
       idpersona: this.persona[0].idpersona,
       dni: this.clientForm.get('dni')?.value,
@@ -224,13 +224,13 @@ export class ClientFormComponent {
   }
   CountPedidos():void{
   this.pedidosService.List().subscribe(response=>{
-    debugger;
+    
     console.log(response);
       this.countPedidos= Number(response.total+1);
     });
   }
   private createPedido(idCliente: number): void {
-    debugger;
+    
     if (this.selectedEstado === null) {
       this.toastr.error('No se ha seleccionado un estado para el pedido.');
       return;
@@ -248,7 +248,7 @@ export class ClientFormComponent {
             producto:{idproducto:item.product.idproducto},
             codigopedido: 'PED-' + this.countPedidos,
           }
-          debugger;
+          
           this.pedidosService.savePedido(pedidos).subscribe({
       next: (response) => {
         this.toastr.success('Pedido registrado exitosamente');

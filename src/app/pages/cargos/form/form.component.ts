@@ -62,10 +62,10 @@ export class CargoFormComponent implements OnInit {
   }
 
   loadCargo(id: number): void {
-    debugger;
+   
     this.cargoService.getById(id).subscribe({
       next: (data) => {
-        debugger;
+        
         const cargo = data.list[0];
         if (cargo) {
           this.cargoForm.patchValue({
